@@ -10,7 +10,7 @@ namespace Warnings
     private void Awake()
     {
       warning = Instantiate(warning);
-      warning.SetActive(true);
+      warning.SetActive(false);
 
       Billboard billboard = warning.AddComponent<Billboard>();
       warning.AddComponent<SimpleTagalong>();
