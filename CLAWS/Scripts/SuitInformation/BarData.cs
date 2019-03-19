@@ -1,15 +1,15 @@
-﻿using System;
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 
 namespace suitInfo
 {
-    interface DisplayData
+    /*interface DisplayData
     {
         void Display();
-    }
-    public class BarData : DisplayData
+    } */
+    public class BarData : MonoBehaviour
     {
         public enum Color {
             Red, Yellow, Green
@@ -25,7 +25,7 @@ namespace suitInfo
         public BarData(int val, int per, string titl)
         {
             start = val; value = val;
-            percentage = (float)value / (float)start;
+            percentage = (float)value / (float)start; // for water, express percentage as portion until ambient
             title = titl;
             Update_color(percentage);
         }
@@ -42,19 +42,21 @@ namespace suitInfo
             else color = Color.Red;
         }
 
-        public void DisplayData.Display()
-        {
+        public void Display() {
             // add code to display each bar
 
         }
-    }
+    };
     public class Simple
     {
         const int NUM_DATA = 11;
-        readonly string[] units;
+        readonly System.String[] units;
+        System.String[] names;
 
-        public Simple(){
-            units = { "mL","seconds",...};
+        public Simple() {
+            units = { "psia","degrees F", "RPM", "hr:min:sec", "psia", "psi/min", "amp-hr", "psia", "psia", "psia", "psi/min"};
+            names = { "SUB PRESSURE", "SUB TEMPERATURE", "FAN TACHOMETER", "EXTRAVEHICULAR ACTIVITY TIME", "OXYGEN PRESSURE", "OXYGEN RATE", "BATTERY CAPACITY", "H2O GAS PRESSURE", ...
+                "H2O LIQUID PRESSURE", "SOP PRESSURE", "SOP RATE"};
         }
         public void change_unit(int index, string unit)
         {
@@ -64,9 +66,9 @@ namespace suitInfo
         // this function gets called when
         public void Display(Dictionary<string, int> data)
         {
-            // add code to display simple text in Unity
-                // takes in dictionary and prints each value on screen
+
 
         }
-    }
+    };
+
 }
