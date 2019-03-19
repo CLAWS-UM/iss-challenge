@@ -1,10 +1,7 @@
-using System;
-using System.Collections.Generic;
-using System.Linq;
 using System.Text;
 using UnityEngine;
 using System.Collections;
-using UnityEngine.Networking;
+using UnityEngine.Networking; // web request
 
 namespace suitInfo
 {
