@@ -5,8 +5,9 @@ using UnityEngine.UI;
 
 public class CountdownTimer : MonoBehaviour {
     float currentTime;
-    float startTime = 5f;
-    float warningTime = 2f;
+    float startTime = 0f;
+    float endTime = 3f;
+    float warningTime = 1f; // last "warningTime" seconds of the task
 
     [SerializeField] Text timer;
 
@@ -18,18 +19,19 @@ public class CountdownTimer : MonoBehaviour {
 
     void Update()
     {
-        if (currentTime >= 0)
+        if (currentTime <= endTime)
         {
-            currentTime -= Time.deltaTime;
-            if (currentTime >= warningTime)
+            currentTime += Time.deltaTime;
+            // display with warning color
+            if (currentTime >= (endTime - warningTime))
             {
-                timer.color = Color.black;
+                timer.color = Color.red;
                 timer.text = currentTime.ToString("0.0");
             }
             else
             {
-                timer.color = Color.red;
-                timer.text = currentTime.ToString("0.00");
+                timer.color = Color.black;
+                timer.text = currentTime.ToString("0.0");
             }
         }
         else
