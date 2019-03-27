@@ -1,6 +1,10 @@
 using System;
 using UnityEngine;
+using UnityEngine.UI;
+
 public class MissionPanel : MonoBehaviour {
+    public GameObject textObject;
+    public TextAsset ta;
 
     public class Mission {
         //public TextAsset missionfile;
@@ -85,8 +89,7 @@ public class MissionPanel : MonoBehaviour {
             	tasks[i] = new Mission_Task(task_names_in[i], task_info_in[i]);
             }
         }
-        public Mission(string missionFileName) {
-            TextAsset missionFile = Resources.Load(missionFileName) as TextAsset;
+        public Mission(TextAsset missionFile) {
             string missionText = missionFile.text;
             string[] lines = System.Text.RegularExpressions.Regex.Split(missionText, "\n");
      
@@ -163,10 +166,11 @@ public class MissionPanel : MonoBehaviour {
 
     }
     
-    void Awake(){
-        Mission m = new Mission("missionInput.txt");
-        Debug.Log(m.get_name());
-
+    void Start(){
+        //Text objText = GetComponent<Text>(); //
+        Mission m = new Mission(ta);
+        Debug.Log(m.get_title());
+        textObject.GetComponent<TextMesh>().text = m.get_title();
     }
 }
 
