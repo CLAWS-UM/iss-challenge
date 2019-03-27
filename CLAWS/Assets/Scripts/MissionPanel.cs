@@ -137,7 +137,7 @@ public class MissionPanel : MonoBehaviour {
                 } else {
                     comp = "Incomplete";
                 }
-        		Console.WriteLine(tasks[i].get_name() + ": " + tasks[i].get_info() + " - " + comp);
+        		//Console.WriteLine(tasks[i].get_name() + ": " + tasks[i].get_info() + " - " + comp);
             }
         }
         public Mission_Task get_cur_task(){
