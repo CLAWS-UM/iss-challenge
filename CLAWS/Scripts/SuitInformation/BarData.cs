@@ -2,34 +2,40 @@ using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
+using UnityEngine;
+using UnityEngine.UI;
 
 namespace suitInfo
 {
-    /*interface DisplayData
-    {
-        void Display();
-    } */
+
     public class BarData : MonoBehaviour
     {
-        public enum Color {
+        public enum WarningLabel {
             Red, Yellow, Green
         }
 
-        int value;
-        int start;
+        double value;
+        double start;
         float percentage;
-        Color color;
+        WarningLabel color;
         string title;
+        GameObject titleObject;
+        GameObject valueObject;
 
-        public BarData() { }
-        public BarData(int val, int per, string titl)
+        public BarData() {
+            value = 0.0; start = 0.0;
+            title = "display data";
+            color = WarningLabel.Green;
+            percentage = (float)0.0;
+        }
+        public BarData(double val, double per, string titl)
         {
             start = val; value = val;
             percentage = (float)value / (float)start; // for water, express percentage as portion until ambient
             title = titl;
             Update_color(percentage);
         }
-        public void change_val(int val)
+        public void change_val(double val)
         {
             value = val;
             percentage = (float)value / (float)start;
@@ -37,37 +43,36 @@ namespace suitInfo
         }
         public void Update_color(float percent)
         {
-            if (percent >= 50) color = Color.Green;
-            else if (percent < 50 && percent >= 30) color = Color.Yellow;
-            else color = Color.Red;
+            if (percent >= 50) color = WarningLabel.Green;
+            else if (percent < 50 && percent >= 30) color = WarningLabel.Yellow;
+            else color = WarningLabel.Red;
+        }
+        public void startDisplay(GameObject obj)
+        {
+
+            Debug.Log(value);
+            obj.GetComponent<TextMesh>().text = value.ToString();
+            //Debug.Log(title);
+            //titleObject.GetComponent<TextMesh>().text = title.ToString();
         }
 
-        public void Display() {
+        public void Display(GameObject obj) {
             // add code to display each bar
+            if (color == WarningLabel.Red){
+                title = "oh shit";
+                value = 0;
+            }
+
+            Debug.Log(value);
+            obj.GetComponent<TextMesh>().text = value.ToString();
 
         }
-    };
-    public class Simple
-    {
-        const int NUM_DATA = 11;
-        readonly System.String[] units;
-        System.String[] names;
-
-        public Simple() {
-            units = { "psia","degrees F", "RPM", "hr:min:sec", "psia", "psi/min", "amp-hr", "psia", "psia", "psia", "psi/min"};
-            names = { "SUB PRESSURE", "SUB TEMPERATURE", "FAN TACHOMETER", "EXTRAVEHICULAR ACTIVITY TIME", "OXYGEN PRESSURE", "OXYGEN RATE", "BATTERY CAPACITY", "H2O GAS PRESSURE", ...
-                "H2O LIQUID PRESSURE", "SOP PRESSURE", "SOP RATE"};
-        }
-        public void change_unit(int index, string unit)
+        public void initialize(double val, string titl)
         {
-            units[index] = unit;
-        }
-
-        // this function gets called when
-        public void Display(Dictionary<string, int> data)
-        {
-
-
+            start = val; value = val;
+            percentage = (float)value / (float)start;
+            title = titl;
+            Update_color(percentage);
         }
     };
 
