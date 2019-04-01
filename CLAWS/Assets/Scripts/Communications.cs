@@ -4,22 +4,17 @@ using UnityEngine;
 
 public class Communications : MonoBehaviour
 {
-    int width = 1317;
-    int height = 464;
 
     // Use this for initialization
-    void Start()
-    {
-        transform.localScale = new Vector3((float)0.4 * Screen.width / width, (float)0.1 * Screen.height / height, 0f);
-    }
+    void Start() { }
 
     // Update is called once per frame
     void Update()
     {
-        Camera camera = Camera.main;
-        Vector3 centre = camera.ViewportToWorldPoint(new Vector3((float)0.5, 0, (float)20));
-        Vector3 offset = new Vector3(0, (GetComponent<Renderer>().bounds.size.y / 2), 0);
-        transform.position = centre + offset;
-        transform.eulerAngles = camera.transform.eulerAngles;
+        RectTransform parentTransform = (RectTransform)transform.parent.transform;
+        RectTransform currentTransform = (RectTransform)transform;
+        float xLoc = -parentTransform.rect.width / 3f + currentTransform.rect.width / 2;
+        float yLoc = -parentTransform.rect.height / 2.5f + currentTransform.rect.height / 2;
+        transform.localPosition = new Vector3(xLoc, yLoc, 0);
     }
 }

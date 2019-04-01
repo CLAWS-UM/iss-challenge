@@ -4,22 +4,17 @@ using UnityEngine;
 
 public class HeartRate : MonoBehaviour
 {
-    int width = 868;
-    int height = 1537;
 
     // Use this for initialization
-    void Start()
-    {
-        transform.localScale = new Vector3((float)0.2 * Screen.width / width, (float)0.7 * Screen.height / height, 0f);
-    }
+    void Start() { }
 
     // Update is called once per frame
     void Update()
     {
-        Camera camera = Camera.main;
-        Vector3 centre = camera.ViewportToWorldPoint(new Vector3(1, 0, (float)20));
-        Vector3 offset = new Vector3(-(GetComponent<Renderer>().bounds.size.x / 2), (GetComponent<Renderer>().bounds.size.y / 2), 0);
-        transform.position = centre + offset;
-        transform.eulerAngles = camera.transform.eulerAngles;
+        RectTransform parentTransform = (RectTransform)transform.parent.transform;
+        RectTransform currentTransform = (RectTransform)transform;
+        float xLoc = parentTransform.rect.width / 2.8f - currentTransform.rect.width / 2;
+        float yLoc = -parentTransform.rect.height / 8f + currentTransform.rect.height / 2;
+        transform.localPosition = new Vector3(xLoc, yLoc, 0);
     }
 }
