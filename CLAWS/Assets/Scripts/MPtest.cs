@@ -1,18 +1,7 @@
 // Last Edited: 3-31-19
 using System;
-using UnityEngine;
-using UnityEngine.UI;
 
-public class MissionPanel : MonoBehaviour {
-    public GameObject panel;
-    // public TextMesh goalText;
-    // public TextMesh prevTaskText;
-    // public TextMesh curTaskText;
-    // public TextMesh nextTaskText;
-    public TextAsset missionFile;
-    public Mission m;
-
-    public class Mission {
+public class Mission {
         //public TextAsset missionfile;
         // Sturct and Enum used by Mission
         public class Mission_Subtask {
@@ -271,11 +260,11 @@ public class MissionPanel : MonoBehaviour {
             phases = phase_in;
             total_subtasks = total_subtasks_in;
         }
-        public Mission(TextAsset missionFile) {
-            string missionText = missionFile.text;
-            string[] lines = System.Text.RegularExpressions.Regex.Split(missionText, "\n");
+        public Mission(string missionFile) {
+            //string missionText = missionFile.text;
+            //string[] lines = System.Text.RegularExpressions.Regex.Split(missionText, "\n");
      
-            //string[] lines = System.IO.File.ReadAllLines(missionFile);
+            string[] lines = System.IO.File.ReadAllLines(missionFile);
 
             title = lines[0];
             goal = lines[1];
@@ -408,48 +397,3 @@ public class MissionPanel : MonoBehaviour {
         }
 
     }
-    
-    void Start(){
-        //Text objText = GetComponent<Text>(); //
-        GameObject goalMesh = panel.transform.GetChild(0).gameObject;
-        GameObject prevMesh = panel.transform.GetChild(1).gameObject;
-        GameObject curMesh = panel.transform.GetChild(2).gameObject;
-        GameObject nextMesh = panel.transform.GetChild(3).gameObject;
-
-        m = new Mission(missionFile);
-        goalMesh.GetComponent<Text>().text = m.get_title();
-        Update_Tasks_List();
-    }
-    void Update_Tasks_List(){
-        if(m.num_tasks_complete() > 0)
-            prevMesh.GetComponent<Text>().text = m.get_prev_task().get_name() + ": " + m.get_prev_task().get_info();
-        curMesh.GetComponent<Text>().text = m.get_cur_task().get_name() + ": " + m.get_cur_task().get_info();
-        if(m.num_tasks_complete() < m.num_tasks())
-            nextMesh.GetComponent<Text>().text = m.get_next_task().get_name() + ": " + m.get_next_task().get_info();
-    }
-    void Mark_Complete_Voice(){
-        m.toggle_status();
-        Update_Tasks_List();
-    }
-    void Mark_Incomplete_Voice(){
-        m.toggle_status();
-        Update_Tasks_List();
-    }
-    void Go_To_Task_Voice(int task_num){
-        if(m.task_num - 1 > 0)
-            prevMesh.GetComponent<Text>().text = m.get_task(task_num - 1).get_name() + ": " + m.get_task(task_num - 1).get_info();
-        curMesh.GetComponent<Text>().text = m.get_task(task_num).get_name() + ": " + m.get_task(task_num).get_info();
-        if(m.task_num < m.num_tasks())
-            nextMesh.GetComponent<Text>().text = m.get_task(task_num + 1).get_name() + ": " + m.get_task(task_num + 1).get_info();   
-    }
-    void Return_To_Current_Task_Voice(){
-         Update_Tasks_List();
-    }
-    void Flag(){
-
-    }
-    void Unflag(){
-
-    }
-}
-
