@@ -10,6 +10,11 @@ public class MissionPanel : MonoBehaviour {
     // public TextMesh curTaskText;
     // public TextMesh nextTaskText;
     public TextAsset missionFile;
+    public TextMesh goalMesh;
+    public TextMesh prevMesh;
+    public TextMesh curMesh;
+    public TextMesh nextMesh;
+
     public Mission m;
 
     public class Mission {
@@ -64,29 +69,38 @@ public class MissionPanel : MonoBehaviour {
                 subtasks_complete = 0;
                 subtasks = new Mission_Subtask[0]; 
             }
-            public ref Mission_Subtask get_prev_subtask(){
-                return ref subtasks[subtasks_complete - 1];
+            public Mission_Subtask get_prev_subtask(){
+                return subtasks[subtasks_complete - 1];
             }
-            public ref Mission_Subtask get_cur_subtask(){
-                return ref subtasks[subtasks_complete];
+            public Mission_Subtask get_cur_subtask(){
+                return subtasks[subtasks_complete];
             }
-            public ref Mission_Subtask get_next_subtask(){
-                return ref subtasks[subtasks_complete + 1];
+            public Mission_Subtask get_next_subtask(){
+                return subtasks[subtasks_complete + 1];
             }
-            public ref Mission_Subtask get_first_subtask(){
-                return ref subtasks[0];
+            public Mission_Subtask get_first_subtask(){
+                return subtasks[0];
             }
-            public ref Mission_Subtask get_last_subtask(){
-                return ref subtasks[subtasks.Length - 1];
+            public Mission_Subtask get_last_subtask(){
+                return subtasks[subtasks.Length - 1];
             }
-            public ref Mission_Subtask[] get_subtasks() {
-                return ref subtasks;
+            public Mission_Subtask[] get_subtasks() {
+                return subtasks;
+            }
+            public void set_subtasks(Mission_Subtask[] subtasks_in) {
+                subtasks = subtasks_in;
             }
             public int get_subtasks_length(){
                 return subtasks.Length;
             }
-            public ref int get_subtasks_complete() {
-                return ref subtasks_complete;
+            public int get_subtasks_complete() {
+                return subtasks_complete;
+            }
+            public void inc_subtasks_complete() {
+                subtasks_complete++;
+            }
+            public void dec_subtasks_complete() {
+                subtasks_complete--;
             }
             public string get_text(){
                 return text;
@@ -148,29 +162,41 @@ public class MissionPanel : MonoBehaviour {
                 tasks_complete = 0;
                 tasks = new Mission_Task[0];
             }
-            public ref Mission_Task get_prev_task(){
-                return ref tasks[tasks_complete - 1];
+            public Mission_Task get_prev_task(){
+                return tasks[tasks_complete - 1];
             }
-            public ref Mission_Task get_cur_task(){
-                return ref tasks[tasks_complete];
+            public Mission_Task get_cur_task(){
+                return tasks[tasks_complete];
             }
-            public ref Mission_Task get_next_task(){
-                return ref tasks[tasks_complete + 1];
+            public Mission_Task get_next_task(){
+                return tasks[tasks_complete + 1];
             }
-            public ref Mission_Task get_first_task(){
-                return ref tasks[0];
+            public Mission_Task get_first_task(){
+                return tasks[0];
             }
-            public ref Mission_Task get_last_task(){
-                return ref tasks[tasks.Length - 1];
+            public Mission_Task get_last_task(){
+                return tasks[tasks.Length - 1];
             }
-            public ref Mission_Task[] get_tasks(){
-                return ref tasks;
+            public Mission_Task[] get_tasks(){
+                return tasks;
+            }
+            public void set_tasks(Mission_Task[] tasks_in){
+                tasks = tasks_in;
+            }
+            public void set_subtasks(int task_index, Mission_Subtask[] subtasks_in){
+                tasks[task_index].set_subtasks(subtasks_in);
             }
             public int get_tasks_length() {
                 return tasks.Length;
             }
-            public ref int get_tasks_complete() {
-                return ref tasks_complete;
+            public int get_tasks_complete() {
+                return tasks_complete;
+            }
+            public void inc_tasks_complete() {
+                tasks_complete++;
+            }
+            public void dec_tasks_complete() {
+                tasks_complete--;
             }
             public string get_text(){
                 return text;
@@ -302,14 +328,14 @@ public class MissionPanel : MonoBehaviour {
 
                 int numTasks = int.Parse(lines[it]);
                 it++;
-                phases[i].get_tasks() = new Mission_Task[numTasks];
+                phases[i].set_tasks(new Mission_Task[numTasks]);
                 for(int k = 0; k < phases[i].get_tasks().Length; k++){
                     phases[i].get_tasks()[k] = new Mission_Task(lines[it]);
                     it++;
 
                     int numSubtasks = int.Parse(lines[it]);
                     it++;
-                    phases[i].get_tasks()[k].get_subtasks() = new Mission_Subtask[numSubtasks];
+                    phases[i].set_subtasks(k, new Mission_Subtask[numSubtasks]);
                     for(int j = 0; j < phases[i].get_tasks()[k].get_subtasks_length(); j++){
                         phases[i].get_tasks()[k].get_subtasks()[j] = new Mission_Subtask(lines[it]);
                         it++;
@@ -340,26 +366,32 @@ public class MissionPanel : MonoBehaviour {
                 }
             }
         }
-        public ref Mission_Subtask get_cur_subtask(){
-            return ref phases[phases_complete].get_cur_task().get_cur_subtask();
+        public Mission_Subtask get_cur_subtask(){
+            return phases[phases_complete].get_cur_task().get_cur_subtask();
         }
-        public ref Mission_Subtask get_prev_subtask(){
-            if(phases[phases_complete].get_cur_task().get_subtasks_complete() > 0)
-                return ref phases[phases_complete].get_cur_task().get_prev_subtask();
-            else if(phases[phases_complete].get_tasks_complete() > 0)
-                return ref phases[phases_complete].get_prev_task().get_last_subtask();
-            else //if(phases_complete > 0)
-                return ref phases[phases_complete - 1].get_last_task().get_last_subtask();
+        public Mission_Subtask get_prev_subtask(){
+            if(phases[phases_complete].get_cur_task().get_subtasks_complete() > 0){
+                return phases[phases_complete].get_cur_task().get_prev_subtask();
+            }
+            else if(phases[phases_complete].get_tasks_complete() > 0){
+                return phases[phases_complete].get_prev_task().get_last_subtask();
+            }
+            else{ //if(phases_complete > 0)
+                return phases[phases_complete - 1].get_last_task().get_last_subtask();
+            }
             
         }
-        public ref Mission_Subtask get_next_subtask(){
+        public Mission_Subtask get_next_subtask(){
             if(phases[phases_complete].get_cur_task().get_subtasks_complete() < 
-                    phases[phases_complete].get_cur_task().get_subtasks_length())
-                return ref phases[phases_complete].get_cur_task().get_next_subtask();
-            else if(phases[phases_complete].get_tasks_complete() < phases[phases_complete].get_tasks_length())
-                return ref phases[phases_complete].get_next_task().get_first_subtask();
-            else //if(phases_complete < phases.Length)
-                return ref phases[phases_complete + 1].get_first_task().get_first_subtask();
+                    phases[phases_complete].get_cur_task().get_subtasks_length()){
+                return phases[phases_complete].get_cur_task().get_next_subtask();
+            } else if(phases[phases_complete].get_tasks_complete() < phases[phases_complete].get_tasks_length()){
+                return phases[phases_complete].get_next_task().get_first_subtask();
+            }
+                //if(phases_complete < phases.Length)
+            else {
+                return phases[phases_complete + 1].get_first_task().get_first_subtask();
+            }
         
         }
         // public Mission_Task get_task(int task_num){
@@ -406,45 +438,51 @@ public class MissionPanel : MonoBehaviour {
         public int num_phases(){
             return phases.Length;
         }
+        public int get_total_subtasks(){
+            return total_subtasks;
+        }
+        public int get_subtasks_complete(){
+            return num_subtasks_complete;
+        }
 
     }
     
     void Start(){
         //Text objText = GetComponent<Text>(); //
-        GameObject goalMesh = panel.transform.GetChild(0).gameObject;
-        GameObject prevMesh = panel.transform.GetChild(1).gameObject;
-        GameObject curMesh = panel.transform.GetChild(2).gameObject;
-        GameObject nextMesh = panel.transform.GetChild(3).gameObject;
+        goalMesh = panel.AddComponent<TextMesh>();
+        prevMesh = panel.AddComponent<TextMesh>();
+        curMesh = panel.AddComponent<TextMesh>();
+        nextMesh = panel.AddComponent<TextMesh>();
 
         m = new Mission(missionFile);
-        goalMesh.GetComponent<Text>().text = m.get_title();
+        goalMesh.text = m.get_title();
         Update_Tasks_List();
     }
     void Update_Tasks_List(){
-        if(m.num_tasks_complete() > 0)
-            prevMesh.GetComponent<Text>().text = m.get_prev_task().get_name() + ": " + m.get_prev_task().get_info();
-        curMesh.GetComponent<Text>().text = m.get_cur_task().get_name() + ": " + m.get_cur_task().get_info();
-        if(m.num_tasks_complete() < m.num_tasks())
-            nextMesh.GetComponent<Text>().text = m.get_next_task().get_name() + ": " + m.get_next_task().get_info();
+        if(m.get_subtasks_complete() > 0)
+            prevMesh.text = m.get_prev_subtask().get_text();
+        curMesh.text = m.get_cur_subtask().get_text();
+        if(m.get_subtasks_complete() < m.get_total_subtasks())
+            nextMesh.text = m.get_next_subtask().get_text();
     }
     void Mark_Complete_Voice(){
-        m.toggle_status();
+        m.mark_subtask_complete();
         Update_Tasks_List();
     }
     void Mark_Incomplete_Voice(){
-        m.toggle_status();
+        m.mark_subtask_incomplete();
         Update_Tasks_List();
     }
-    void Go_To_Task_Voice(int task_num){
-        if(m.task_num - 1 > 0)
-            prevMesh.GetComponent<Text>().text = m.get_task(task_num - 1).get_name() + ": " + m.get_task(task_num - 1).get_info();
-        curMesh.GetComponent<Text>().text = m.get_task(task_num).get_name() + ": " + m.get_task(task_num).get_info();
-        if(m.task_num < m.num_tasks())
-            nextMesh.GetComponent<Text>().text = m.get_task(task_num + 1).get_name() + ": " + m.get_task(task_num + 1).get_info();   
-    }
-    void Return_To_Current_Task_Voice(){
-         Update_Tasks_List();
-    }
+    // void Go_To_Task_Voice(int task_num){
+    //     if(m.task_num - 1 > 0)
+    //         prevMesh.GetComponent<Text>().text = m.get_task(task_num - 1).get_name() + ": " + m.get_task(task_num - 1).get_info();
+    //     curMesh.GetComponent<Text>().text = m.get_task(task_num).get_name() + ": " + m.get_task(task_num).get_info();
+    //     if(m.task_num < m.num_tasks())
+    //         nextMesh.GetComponent<Text>().text = m.get_task(task_num + 1).get_name() + ": " + m.get_task(task_num + 1).get_info();   
+    // }
+    // void Return_To_Current_Task_Voice(){
+    //      Update_Tasks_List();
+    // }
     void Flag(){
 
     }
