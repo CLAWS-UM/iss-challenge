@@ -454,11 +454,11 @@ public class MissionPanel : MonoBehaviour {
         goalObj.name = "Goal Text";
         goalMesh = goalObj.AddComponent<TextMesh>();
         goalMesh.text = "Blah Blah Blah";
-        goalMesh.fontSize = 5;
+        goalMesh.fontSize = 25;
         goalMesh.anchor = TextAnchor.UpperLeft;
         goalMesh.alignment = TextAlignment.Center;
         RectTransform goalRect = (RectTransform)goalObj.transform.parent.transform;
-        goalObj.transform.localPosition = new Vector3(-goalRect.rect.width/2, -goalRect.rect.width/2, 0);
+        goalObj.transform.localPosition = new Vector3(-goalRect.rect.width/2, -goalRect.rect.height/2 + 5f, 0);
         goalObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
 
         GameObject prevObj = new GameObject();
@@ -466,11 +466,11 @@ public class MissionPanel : MonoBehaviour {
         prevObj.name = "Prev Task Text";
         prevMesh = prevObj.AddComponent<TextMesh>();
         prevMesh.text = "THIS IS PREVIOUS";
-        prevMesh.fontSize = 5;
+        prevMesh.fontSize = 25;
         prevMesh.anchor = TextAnchor.UpperLeft;
         prevMesh.alignment = TextAlignment.Center;
         RectTransform prevRect = (RectTransform)prevObj.transform.parent.transform;
-        prevObj.transform.localPosition = new Vector3(-prevRect.rect.width/2, -prevRect.rect.width/2 + 10f, 0);
+        prevObj.transform.localPosition = new Vector3(-prevRect.rect.width/2, -prevRect.rect.height/2 + 10f, 0);
         prevObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
 
         GameObject curObj = new GameObject();
@@ -478,11 +478,11 @@ public class MissionPanel : MonoBehaviour {
         curObj.name = "Cur Task Text";
         curMesh = curObj.AddComponent<TextMesh>();
         curMesh.text = "Blah Blah Blah";
-        curMesh.fontSize = 5;
+        curMesh.fontSize = 25;
         curMesh.anchor = TextAnchor.UpperLeft;
         curMesh.alignment = TextAlignment.Center;
         RectTransform curRect = (RectTransform)curObj.transform.parent.transform;
-        curObj.transform.localPosition = new Vector3(-curRect.rect.width/2, -curRect.rect.width/2 + 20f, 0);
+        curObj.transform.localPosition = new Vector3(-curRect.rect.width/2, -curRect.rect.height/2 + 15f, 0);
         curObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         
         GameObject nextObj = new GameObject();
@@ -490,11 +490,11 @@ public class MissionPanel : MonoBehaviour {
         nextObj.name = "Next Task Text";
         nextMesh = nextObj.AddComponent<TextMesh>();
         nextMesh.text = "Blah Blah Blah";
-        nextMesh.fontSize = 5;
+        nextMesh.fontSize = 25;
         nextMesh.anchor = TextAnchor.UpperLeft;
         nextMesh.alignment = TextAlignment.Center;
         RectTransform nextRect = (RectTransform)nextObj.transform.parent.transform;
-        nextObj.transform.localPosition = new Vector3(-nextRect.rect.width/2, -nextRect.rect.width/2 + 30f, 0);
+        nextObj.transform.localPosition = new Vector3(-nextRect.rect.width/2, -nextRect.rect.height/2 + 20f, 0);
         nextObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         
         m = new Mission(missionFile);
