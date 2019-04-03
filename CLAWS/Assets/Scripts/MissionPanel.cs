@@ -449,11 +449,43 @@ public class MissionPanel : MonoBehaviour {
     
     void Start(){
         //Text objText = GetComponent<Text>(); //
-        goalMesh = panel.AddComponent<TextMesh>();
-        prevMesh = panel.AddComponent<TextMesh>();
-        curMesh = panel.AddComponent<TextMesh>();
-        nextMesh = panel.AddComponent<TextMesh>();
+        GameObject goalObj = new GameObject();
+        goalObj.transform.parent = panel.transform;
+        goalObj.name = "Goal text";
+        goalMesh = goalObj.AddComponent<TextMesh>();
+        goalMesh.text = "Blah Blah Blah";
+        goalMesh.anchor = TextAnchor.MiddleCenter;
+        goalMesh.alignment = TextAlignment.Center;
+        goalMesh.transform.position = new Vector3(panel.transform.position.x,  panel.transform.position.y + goalMesh.GetComponent<Renderer>().bounds.max.y, panel.transform.position.z);
 
+
+        GameObject prevObj = new GameObject();
+        prevObj.transform.parent = panel.transform;
+        prevObj.name = "Goal text";
+        prevMesh = prevObj.AddComponent<TextMesh>();
+        prevMesh.text = "Blah Blah Blah";
+        prevMesh.anchor = TextAnchor.MiddleCenter;
+        prevMesh.alignment = TextAlignment.Center;
+        prevMesh.transform.position = new Vector3(panel.transform.position.x,  panel.transform.position.y + prevMesh.GetComponent<Renderer>().bounds.max.y + 10, panel.transform.position.z);
+
+        GameObject curObj = new GameObject();
+        curObj.transform.parent = panel.transform;
+        curObj.name = "Goal text";
+        curMesh = curObj.AddComponent<TextMesh>();
+        curMesh.text = "Blah Blah Blah";
+        curMesh.anchor = TextAnchor.MiddleCenter;
+        curMesh.alignment = TextAlignment.Center;
+        curMesh.transform.position = new Vector3(panel.transform.position.x,  panel.transform.position.y + curMesh.GetComponent<Renderer>().bounds.max.y + 20, panel.transform.position.z);
+
+        GameObject nextObj = new GameObject();
+        nextObj.transform.parent = panel.transform;
+        nextObj.name = "Goal text";
+        nextMesh = nextObj.AddComponent<TextMesh>();
+        nextMesh.text = "Blah Blah Blah";
+        nextMesh.anchor = TextAnchor.MiddleCenter;
+        nextMesh.alignment = TextAlignment.Center;
+        nextMesh.transform.position = new Vector3(panel.transform.position.x,  panel.transform.position.y + nextMesh.GetComponent<Renderer>().bounds.max.y + 30, panel.transform.position.z);
+        
         m = new Mission(missionFile);
         goalMesh.text = m.get_title();
         Update_Tasks_List();
