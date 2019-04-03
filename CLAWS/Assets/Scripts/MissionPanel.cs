@@ -451,7 +451,7 @@ public class MissionPanel : MonoBehaviour {
         //Text objText = GetComponent<Text>(); //
         GameObject goalObj = new GameObject();
         goalObj.transform.parent = panel.transform;
-        goalObj.name = "Goal text";
+        goalObj.name = "Goal Text";
         goalMesh = goalObj.AddComponent<TextMesh>();
         goalMesh.text = "Blah Blah Blah";
         goalMesh.anchor = TextAnchor.MiddleCenter;
@@ -461,16 +461,16 @@ public class MissionPanel : MonoBehaviour {
 
         GameObject prevObj = new GameObject();
         prevObj.transform.parent = panel.transform;
-        prevObj.name = "Goal text";
+        prevObj.name = "Prev Task Text";
         prevMesh = prevObj.AddComponent<TextMesh>();
-        prevMesh.text = "Blah Blah Blah";
+        prevMesh.text = "THIS IS PREVIOUS";
         prevMesh.anchor = TextAnchor.MiddleCenter;
         prevMesh.alignment = TextAlignment.Center;
         prevMesh.transform.position = new Vector3(panel.transform.position.x,  panel.transform.position.y + prevMesh.GetComponent<Renderer>().bounds.max.y + 10, panel.transform.position.z);
 
         GameObject curObj = new GameObject();
         curObj.transform.parent = panel.transform;
-        curObj.name = "Goal text";
+        curObj.name = "Cur Task Text";
         curMesh = curObj.AddComponent<TextMesh>();
         curMesh.text = "Blah Blah Blah";
         curMesh.anchor = TextAnchor.MiddleCenter;
@@ -479,7 +479,7 @@ public class MissionPanel : MonoBehaviour {
 
         GameObject nextObj = new GameObject();
         nextObj.transform.parent = panel.transform;
-        nextObj.name = "Goal text";
+        nextObj.name = "Next Task Text";
         nextMesh = nextObj.AddComponent<TextMesh>();
         nextMesh.text = "Blah Blah Blah";
         nextMesh.anchor = TextAnchor.MiddleCenter;
