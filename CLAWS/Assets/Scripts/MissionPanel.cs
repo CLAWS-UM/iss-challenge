@@ -353,19 +353,19 @@ public class MissionPanel : MonoBehaviour {
         }
         // TO DO: Change so it returns these tasks rather than printing
         
-        public void print_tasks(){
-            for(int i = 0; i < phases.Length; i++){
-                Console.WriteLine(phases[i].get_text() + " - " + phases[i].get_status());
+        // public void print_tasks(){
+        //     for(int i = 0; i < phases.Length; i++){
+        //         Console.WriteLine(phases[i].get_text() + " - " + phases[i].get_status());
                 
-                for(int k = 0; k < phases[i].get_tasks_length(); k++){
-                    Console.WriteLine("\t" + phases[i].get_tasks()[k].get_text() + " - " + phases[i].get_tasks()[k].get_status());
+        //         for(int k = 0; k < phases[i].get_tasks_length(); k++){
+        //             Console.WriteLine("\t" + phases[i].get_tasks()[k].get_text() + " - " + phases[i].get_tasks()[k].get_status());
 
-                    for(int j = 0; j < phases[i].get_tasks()[k].get_subtasks_length(); j++){
-                        Console.WriteLine("\t\t" + phases[i].get_tasks()[k].get_subtasks()[j].get_text() + " - " + phases[i].get_tasks()[k].get_subtasks()[j].get_status());
-                    }
-                }
-            }
-        }
+        //             for(int j = 0; j < phases[i].get_tasks()[k].get_subtasks_length(); j++){
+        //                 Console.WriteLine("\t\t" + phases[i].get_tasks()[k].get_subtasks()[j].get_text() + " - " + phases[i].get_tasks()[k].get_subtasks()[j].get_status());
+        //             }
+        //         }
+        //     }
+        // }
         public Mission_Subtask get_cur_subtask(){
             return phases[phases_complete].get_cur_task().get_cur_subtask();
         }
@@ -450,41 +450,52 @@ public class MissionPanel : MonoBehaviour {
     void Start(){
         //Text objText = GetComponent<Text>(); //
         GameObject goalObj = new GameObject();
-        goalObj.transform.parent = panel.transform;
+        goalObj.transform.SetParent(panel.transform);
         goalObj.name = "Goal Text";
         goalMesh = goalObj.AddComponent<TextMesh>();
         goalMesh.text = "Blah Blah Blah";
-        goalMesh.anchor = TextAnchor.MiddleCenter;
+        goalMesh.fontSize = 5;
+        goalMesh.anchor = TextAnchor.UpperLeft;
         goalMesh.alignment = TextAlignment.Center;
-        goalMesh.transform.position = new Vector3(panel.transform.position.x,  panel.transform.position.y + goalMesh.GetComponent<Renderer>().bounds.max.y, panel.transform.position.z);
-
+        RectTransform goalRect = (RectTransform)goalObj.transform.parent.transform;
+        goalObj.transform.localPosition = new Vector3(-goalRect.rect.width/2, -goalRect.rect.width/2, 0);
+        goalObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
 
         GameObject prevObj = new GameObject();
-        prevObj.transform.parent = panel.transform;
+        prevObj.transform.SetParent(panel.transform);
         prevObj.name = "Prev Task Text";
         prevMesh = prevObj.AddComponent<TextMesh>();
         prevMesh.text = "THIS IS PREVIOUS";
-        prevMesh.anchor = TextAnchor.MiddleCenter;
+        prevMesh.fontSize = 5;
+        prevMesh.anchor = TextAnchor.UpperLeft;
         prevMesh.alignment = TextAlignment.Center;
-        prevMesh.transform.position = new Vector3(panel.transform.position.x,  panel.transform.position.y + prevMesh.GetComponent<Renderer>().bounds.max.y + 10, panel.transform.position.z);
+        RectTransform prevRect = (RectTransform)prevObj.transform.parent.transform;
+        prevObj.transform.localPosition = new Vector3(-prevRect.rect.width/2, -prevRect.rect.width/2 + 10f, 0);
+        prevObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
 
         GameObject curObj = new GameObject();
         curObj.transform.parent = panel.transform;
         curObj.name = "Cur Task Text";
         curMesh = curObj.AddComponent<TextMesh>();
         curMesh.text = "Blah Blah Blah";
-        curMesh.anchor = TextAnchor.MiddleCenter;
+        curMesh.fontSize = 5;
+        curMesh.anchor = TextAnchor.UpperLeft;
         curMesh.alignment = TextAlignment.Center;
-        curMesh.transform.position = new Vector3(panel.transform.position.x,  panel.transform.position.y + curMesh.GetComponent<Renderer>().bounds.max.y + 20, panel.transform.position.z);
-
+        RectTransform curRect = (RectTransform)curObj.transform.parent.transform;
+        curObj.transform.localPosition = new Vector3(-curRect.rect.width/2, -curRect.rect.width/2 + 20f, 0);
+        curObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        
         GameObject nextObj = new GameObject();
-        nextObj.transform.parent = panel.transform;
+        nextObj.transform.SetParent(panel.transform);
         nextObj.name = "Next Task Text";
         nextMesh = nextObj.AddComponent<TextMesh>();
         nextMesh.text = "Blah Blah Blah";
-        nextMesh.anchor = TextAnchor.MiddleCenter;
+        nextMesh.fontSize = 5;
+        nextMesh.anchor = TextAnchor.UpperLeft;
         nextMesh.alignment = TextAlignment.Center;
-        nextMesh.transform.position = new Vector3(panel.transform.position.x,  panel.transform.position.y + nextMesh.GetComponent<Renderer>().bounds.max.y + 30, panel.transform.position.z);
+        RectTransform nextRect = (RectTransform)nextObj.transform.parent.transform;
+        nextObj.transform.localPosition = new Vector3(-nextRect.rect.width/2, -nextRect.rect.width/2 + 30f, 0);
+        nextObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         
         m = new Mission(missionFile);
         goalMesh.text = m.get_title();
