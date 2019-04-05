@@ -496,8 +496,8 @@ public class MissionPanel : MonoBehaviour {
         goalMesh.fontSize = 20;
         //goalMesh.font = titillium;
         goalMesh.color = Color.white;
-        goalMesh.horizontalOverflow = HorizontalWrapMode.Wrap;
-        goalMesh.verticalOverflow = VerticalWrapMode.Overflow;
+        //goalMesh.horizontalOverflow = HorizontalWrapMode.Wrap;
+        //goalMesh.verticalOverflow = VerticalWrapMode.Overflow;
         goalMesh.alignment = TextAnchor.UpperLeft;
         RectTransform goalRect = (RectTransform)goalObj.transform.parent.transform;
         // Image goalB = goalObj.AddComponent<Image>();
@@ -512,8 +512,8 @@ public class MissionPanel : MonoBehaviour {
         prevMesh.text = "THIS IS PREVIOUS";
         prevMesh.fontSize = 20;
         prevMesh.color = Color.white;
-        prevMesh.horizontalOverflow = HorizontalWrapMode.Wrap;
-        prevMesh.verticalOverflow = VerticalWrapMode.Overflow;
+        //prevMesh.horizontalOverflow = HorizontalWrapMode.Wrap;
+        //prevMesh.verticalOverflow = VerticalWrapMode.Overflow;
         prevMesh.alignment = TextAnchor.UpperLeft;
         RectTransform prevRect = (RectTransform)prevObj.transform.parent.transform;
         // Image prevB = prevObj.AddComponent<Image>();
@@ -529,7 +529,7 @@ public class MissionPanel : MonoBehaviour {
         curMesh.text = "Blah Blah Blah";
         curMesh.fontSize = 20;
         curMesh.color = Color.white;
-        curMesh.horizontalOverflow = HorizontalWrapMode.Wrap;
+        //curMesh.horizontalOverflow = HorizontalWrapMode.Wrap;
         curMesh.alignment = TextAnchor.UpperLeft;
         RectTransform curRect = (RectTransform)curObj.transform.parent.transform;
         // Image curB = curObj.AddComponent<Image>();
@@ -544,7 +544,7 @@ public class MissionPanel : MonoBehaviour {
         nextMesh.text = "Blah Blah Blah";
         nextMesh.fontSize = 20;
         nextMesh.color = Color.white;
-        nextMesh.horizontalOverflow = HorizontalWrapMode.Wrap;
+        //nextMesh.horizontalOverflow = HorizontalWrapMode.Wrap;
         nextMesh.alignment = TextAnchor.UpperLeft;
         RectTransform nextRect = (RectTransform)nextObj.transform.parent.transform;
         // Image nextB = nextObj.AddComponent<Image>();
