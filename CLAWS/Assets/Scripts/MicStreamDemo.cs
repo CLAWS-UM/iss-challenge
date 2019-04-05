@@ -15,6 +15,7 @@ using System.Text;
 using HoloToolkit.Unity.InputModule;
 using SendRecord;
 
+
 namespace HoloToolkit.Unity
 {
     [RequireComponent(typeof(AudioSource))]
@@ -32,7 +33,7 @@ namespace HoloToolkit.Unity
         /// <summary>
         /// can boost volume here as desired. 1 is default but probably too quiet. can change during operation. 
         /// </summary>
-        public float InputGain = 1;
+        public float InputGain = 1.5f;
 
         /// <summary>
         /// if keepAllData==false, you'll always get the newest data no matter how long the program hangs for any reason, but will lose some data if the program does hang 
@@ -48,7 +49,7 @@ namespace HoloToolkit.Unity
         /// <summary>
         /// Do you want to hear what the microphone sounds like by listening to the AudioSource in Unity?
         /// </summary>
-        public bool ListenToAudioSource = true;
+        public bool ListenToAudioSource = false;
 
         /// <summary>
         /// The name of the file to which to save audio (for commands that save to a file)
@@ -110,7 +111,7 @@ namespace HoloToolkit.Unity
         {
             CheckForErrorOnCall(MicStream.MicSetGain(InputGain));
 
-            if (Input.GetKeyDown(KeyCode.Q))
+            /*if (Input.GetKeyDown(KeyCode.Q))
             {
                 CheckForErrorOnCall(MicStream.MicStartStream(KeepAllData, false));
             }
@@ -118,7 +119,8 @@ namespace HoloToolkit.Unity
             {
                 CheckForErrorOnCall(MicStream.MicStopStream());
             }
-            else if (Input.GetKeyDown(KeyCode.A))
+            */
+            if (Input.GetKeyDown(KeyCode.A))
             {
                 CheckForErrorOnCall(MicStream.MicStartRecording(SaveFileName, false));
             }
@@ -141,6 +143,7 @@ namespace HoloToolkit.Unity
                     Debug.Log("Audio recording sent to " + IPA + ":" + PortN);
                 }
             }
+            
 
             this.gameObject.transform.localScale = new Vector3(minSize + averageAmplitude, minSize + averageAmplitude, minSize + averageAmplitude);
         }

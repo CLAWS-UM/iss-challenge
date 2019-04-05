@@ -1,13 +1,13 @@
 using System;
 using System.Collections.Generic;
-using System.ComponentModel;
 using System.IO;
 using System.Net;
 using System.Net.Sockets;
+using UnityEngine;
 
 namespace SendRecord
 {
-    public class SendRecording
+    public class SendRecording : MonoBehaviour
     {
         // set file location of the recording
         private string SendingFilePath;

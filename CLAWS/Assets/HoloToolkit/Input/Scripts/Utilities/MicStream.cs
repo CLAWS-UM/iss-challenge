@@ -7,7 +7,7 @@ using UnityEngine;
 
 namespace HoloToolkit.Unity.InputModule
 {
-    public class MicStream
+    public class MicStream : MonoBehaviour
     {
         // This class replaces Unity's Microphone object.
         // This class is made for HoloLens mic stream selection but should work well on all Windows 10 devices.
