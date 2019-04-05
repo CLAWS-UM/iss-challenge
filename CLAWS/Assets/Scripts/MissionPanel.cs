@@ -14,6 +14,7 @@ public class MissionPanel : MonoBehaviour {
     public Text prevMesh;
     public Text curMesh;
     public Text nextMesh;
+    private Font titillium;
 
     public Mission m;
 
@@ -483,6 +484,9 @@ public class MissionPanel : MonoBehaviour {
     }
     
     void Start(){
+
+        titillium = Resources.GetBuiltinResource(typeof(Font), "TitilliumWeb-Regular.ttf") as Font;
+
         //Text objText = GetComponent<Text>(); //
         GameObject goalObj = new GameObject();
         goalObj.transform.SetParent(panel.transform);
@@ -490,6 +494,7 @@ public class MissionPanel : MonoBehaviour {
         goalMesh = goalObj.AddComponent<Text>();
         goalMesh.text = "Blah Blah Blah";
         goalMesh.fontSize = 20;
+        goalMesh.font = titillium;
         goalMesh.horizontalOverflow = HorizontalWrapMode.Wrap;
         goalMesh.alignment = TextAnchor.UpperLeft;
         RectTransform goalRect = (RectTransform)goalObj.transform.parent.transform;
