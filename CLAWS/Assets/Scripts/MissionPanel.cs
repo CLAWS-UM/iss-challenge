@@ -494,7 +494,7 @@ public class MissionPanel : MonoBehaviour {
         goalMesh = goalObj.AddComponent<Text>();
         goalMesh.text = "Blah Blah Blah";
         goalMesh.fontSize = 20;
-        goalMesh.font = titillium;
+        //goalMesh.font = titillium;
         goalMesh.color = Color.white;
         goalMesh.horizontalOverflow = HorizontalWrapMode.Wrap;
         goalMesh.verticalOverflow = VerticalWrapMode.Overflow;
