@@ -446,6 +446,41 @@ public class MissionPanel : MonoBehaviour {
         }
 
     }
+
+    // "https://forum.unity.com/threads/3d-text-wrap.32227"
+    public string FormatText (string text) {
+        //int currentLine = 1;
+        int maxLineChars = 20;
+        int charCount = 0;
+        string[] words = text.Split(" "[0]); //Split the string into seperate words
+        string result = "";
+     
+        for (int index = 0; index < words.Length; index++) {
+     
+            string word = words[index].Trim();
+       
+            if (index == 0) {
+                result = words[0];
+                return result;
+            }
+     
+            if (index > 0 ) {
+                charCount += word.Length + 1; //+1, because we assume, that there will be a space after every word
+                if (charCount <= maxLineChars) {
+                    result += " " + word;
+                }
+                else {
+                    charCount = 0;
+                    result += "\n " + word;
+                }
+               
+     
+                //textObject.text = result;
+                return result;
+            }
+        }  
+        return text; 
+    }
     
     void Start(){
         //Text objText = GetComponent<Text>(); //
@@ -454,11 +489,13 @@ public class MissionPanel : MonoBehaviour {
         goalObj.name = "Goal Text";
         goalMesh = goalObj.AddComponent<TextMesh>();
         goalMesh.text = "Blah Blah Blah";
-        goalMesh.fontSize = 25;
+        goalMesh.fontSize = 20;
         goalMesh.anchor = TextAnchor.UpperLeft;
         goalMesh.alignment = TextAlignment.Center;
         RectTransform goalRect = (RectTransform)goalObj.transform.parent.transform;
-        goalObj.transform.localPosition = new Vector3(-goalRect.rect.width/2, goalRect.rect.height/2 - 5f, 0);
+        Image goalB = goalObj.AddComponent<Image>();
+        goalB.color = new Color32(255,255,225,100);
+        goalObj.transform.localPosition = new Vector3(-goalRect.rect.width/2, goalRect.rect.height/2 - 1f, 0);
         goalObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
 
         GameObject prevObj = new GameObject();
@@ -466,11 +503,13 @@ public class MissionPanel : MonoBehaviour {
         prevObj.name = "Prev Task Text";
         prevMesh = prevObj.AddComponent<TextMesh>();
         prevMesh.text = "THIS IS PREVIOUS";
-        prevMesh.fontSize = 25;
+        prevMesh.fontSize = 20;
         prevMesh.anchor = TextAnchor.UpperLeft;
         prevMesh.alignment = TextAlignment.Center;
         RectTransform prevRect = (RectTransform)prevObj.transform.parent.transform;
-        prevObj.transform.localPosition = new Vector3(-prevRect.rect.width/2, prevRect.rect.height/2 - 6f, 0);
+        Image prevB = prevObj.AddComponent<Image>();
+        prevB.color = new Color32(255,100,225,255);
+        prevObj.transform.localPosition = new Vector3(-prevRect.rect.width/2, prevRect.rect.height/2 - 2f, 0);
         prevObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
 
 
@@ -479,11 +518,13 @@ public class MissionPanel : MonoBehaviour {
         curObj.name = "Cur Task Text";
         curMesh = curObj.AddComponent<TextMesh>();
         curMesh.text = "Blah Blah Blah";
-        curMesh.fontSize = 25;
+        curMesh.fontSize = 20;
         curMesh.anchor = TextAnchor.UpperLeft;
         curMesh.alignment = TextAlignment.Center;
         RectTransform curRect = (RectTransform)curObj.transform.parent.transform;
-        curObj.transform.localPosition = new Vector3(-curRect.rect.width/2, curRect.rect.height/2 - 7f, 0);
+        Image curB = curObj.AddComponent<Image>();
+        curB.color = new Color32(100,255,225,255);
+        curObj.transform.localPosition = new Vector3(-curRect.rect.width/2, curRect.rect.height/2 - 3f, 0);
         curObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         
         GameObject nextObj = new GameObject();
@@ -491,12 +532,14 @@ public class MissionPanel : MonoBehaviour {
         nextObj.name = "Next Task Text";
         nextMesh = nextObj.AddComponent<TextMesh>();
         nextMesh.text = "Blah Blah Blah";
-        nextMesh.fontSize = 25;
+        nextMesh.fontSize = 20;
         nextMesh.anchor = TextAnchor.UpperLeft;
         nextMesh.alignment = TextAlignment.Center;
         RectTransform nextRect = (RectTransform)nextObj.transform.parent.transform;
+        Image nextB = nextObj.AddComponent<Image>();
+        nextB.color = new Color32(255,255,100,255);
         Debug.Log("Height: " + nextRect.rect.height + " :: " + "Width: " + nextRect.rect.width);
-        nextObj.transform.localPosition = new Vector3(-nextRect.rect.width/2, nextRect.rect.height/2 - 8f, 0);
+        nextObj.transform.localPosition = new Vector3(-nextRect.rect.width/2, nextRect.rect.height/2 - 4f, 0);
         nextObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         
         m = new Mission(missionFile);
@@ -505,10 +548,10 @@ public class MissionPanel : MonoBehaviour {
     }
     void Update_Tasks_List(){
         if(m.get_subtasks_complete() > 0)
-            prevMesh.text = m.get_prev_subtask().get_text();
-        curMesh.text = m.get_cur_subtask().get_text();
+            prevMesh.text = FormatText(m.get_prev_subtask().get_text());
+        curMesh.text = FormatText(m.get_cur_subtask().get_text());
         if(m.get_subtasks_complete() < m.get_total_subtasks())
-            nextMesh.text = m.get_next_subtask().get_text();
+            nextMesh.text = FormatText(m.get_next_subtask().get_text());
     }
     void Mark_Complete_Voice(){
         m.mark_subtask_complete();
@@ -534,5 +577,6 @@ public class MissionPanel : MonoBehaviour {
     void Unflag(){
 
     }
+    
 }
 
