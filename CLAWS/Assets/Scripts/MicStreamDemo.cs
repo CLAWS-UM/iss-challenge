@@ -138,8 +138,7 @@ namespace HoloToolkit.Unity
                 }
                 else
                 {
-                    SendRecording sender = new SendRecording(outputPath);
-                    sender.Send(IPA, PortN);
+                    SendRecording.Send(outputPath, IPA, PortN);
                     Debug.Log("Audio recording sent to " + IPA + ":" + PortN);
                 }
             }

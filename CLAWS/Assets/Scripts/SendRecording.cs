@@ -9,19 +9,11 @@ namespace SendRecord
 {
     public class SendRecording : MonoBehaviour
     {
-        // set file location of the recording
-        private string SendingFilePath;
         private const int BufferSize = 1024;
-
-        // constructor; takes in filepath string
-        public SendRecording(string filepath)
-        {
-            SendingFilePath = filepath;
-        }
 
         // use to send the file
         // IPA and PortN is the destination IP and port
-        public void Send(string IPA, Int32 PortN)
+        public static void Send(string SendingFilePath, string IPA, Int32 PortN)
         {
             byte[] SendingBuffer = null;
             TcpClient client = null;
