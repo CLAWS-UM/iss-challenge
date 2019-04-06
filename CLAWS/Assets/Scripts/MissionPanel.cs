@@ -500,6 +500,7 @@ public class MissionPanel : MonoBehaviour {
     }
 
     void Start(){
+        int TaskFontSize = 15;
         // Voice 
         //Create keywords for keyword recognizer
         keywords.Add("mark complete", () =>
@@ -528,7 +529,7 @@ public class MissionPanel : MonoBehaviour {
         goalObj.name = "Goal Text";
         goalMesh = goalObj.AddComponent<TextMesh>();
         goalMesh.text = "Blah Blah Blah";
-        goalMesh.fontSize = 20;
+        goalMesh.fontSize = TaskFontSize;
         goalMesh.anchor = TextAnchor.UpperLeft;
         goalMesh.alignment = TextAlignment.Center;
         RectTransform goalRect = (RectTransform)goalObj.transform.parent.transform;
@@ -542,7 +543,7 @@ public class MissionPanel : MonoBehaviour {
         prevObj.name = "Prev Task Text";
         prevMesh = prevObj.AddComponent<TextMesh>();
         prevMesh.text = "THIS IS PREVIOUS";
-        prevMesh.fontSize = 20;
+        prevMesh.fontSize = TaskFontSize;
         prevMesh.anchor = TextAnchor.UpperLeft;
         prevMesh.alignment = TextAlignment.Center;
         RectTransform prevRect = (RectTransform)prevObj.transform.parent.transform;
@@ -557,7 +558,7 @@ public class MissionPanel : MonoBehaviour {
         curObj.name = "Cur Task Text";
         curMesh = curObj.AddComponent<TextMesh>();
         curMesh.text = "Blah Blah Blah";
-        curMesh.fontSize = 20;
+        curMesh.fontSize = TaskFontSize;
         curMesh.anchor = TextAnchor.UpperLeft;
         curMesh.alignment = TextAlignment.Center;
         RectTransform curRect = (RectTransform)curObj.transform.parent.transform;
@@ -571,7 +572,7 @@ public class MissionPanel : MonoBehaviour {
         nextObj.name = "Next Task Text";
         nextMesh = nextObj.AddComponent<TextMesh>();
         nextMesh.text = "Blah Blah Blah";
-        nextMesh.fontSize = 20;
+        nextMesh.fontSize = TaskFontSize;
         nextMesh.anchor = TextAnchor.UpperLeft;
         nextMesh.alignment = TextAlignment.Center;
         RectTransform nextRect = (RectTransform)nextObj.transform.parent.transform;
