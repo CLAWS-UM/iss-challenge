@@ -5,9 +5,10 @@ using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 
+
 namespace suitInfo
 {
-
+    
     public class BarData : MonoBehaviour
     {
         public enum WarningLabel {
@@ -19,6 +20,8 @@ namespace suitInfo
         float percentage;
         string title;
         WarningLabel color;
+        int natavg_up = 100;
+        int natavg_down = 30;
         GameObject titleObject;
         GameObject valueObject;
 
@@ -38,7 +41,12 @@ namespace suitInfo
         {
             value = val;
             percentage = (float)value / (float)start;
-            Update_color(percentage);
+            if(title == "heartbpm")
+            {
+                if (val > natavg_up || val < natavg_down) color = WarningLabel.Red;
+                else color = WarningLabel.Green;
+            }
+            else Update_color(percentage);
         }
         public void Update_color(float percent)
         {
@@ -48,7 +56,7 @@ namespace suitInfo
         }
         public void startDisplay(GameObject obj)
         {
-
+            
             //Debug.Log(value);
             obj.GetComponent<TextMesh>().text = value.ToString();
         }
@@ -56,9 +64,24 @@ namespace suitInfo
         public void Display(GameObject obj) {
             // add code to display each bar
 
-            //Debug.Log(value);
             obj.GetComponent<TextMesh>().text = value.ToString();
 
+        }
+        public void DisplayCircle(GameObject obj)
+        {
+            SpriteRenderer m_SpriteRenderer;
+            m_SpriteRenderer = GetComponent<SpriteRenderer>();
+            // add code to display each bar
+            if (color == WarningLabel.Red)
+            {
+                //display red
+                m_SpriteRenderer.color = Color.red;
+            }
+            else
+            {
+                //Display green
+                m_SpriteRenderer.color = Color.green;
+            }
         }
         public void initialize(double val, string titl)
         {

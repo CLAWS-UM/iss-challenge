@@ -13,29 +13,27 @@ namespace suitInfo
 
     class SuitInformation : MonoBehaviour
     {
-        // textt 
+        // textt
+        public GameObject bpm;
         public GameObject oxy;
         public GameObject bat_life;
         public GameObject wat;
         public GameObject subp;
         public GameObject subt;
         // circle icons which change color
+        public GameObject bpm_circle;
         public GameObject oxy_circle;
         public GameObject bat_life_circle;
         public GameObject wat_circle;
         public GameObject subp_circle;
         public GameObject subt_circle;
         // class objects
+        BarData heartbpm;
         BarData sub_press;
         BarData sub_temp;
         BarData oxygen;
         BarData battery_life;
         BarData water;
-        WarningColors water_circle;
-        WarningColors sub_press_circle;
-        WarningColors sub_temp_circle;
-        WarningColors oxygen_circle;
-        WarningColors battery_life_circle;
 
         public GameObject textObject;
 
@@ -115,42 +113,47 @@ namespace suitInfo
             transform.localScale = new Vector3(8, 3, 0);
 
             // five circles of data
+            heartbpm = bpm.AddComponent<BarData>();
             oxygen = oxy.AddComponent<BarData>(); //(0, 100, "oxygen");
             battery_life = bat_life.AddComponent<BarData>();
             water = wat.AddComponent<BarData>();//new BarData(0, 100, "water");
             sub_press = subp.AddComponent<BarData>();
             sub_temp = subt.AddComponent<BarData>();
+            /*heartbpm_circle = bpm_circle.AddComponent<WarningColors>();
             oxygen_circle = oxy_circle.AddComponent<WarningColors>(); //(0, 100, "oxygen");
             battery_life_circle = bat_life_circle.AddComponent<WarningColors>();
             water_circle = wat_circle.AddComponent<WarningColors>();//new BarData(0, 100, "water");
             sub_press_circle = subp_circle.AddComponent<WarningColors>();
-            sub_temp_circle = subt_circle.AddComponent<WarningColors>();
+            sub_temp_circle = subt_circle.AddComponent<WarningColors>(); */
 
+            heartbpm.initialize(0, "heartbpm");
             oxygen.initialize(0, "oxygen");
             battery_life.initialize(0, "battery life");
             water.initialize(0, "water");
             sub_press.initialize(0, "sub pressure");
             sub_temp.initialize(0, "sub temperature");
 
+            heartbpm.startDisplay(bpm);
             oxygen.startDisplay(oxy);
             battery_life.startDisplay(bat_life);
             water.startDisplay(wat);
             sub_press.startDisplay(subp);
             sub_temp.startDisplay(subt);
 
-            oxygen_circle.startDisplay(oxy_circle);
-            battery_life_circle.startDisplay(bat_life_circle);
-            water_circle.startDisplay(wat_circle);
-            sub_press_circle.startDisplay(subp_circle);
-            sub_temp_circle.startDisplay(subt_circle);
+            heartbpm.DisplayCircle(bpm_circle);
+            oxygen.DisplayCircle(oxy_circle);
+            battery_life.DisplayCircle(bat_life_circle);
+            water.DisplayCircle(wat_circle);
+            sub_press.DisplayCircle(subp_circle);
+            sub_temp.DisplayCircle(subt_circle);
 
             //Debug.Log(telemetry_data.p_o2);
-            textObject.GetComponent<TextMesh>().text = telemetry_data.p_o2.ToString();
-            /*oxy.GetComponent<TextMesh>().text = telemetry_data.p_o2.ToString();
+            bpm.GetComponent<TextMesh>().text = telemetry_data.heart_bpm.ToString();
+            oxy.GetComponent<TextMesh>().text = telemetry_data.p_o2.ToString();
             bat_life.GetComponent<TextMesh>().text = telemetry_data.cap_battery.ToString();
             wat.GetComponent<TextMesh>().text = telemetry_data.p_h2o_g.ToString();
             subp.GetComponent<TextMesh>().text = telemetry_data.cap_battery.ToString();
-            wat.GetComponent<TextMesh>().text = telemetry_data.p_h2o_g.ToString(); */
+            wat.GetComponent<TextMesh>().text = telemetry_data.p_h2o_g.ToString();
         }
 
         void Update()
@@ -186,11 +189,12 @@ namespace suitInfo
             sub_temp.Display(subt);
 
             // update warning colors
-            /*oxygen_circle.Display(oxy_circle);
-            battery_life_circle.Display(bat_life_circle);
-            water_circle.Display(wat_circle);
-            sub_press_circle.Display(subp_circle);
-            sub_temp_circle.Display(subt_circle); */
+            heartbpm.DisplayCircle(bpm_circle);
+            oxygen.DisplayCircle(oxy_circle);
+            battery_life.DisplayCircle(bat_life_circle);
+            water.DisplayCircle(wat_circle);
+            sub_press.DisplayCircle(subp_circle);
+            sub_temp.DisplayCircle(subt_circle);
         }
 
         // telemetry
