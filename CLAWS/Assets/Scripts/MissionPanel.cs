@@ -5,16 +5,15 @@ using UnityEngine.UI;
 
 public class MissionPanel : MonoBehaviour {
     public GameObject panel;
-    // public Text goalText;
-    // public Text prevTaskText;
-    // public Text curTaskText;
-    // public Text nextTaskText;
+    // public TextMesh goalText;
+    // public TextMesh prevTaskText;
+    // public TextMesh curTaskText;
+    // public TextMesh nextTaskText;
     public TextAsset missionFile;
     public TextMesh goalMesh;
     public TextMesh prevMesh;
     public TextMesh curMesh;
     public TextMesh nextMesh;
-    private Font titillium;
 
     public Mission m;
 
@@ -484,9 +483,6 @@ public class MissionPanel : MonoBehaviour {
     }
     
     void Start(){
-
-        titillium = Resources.Load<Font>("Fonts/TitilliumWeb-Regular.ttf");;
-
         //Text objText = GetComponent<Text>(); //
         GameObject goalObj = new GameObject();
         goalObj.transform.SetParent(panel.transform);
@@ -494,14 +490,11 @@ public class MissionPanel : MonoBehaviour {
         goalMesh = goalObj.AddComponent<TextMesh>();
         goalMesh.text = "Blah Blah Blah";
         goalMesh.fontSize = 20;
-        goalMesh.font = titillium;
-        goalMesh.color = Color.white;
-        //goalMesh.horizontalOverflow = HorizontalWrapMode.Wrap;
-        //goalMesh.verticalOverflow = VerticalWrapMode.Overflow;
         goalMesh.anchor = TextAnchor.UpperLeft;
+        goalMesh.alignment = TextAlignment.Center;
         RectTransform goalRect = (RectTransform)goalObj.transform.parent.transform;
-        // Image goalB = goalObj.AddComponent<Image>();
-        // goalB.color = new Color32(255,255,225,100);
+        Image goalB = goalObj.AddComponent<Image>();
+        goalB.color = new Color32(255,255,225,100);
         goalObj.transform.localPosition = new Vector3(-goalRect.rect.width/2, goalRect.rect.height/2 - 1f, 0);
         goalObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
 
@@ -511,14 +504,11 @@ public class MissionPanel : MonoBehaviour {
         prevMesh = prevObj.AddComponent<TextMesh>();
         prevMesh.text = "THIS IS PREVIOUS";
         prevMesh.fontSize = 20;
-        prevMesh.font = titillium;
-        prevMesh.color = Color.white;
-        //prevMesh.horizontalOverflow = HorizontalWrapMode.Wrap;
-        //prevMesh.verticalOverflow = VerticalWrapMode.Overflow;
         prevMesh.anchor = TextAnchor.UpperLeft;
+        prevMesh.alignment = TextAlignment.Center;
         RectTransform prevRect = (RectTransform)prevObj.transform.parent.transform;
-        // Image prevB = prevObj.AddComponent<Image>();
-        // prevB.color = new Color32(255,100,225,255);
+        Image prevB = prevObj.AddComponent<Image>();
+        prevB.color = new Color32(255,100,225,255);
         prevObj.transform.localPosition = new Vector3(-prevRect.rect.width/2, prevRect.rect.height/2 - 2f, 0);
         prevObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
 
@@ -529,13 +519,11 @@ public class MissionPanel : MonoBehaviour {
         curMesh = curObj.AddComponent<TextMesh>();
         curMesh.text = "Blah Blah Blah";
         curMesh.fontSize = 20;
-        curMesh.font = titillium;
-        curMesh.color = Color.white;
-        //curMesh.horizontalOverflow = HorizontalWrapMode.Wrap;
         curMesh.anchor = TextAnchor.UpperLeft;
+        curMesh.alignment = TextAlignment.Center;
         RectTransform curRect = (RectTransform)curObj.transform.parent.transform;
-        // Image curB = curObj.AddComponent<Image>();
-        // curB.color = new Color32(100,255,225,255);
+        Image curB = curObj.AddComponent<Image>();
+        curB.color = new Color32(100,255,225,255);
         curObj.transform.localPosition = new Vector3(-curRect.rect.width/2, curRect.rect.height/2 - 3f, 0);
         curObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         
@@ -545,13 +533,11 @@ public class MissionPanel : MonoBehaviour {
         nextMesh = nextObj.AddComponent<TextMesh>();
         nextMesh.text = "Blah Blah Blah";
         nextMesh.fontSize = 20;
-        nextMesh.font = titillium;
-        nextMesh.color = Color.white;
-        //nextMesh.horizontalOverflow = HorizontalWrapMode.Wrap;
         nextMesh.anchor = TextAnchor.UpperLeft;
+        nextMesh.alignment = TextAlignment.Center;
         RectTransform nextRect = (RectTransform)nextObj.transform.parent.transform;
-        // Image nextB = nextObj.AddComponent<Image>();
-        // nextB.color = new Color32(255,255,100,255);
+        Image nextB = nextObj.AddComponent<Image>();
+        nextB.color = new Color32(255,255,100,255);
         Debug.Log("Height: " + nextRect.rect.height + " :: " + "Width: " + nextRect.rect.width);
         nextObj.transform.localPosition = new Vector3(-nextRect.rect.width/2, nextRect.rect.height/2 - 4f, 0);
         nextObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
@@ -562,10 +548,10 @@ public class MissionPanel : MonoBehaviour {
     }
     void Update_Tasks_List(){
         if(m.get_subtasks_complete() > 0)
-            prevMesh.text = m.get_prev_subtask().get_text();
-        curMesh.text = m.get_cur_subtask().get_text();
+            prevMesh.text = FormatText(m.get_prev_subtask().get_text());
+        curMesh.text = FormatText(m.get_cur_subtask().get_text());
         if(m.get_subtasks_complete() < m.get_total_subtasks())
-            nextMesh.text = m.get_next_subtask().get_text();
+            nextMesh.text = FormatText(m.get_next_subtask().get_text());
     }
     void Mark_Complete_Voice(){
         m.mark_subtask_complete();
@@ -593,4 +579,3 @@ public class MissionPanel : MonoBehaviour {
     }
     
 }
-
