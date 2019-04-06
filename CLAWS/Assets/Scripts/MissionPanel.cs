@@ -545,9 +545,9 @@ public class MissionPanel : MonoBehaviour {
         prevMesh.fontSize = 20;
         prevMesh.anchor = TextAnchor.UpperLeft;
         prevMesh.alignment = TextAlignment.Center;
-        // RectTransform prevRect = (RectTransform)prevObj.transform.parent.transform;
+        RectTransform prevRect = (RectTransform)prevObj.transform.parent.transform;
         // Image prevB = prevObj.AddComponent<Image>();
-        prevB.color = new Color32(255,100,225,255);
+       // prevB.color = new Color32(255,100,225,255);
         prevObj.transform.localPosition = new Vector3(-prevRect.rect.width/2, prevRect.rect.height/2 - 2f, 0);
         prevObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
 
