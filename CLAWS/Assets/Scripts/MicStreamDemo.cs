@@ -24,6 +24,7 @@ namespace HoloToolkit.Unity
         private string outputPath; // do not modify this; used by MicStream
         private string IPA = "127.0.0.1"; // destination IP address
         private Int32 PortN = 13000; // destination port number
+        public GameObject test;
 
         /// <summary>
         /// Which type of microphone/quality to access
@@ -128,6 +129,8 @@ namespace HoloToolkit.Unity
             {
                 outputPath = MicStream.MicStopRecording();
                 Debug.Log("Saved microphone audio to " + outputPath);
+                Text textTest = test.GetComponent<Text>();
+                textTest.text = outputPath;
                 CheckForErrorOnCall(MicStream.MicStopStream());
             }
             else if (Input.GetKeyDown(KeyCode.T))
