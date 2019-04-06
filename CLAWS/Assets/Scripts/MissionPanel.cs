@@ -2,6 +2,10 @@
 using System;
 using UnityEngine;
 using UnityEngine.UI;
+// For voice recognition
+using UnityEngine.Windows.Speech;
+using System.Collections.Generic;
+using System.Linq;
 
 public class MissionPanel : MonoBehaviour {
     public GameObject panel;
@@ -14,6 +18,10 @@ public class MissionPanel : MonoBehaviour {
     public TextMesh prevMesh;
     public TextMesh curMesh;
     public TextMesh nextMesh;
+
+    // Voice Recognition
+    public KeywordRecognizer keywordRecognizer;
+    public Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
 
     public Mission m;
 
@@ -481,8 +489,39 @@ public class MissionPanel : MonoBehaviour {
         }  
         return text; 
     }
-    
+    private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
+    {
+        System.Action keywordAction;
+        // if the keyword recognized is in our dictionary, call that Action.
+        if (keywords.TryGetValue(args.text, out keywordAction))
+        {
+            keywordAction.Invoke();
+        }
+    }
+
     void Start(){
+        // Voice 
+        //Create keywords for keyword recognizer
+        keywords.Add("mark complete", () =>
+        {
+            Mark_Complete_Voice();
+        });
+        keywords.Add("mark incomplete", () =>
+        {
+            Mark_Incomplete_Voice();
+        });
+        // keywords.Add("mark complete", () =>
+        // {
+        //     Mark_Complete_Voice();
+        // });
+        // keywords.Add("mark complete", () =>
+        // {
+        //     Mark_Complete_Voice();
+        // });
+        keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
+        keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
+        keywordRecognizer.Start();
+
         //Text objText = GetComponent<Text>(); //
         GameObject goalObj = new GameObject();
         goalObj.transform.SetParent(panel.transform);
@@ -493,8 +532,8 @@ public class MissionPanel : MonoBehaviour {
         goalMesh.anchor = TextAnchor.UpperLeft;
         goalMesh.alignment = TextAlignment.Center;
         RectTransform goalRect = (RectTransform)goalObj.transform.parent.transform;
-        Image goalB = goalObj.AddComponent<Image>();
-        goalB.color = new Color32(255,255,225,100);
+        // Image goalB = goalObj.AddComponent<Image>();
+        // goalB.color = new Color32(255,255,225,100);
         goalObj.transform.localPosition = new Vector3(-goalRect.rect.width/2, goalRect.rect.height/2 - 1f, 0);
         goalObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
 
@@ -506,8 +545,8 @@ public class MissionPanel : MonoBehaviour {
         prevMesh.fontSize = 20;
         prevMesh.anchor = TextAnchor.UpperLeft;
         prevMesh.alignment = TextAlignment.Center;
-        RectTransform prevRect = (RectTransform)prevObj.transform.parent.transform;
-        Image prevB = prevObj.AddComponent<Image>();
+        // RectTransform prevRect = (RectTransform)prevObj.transform.parent.transform;
+        // Image prevB = prevObj.AddComponent<Image>();
         prevB.color = new Color32(255,100,225,255);
         prevObj.transform.localPosition = new Vector3(-prevRect.rect.width/2, prevRect.rect.height/2 - 2f, 0);
         prevObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
@@ -522,8 +561,8 @@ public class MissionPanel : MonoBehaviour {
         curMesh.anchor = TextAnchor.UpperLeft;
         curMesh.alignment = TextAlignment.Center;
         RectTransform curRect = (RectTransform)curObj.transform.parent.transform;
-        Image curB = curObj.AddComponent<Image>();
-        curB.color = new Color32(100,255,225,255);
+        // Image curB = curObj.AddComponent<Image>();
+        // curB.color = new Color32(100,255,225,255);
         curObj.transform.localPosition = new Vector3(-curRect.rect.width/2, curRect.rect.height/2 - 3f, 0);
         curObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         
@@ -536,8 +575,8 @@ public class MissionPanel : MonoBehaviour {
         nextMesh.anchor = TextAnchor.UpperLeft;
         nextMesh.alignment = TextAlignment.Center;
         RectTransform nextRect = (RectTransform)nextObj.transform.parent.transform;
-        Image nextB = nextObj.AddComponent<Image>();
-        nextB.color = new Color32(255,255,100,255);
+        // Image nextB = nextObj.AddComponent<Image>();
+        // nextB.color = new Color32(255,255,100,255);
         Debug.Log("Height: " + nextRect.rect.height + " :: " + "Width: " + nextRect.rect.width);
         nextObj.transform.localPosition = new Vector3(-nextRect.rect.width/2, nextRect.rect.height/2 - 4f, 0);
         nextObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
