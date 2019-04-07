@@ -529,14 +529,14 @@ public class MissionPanel : MonoBehaviour {
         goalObj.name = "Goal Text";
         goalMesh = goalObj.AddComponent<TextMesh>();
         goalMesh.text = "Blah Blah Blah";
-        goalMesh.fontSize = TaskFontSize;
+        //goalMesh.fontSize = TaskFontSize;
         goalMesh.anchor = TextAnchor.UpperLeft;
         goalMesh.alignment = TextAlignment.Center;
         RectTransform goalRect = (RectTransform)goalObj.transform.parent.transform;
         // Image goalB = goalObj.AddComponent<Image>();
         // goalB.color = new Color32(255,255,225,100);
-        goalObj.transform.localPosition = new Vector3(-goalRect.rect.width/2, goalRect.rect.height/2 - 1f, 0);
-        goalObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        goalObj.transform.localPosition = new Vector3(-8,12,0);
+        goalObj.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
 
         GameObject prevObj = new GameObject();
         prevObj.transform.SetParent(panel.transform);
@@ -548,9 +548,9 @@ public class MissionPanel : MonoBehaviour {
         prevMesh.alignment = TextAlignment.Center;
         RectTransform prevRect = (RectTransform)prevObj.transform.parent.transform;
         // Image prevB = prevObj.AddComponent<Image>();
-       // prevB.color = new Color32(255,100,225,255);
-        prevObj.transform.localPosition = new Vector3(-prevRect.rect.width/2, prevRect.rect.height/2 - 2f, 0);
-        prevObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        // prevB.color = new Color32(255,100,225,255);
+        prevObj.transform.localPosition = new Vector3(-8, 10, 0);
+        prevObj.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
 
 
         GameObject curObj = new GameObject();
@@ -564,8 +564,8 @@ public class MissionPanel : MonoBehaviour {
         RectTransform curRect = (RectTransform)curObj.transform.parent.transform;
         // Image curB = curObj.AddComponent<Image>();
         // curB.color = new Color32(100,255,225,255);
-        curObj.transform.localPosition = new Vector3(-curRect.rect.width/2, curRect.rect.height/2 - 3f, 0);
-        curObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
+        curObj.transform.localPosition = new Vector3(-8, 8, 0);
+        curObj.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
         
         GameObject nextObj = new GameObject();
         nextObj.transform.SetParent(panel.transform);
@@ -579,7 +579,7 @@ public class MissionPanel : MonoBehaviour {
         // Image nextB = nextObj.AddComponent<Image>();
         // nextB.color = new Color32(255,255,100,255);
         Debug.Log("Height: " + nextRect.rect.height + " :: " + "Width: " + nextRect.rect.width);
-        nextObj.transform.localPosition = new Vector3(-nextRect.rect.width/2, nextRect.rect.height/2 - 4f, 0);
+        nextObj.transform.localPosition = new Vector3(-8, 6, 0);
         nextObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         
         m = new Mission(missionFile);
@@ -588,10 +588,10 @@ public class MissionPanel : MonoBehaviour {
     }
     void Update_Tasks_List(){
         if(m.get_subtasks_complete() > 0)
-            prevMesh.text = FormatText(m.get_prev_subtask().get_text());
-        curMesh.text = FormatText(m.get_cur_subtask().get_text());
+            prevMesh.text = FormatText("   " + m.get_prev_subtask().get_text());
+        curMesh.text = FormatText("   " + m.get_cur_subtask().get_text());
         if(m.get_subtasks_complete() < m.get_total_subtasks())
-            nextMesh.text = FormatText(m.get_next_subtask().get_text());
+            nextMesh.text = FormatText( "   " + m.get_next_subtask().get_text());
     }
     void Mark_Complete_Voice(){
         m.mark_subtask_complete();
