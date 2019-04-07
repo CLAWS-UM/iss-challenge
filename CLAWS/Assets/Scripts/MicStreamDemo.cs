@@ -13,7 +13,7 @@ using UnityEngine.UI;
 using UnityEngine.Assertions;
 using System.Text;
 using HoloToolkit.Unity.InputModule;
-using SendRecord;
+//using SendRecord;
 
 
 namespace HoloToolkit.Unity
@@ -133,6 +133,7 @@ namespace HoloToolkit.Unity
                 textTest.text = outputPath;
                 CheckForErrorOnCall(MicStream.MicStopStream());
             }
+            /*
             else if (Input.GetKeyDown(KeyCode.T))
             {
                 if (!File.Exists(outputPath))
@@ -145,6 +146,8 @@ namespace HoloToolkit.Unity
                     Debug.Log("Audio recording sent to " + IPA + ":" + PortN);
                 }
             }
+            */
+            
             
 
             this.gameObject.transform.localScale = new Vector3(minSize + averageAmplitude, minSize + averageAmplitude, minSize + averageAmplitude);
