@@ -24,6 +24,8 @@ public class MissionPanel : MonoBehaviour {
     public GameObject phaseObj;
     public GameObject taskObj;
     public GameObject nextObj;
+
+    public char check;
     
 
     // Voice Recognition
@@ -32,234 +34,308 @@ public class MissionPanel : MonoBehaviour {
 
     public Mission m;
 
-    public class Mission {
-        //public TextAsset missionfile;
-        // Sturct and Enum used by Mission
-        public class Mission_Subtask {
-            string text;
-            bool complete;
-            // TO DO: Insert Navigational Component
-            public Mission_Subtask(string text_in){
-                text = text_in;
-                complete = false;
+    // Struct and Enum used by Mission
+    public class Mission_Subtask
+    {
+        string text;
+        bool complete;
+        // TO DO: Insert Navigational Component
+        public Mission_Subtask(string text_in)
+        {
+            text = text_in;
+            complete = false;
+        }
+        public string get_text()
+        {
+            return text;
+        }
+        public bool get_status()
+        {
+            return complete;
+        }
+        public void mark_complete()
+        {
+            complete = true;
+        }
+        public void mark_incomplete()
+        {
+            complete = false;
+        }
+        public bool toggle()
+        {
+            if (complete)
+            {
+                mark_incomplete();
+                return false;
             }
-            public string get_text(){
-                return text;
-            }
-            public bool get_status(){
-                return complete;
-            }
-            public void mark_complete(){
-                complete = true;
-            }
-            public void mark_incomplete(){
-                complete = false;
-            }
-            public bool toggle(){
-                if(complete){
-                    mark_incomplete();
-                    return false;
-                } else {
-                    mark_complete();
-                    return true;
-                }
+            else
+            {
+                mark_complete();
+                return true;
             }
         }
+    }
 
-        public class Mission_Task {
-            string text;
-            bool complete;
-            Mission_Subtask[] subtasks;
-            int subtasks_complete;
-            // TO DO: Insert Navigational Component
-            public Mission_Task(string text_in, Mission_Subtask[] subtasks_in){
-                text = text_in;
-                complete = false;
-                subtasks = subtasks_in;
-                subtasks_complete = 0;
-            }
-            public Mission_Task(string text_in){
-                text = text_in;
-                complete = false;
-                subtasks_complete = 0;
-                subtasks = new Mission_Subtask[0]; 
-            }
-            public Mission_Subtask get_prev_subtask(){
-                return subtasks[subtasks_complete - 1];
-            }
-            public Mission_Subtask get_cur_subtask(){
-                return subtasks[subtasks_complete];
-            }
-            public Mission_Subtask get_next_subtask(){
-                return subtasks[subtasks_complete + 1];
-            }
-            public Mission_Subtask get_first_subtask(){
-                return subtasks[0];
-            }
-            public Mission_Subtask get_last_subtask(){
-                return subtasks[subtasks.Length - 1];
-            }
-            public Mission_Subtask[] get_subtasks() {
-                return subtasks;
-            }
-            public void set_subtasks(Mission_Subtask[] subtasks_in) {
-                subtasks = subtasks_in;
-            }
-            public int get_subtasks_length(){
-                return subtasks.Length;
-            }
-            public int get_subtasks_complete() {
-                return subtasks_complete;
-            }
-            public void inc_subtasks_complete() {
+    public class Mission_Task
+    {
+        string text;
+        bool complete;
+        Mission_Subtask[] subtasks;
+        int subtasks_complete;
+        // TO DO: Insert Navigational Component
+        public Mission_Task(string text_in, Mission_Subtask[] subtasks_in)
+        {
+            text = text_in;
+            complete = false;
+            subtasks = subtasks_in;
+            subtasks_complete = 0;
+        }
+        public Mission_Task(string text_in)
+        {
+            text = text_in;
+            complete = false;
+            subtasks_complete = 0;
+            subtasks = new Mission_Subtask[0];
+        }
+        public Mission_Subtask get_prev_subtask()
+        {
+            return subtasks[subtasks_complete - 1];
+        }
+        public Mission_Subtask get_cur_subtask()
+        {
+            return subtasks[subtasks_complete];
+        }
+        public Mission_Subtask get_next_subtask()
+        {
+            return subtasks[subtasks_complete + 1];
+        }
+        public Mission_Subtask get_first_subtask()
+        {
+            return subtasks[0];
+        }
+        public Mission_Subtask get_last_subtask()
+        {
+            return subtasks[subtasks.Length - 1];
+        }
+        public Mission_Subtask[] get_subtasks()
+        {
+            return subtasks;
+        }
+        public void set_subtasks(Mission_Subtask[] subtasks_in)
+        {
+            subtasks = subtasks_in;
+        }
+        public int get_subtasks_length()
+        {
+            return subtasks.Length;
+        }
+        public int get_subtasks_complete()
+        {
+            return subtasks_complete;
+        }
+        public void inc_subtasks_complete()
+        {
+            subtasks_complete++;
+        }
+        public void dec_subtasks_complete()
+        {
+            subtasks_complete--;
+        }
+        public string get_text()
+        {
+            return text;
+        }
+        public bool get_status()
+        {
+            return complete;
+        }
+        public void mark_complete()
+        {
+            complete = true;
+        }
+        public void mark_incomplete()
+        {
+            complete = false;
+        }
+        public bool toggle()
+        {
+            bool ret = subtasks[subtasks_complete].toggle();
+            if (ret)
+            {
                 subtasks_complete++;
             }
-            public void dec_subtasks_complete() {
+            else
+            {
                 subtasks_complete--;
             }
-            public string get_text(){
-                return text;
+            if (subtasks_complete < subtasks.Length)
+            {
+                mark_incomplete();
+                return false;
             }
-            public bool get_status(){
-                return complete;
+            else
+            { //if (subtasks_complete == subtasks.Length){
+                mark_complete();
+                return true;
             }
-            public void mark_complete(){
-                complete = true;
-            }
-            public void mark_incomplete(){
-                complete = false;
-            }
-            public bool toggle(){
-                bool ret = subtasks[subtasks_complete].toggle();
-                if(ret){
-                    subtasks_complete++;
-                } else {
-                    subtasks_complete--;
-                }
-                if(subtasks_complete < subtasks.Length){
-                    mark_incomplete();
-                    return false;
-                } else { //if (subtasks_complete == subtasks.Length){
-                    mark_complete();
-                    return true;
-                }
-            }
-            public void mark_subtask_complete(){
-                subtasks[subtasks_complete].mark_complete();
-                subtasks_complete++;
-                if(subtasks_complete < subtasks.Length){
-                    mark_incomplete();
-                } else if (subtasks_complete == subtasks.Length){
-                    mark_complete();
-                }
-            }
-            public void mark_subtask_incomplete(){
-                subtasks[subtasks_complete].mark_incomplete();
-                subtasks_complete--;
+        }
+        public void mark_subtask_complete()
+        {
+            subtasks[subtasks_complete].mark_complete();
+            subtasks_complete++;
+            if (subtasks_complete < subtasks.Length)
+            {
                 mark_incomplete();
             }
+            else if (subtasks_complete == subtasks.Length)
+            {
+                mark_complete();
+            }
         }
-        public class Mission_Phase {
-            string text;
-            bool complete;
-            Mission_Task[] tasks;
-            int tasks_complete;
-            // TO DO: Insert Navigational Component
-            public Mission_Phase(string text_in, Mission_Task[] tasks_in){
-                text = text_in;
-                complete = false;
-                tasks = tasks_in;
-                tasks_complete = 0;
-            }
-            public Mission_Phase(string text_in){
-                text = text_in;
-                complete = false;
-                tasks_complete = 0;
-                tasks = new Mission_Task[0];
-            }
-            public Mission_Task get_prev_task(){
-                return tasks[tasks_complete - 1];
-            }
-            public Mission_Task get_cur_task(){
-                return tasks[tasks_complete];
-            }
-            public Mission_Task get_next_task(){
-                return tasks[tasks_complete + 1];
-            }
-            public Mission_Task get_first_task(){
-                return tasks[0];
-            }
-            public Mission_Task get_last_task(){
-                return tasks[tasks.Length - 1];
-            }
-            public Mission_Task[] get_tasks(){
-                return tasks;
-            }
-            public void set_tasks(Mission_Task[] tasks_in){
-                tasks = tasks_in;
-            }
-            public void set_subtasks(int task_index, Mission_Subtask[] subtasks_in){
-                tasks[task_index].set_subtasks(subtasks_in);
-            }
-            public int get_tasks_length() {
-                return tasks.Length;
-            }
-            public int get_tasks_complete() {
-                return tasks_complete;
-            }
-            public void inc_tasks_complete() {
+        public void mark_subtask_incomplete()
+        {
+            subtasks[subtasks_complete].mark_incomplete();
+            subtasks_complete--;
+            mark_incomplete();
+        }
+    }
+    public class Mission_Phase
+    {
+        string text;
+        bool complete;
+        Mission_Task[] tasks;
+        int tasks_complete;
+        // TO DO: Insert Navigational Component
+        public Mission_Phase(string text_in, Mission_Task[] tasks_in)
+        {
+            text = text_in;
+            complete = false;
+            tasks = tasks_in;
+            tasks_complete = 0;
+        }
+        public Mission_Phase(string text_in)
+        {
+            text = text_in;
+            complete = false;
+            tasks_complete = 0;
+            tasks = new Mission_Task[0];
+        }
+        public Mission_Task get_prev_task()
+        {
+            return tasks[tasks_complete - 1];
+        }
+        public Mission_Task get_cur_task()
+        {
+            return tasks[tasks_complete];
+        }
+        public Mission_Task get_next_task()
+        {
+            return tasks[tasks_complete + 1];
+        }
+        public Mission_Task get_first_task()
+        {
+            return tasks[0];
+        }
+        public Mission_Task get_last_task()
+        {
+            return tasks[tasks.Length - 1];
+        }
+        public Mission_Task[] get_tasks()
+        {
+            return tasks;
+        }
+        public void set_tasks(Mission_Task[] tasks_in)
+        {
+            tasks = tasks_in;
+        }
+        public void set_subtasks(int task_index, Mission_Subtask[] subtasks_in)
+        {
+            tasks[task_index].set_subtasks(subtasks_in);
+        }
+        public int get_tasks_length()
+        {
+            return tasks.Length;
+        }
+        public int get_tasks_complete()
+        {
+            return tasks_complete;
+        }
+        public void inc_tasks_complete()
+        {
+            tasks_complete++;
+        }
+        public void dec_tasks_complete()
+        {
+            tasks_complete--;
+        }
+        public string get_text()
+        {
+            return text;
+        }
+        public bool get_status()
+        {
+            return complete;
+        }
+        public void mark_complete()
+        {
+            complete = true;
+        }
+        public void mark_incomplete()
+        {
+            complete = false;
+        }
+        public void toggle()
+        {
+            bool ret = tasks[tasks_complete].toggle();
+            if (ret)
+            {
                 tasks_complete++;
             }
-            public void dec_tasks_complete() {
+            else
+            {
                 tasks_complete--;
             }
-            public string get_text(){
-                return text;
-            }
-            public bool get_status(){
-                return complete;
-            }
-            public void mark_complete(){
-                complete = true;
-            }
-            public void mark_incomplete(){
-                complete = false;
-            }
-            public void toggle(){
-                bool ret = tasks[tasks_complete].toggle();
-                if(ret){
-                    tasks_complete++;
-                } else {
-                    tasks_complete--;
-                }
-                if(tasks_complete < tasks.Length){
-                    mark_incomplete();
-                } else if (tasks_complete == tasks.Length){
-                    mark_complete();
-                }
-            }
-            public void mark_subtask_complete(){
-                tasks[tasks_complete].mark_subtask_complete();
-                if(tasks[tasks_complete].get_subtasks_complete() == tasks[tasks_complete].get_subtasks_length()){
-                    tasks_complete++;
-                }
-                if(tasks_complete < tasks.Length){
-                    mark_incomplete();
-                } else if (tasks_complete == tasks.Length){
-                    mark_complete();
-                }
-            }
-            public void mark_subtask_incomplete(){
-                tasks[tasks_complete].mark_subtask_incomplete();
+            if (tasks_complete < tasks.Length)
+            {
                 mark_incomplete();
             }
+            else if (tasks_complete == tasks.Length)
+            {
+                mark_complete();
+            }
         }
-        public enum Mission_Type : int {
-            Repair,
-            Experiment,
-            Other
-            // TO DO: Insert more here
+        public void mark_subtask_complete()
+        {
+            tasks[tasks_complete].mark_subtask_complete();
+            if (tasks[tasks_complete].get_subtasks_complete() == tasks[tasks_complete].get_subtasks_length())
+            {
+                tasks_complete++;
+            }
+            if (tasks_complete < tasks.Length)
+            {
+                mark_incomplete();
+            }
+            else if (tasks_complete == tasks.Length)
+            {
+                mark_complete();
+            }
         }
+        public void mark_subtask_incomplete()
+        {
+            tasks[tasks_complete].mark_subtask_incomplete();
+            mark_incomplete();
+        }
+    }
+    public enum Mission_Type : int
+    {
+        Repair,
+        Experiment,
+        Other
+        // TO DO: Insert more here
+    }
+
+    public class Mission {
+        
 
         // Mission Variables
         string title;
@@ -460,7 +536,7 @@ public class MissionPanel : MonoBehaviour {
             return num_subtasks_complete;
         }
         public Mission_Phase get_cur_phase(){
-            return phases[num_phases_complete];
+            return phases[phases_complete];
         }
 
     }
@@ -510,11 +586,8 @@ public class MissionPanel : MonoBehaviour {
     }
 
     void Start(){
-<<<<<<< HEAD
         int TaskFontSize = 15;
         check = '\u2713';
-=======
->>>>>>> 32f68c4996d1c3d4cda1c4e79cb2a86f3cf10959
         // Voice 
         //Create keywords for keyword recognizer
         keywords.Add("mark complete", () =>
@@ -536,13 +609,13 @@ public class MissionPanel : MonoBehaviour {
         // curMesh = curObj.GetComponent<TextMesh>();
         // nextMesh = nextObj.GetComponent<TextMesh>();
 
-        goalMesh = goalObj.GetComponent<TextMesh>();
-        phaseMesh = phaseObj.GetComponent<TextMesh>();
-        taskMesh = taskObj.GetComponent<TextMesh>();
-        nextMesh = nextObj.GetComponent<TextMesh>();
+        goalMesh = goalObj.GetComponent<Text>();
+        phaseMesh = phaseObj.GetComponent<Text>();
+        taskMesh = taskObj.GetComponent<Text>();
+        nextMesh = nextObj.GetComponent<Text>();
 
         RectTransform taskRect = (RectTransform)taskObj.transform;
-        nextObj.transform.localPosition = (nextObj.transform.localPosition.x, taskObj.transform.localPosition.y + taskRect.height, 0);
+        nextObj.transform.localPosition = new Vector3(nextObj.transform.localPosition.x, (taskObj.transform.localPosition.y + taskRect.rect.height), 0);
 
 /*
         GameObject nextObj = new GameObject();
@@ -570,8 +643,9 @@ public class MissionPanel : MonoBehaviour {
         phaseMesh.text = curPhase.get_text();
         string taskString = curPhase.get_cur_task().get_text() + "\n";
         Mission_Subtask[] curSubtasks = curPhase.get_cur_task().get_subtasks();
+        Debug.Log("# subtasks" + curSubtasks.Length);
         for(int i = 0; i < curSubtasks.Length; i++){
-            if(curSubtasks[i].complete){
+            if(curSubtasks[i].get_status()){
                 taskString = taskString + "\t" + check + " " + curSubtasks[i].get_text() + "\n";
             } else {
                 taskString = taskString + "\t" + "-" + " " + curSubtasks[i].get_text() + "\n";

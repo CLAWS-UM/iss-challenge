@@ -30,8 +30,8 @@ public class CountdownTimer : MonoBehaviour
         float seconds = currentTime % 60;
 
         GUIStyle clockStyle = new GUIStyle();
-        clockStyle.fontSize = 16;
+        clockStyle.fontSize = 20;
         clockStyle.normal.textColor = Color.white;
-        GUI.Label(new Rect(900, 3, 250, 100), hours + ":" + minutes + ":" + Mathf.RoundToInt(seconds), clockStyle);
+        GUI.Label(new Rect(865, 25, 250, 100), hours + ":" + minutes + ":" + Mathf.RoundToInt(seconds), clockStyle);
     }
 }
