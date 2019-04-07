@@ -45,7 +45,7 @@ namespace suitInfo
         public TextMesh watText;
         public TextMesh subpText;
         public TextMesh subtText;
-        public TextMesh warningText;
+        public Text warningText;
 
         public int TaskFontSize = 35;
         public string suitURL = "http://35.3.37.130:3000/api/suit/recent";
@@ -219,7 +219,7 @@ namespace suitInfo
             watText = wat.AddComponent<TextMesh>();
             subpText = subp.AddComponent<TextMesh>();
             subtText = subt.AddComponent<TextMesh>();
-            warningText = warningsentence.AddComponent<TextMesh>();
+            warningText = warningsentence.GetComponent<Text>();
 
             bpmText.fontSize = TaskFontSize;
             oxyText.fontSize = TaskFontSize;
