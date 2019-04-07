@@ -646,9 +646,9 @@ public class MissionPanel : MonoBehaviour {
         Debug.Log("# subtasks" + curSubtasks.Length);
         for(int i = 0; i < curSubtasks.Length; i++){
             if(curSubtasks[i].get_status()){
-                taskString = taskString + "\t" + check + " " + curSubtasks[i].get_text() + "\n";
+                taskString = taskString + check + " " + curSubtasks[i].get_text() + "\n";
             } else {
-                taskString = taskString + "\t" + "-" + " " + curSubtasks[i].get_text() + "\n";
+                taskString = taskString + "-" + " " + curSubtasks[i].get_text() + "\n";
             }
         }
         taskMesh.text = taskString;
