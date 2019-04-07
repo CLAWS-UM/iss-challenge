@@ -511,14 +511,7 @@ public class MissionPanel : MonoBehaviour {
         {
             Mark_Incomplete_Voice();
         });
-        // keywords.Add("mark complete", () =>
-        // {
-        //     Mark_Complete_Voice();
-        // });
-        // keywords.Add("mark complete", () =>
-        // {
-        //     Mark_Complete_Voice();
-        // });
+        
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
         keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
         keywordRecognizer.Start();
@@ -529,12 +522,10 @@ public class MissionPanel : MonoBehaviour {
         goalObj.name = "Goal Text";
         goalMesh = goalObj.AddComponent<TextMesh>();
         goalMesh.text = "Blah Blah Blah";
-        //goalMesh.fontSize = TaskFontSize;
+        goalMesh.fontSize = TaskFontSize;
         goalMesh.anchor = TextAnchor.UpperLeft;
         goalMesh.alignment = TextAlignment.Center;
         RectTransform goalRect = (RectTransform)goalObj.transform.parent.transform;
-        // Image goalB = goalObj.AddComponent<Image>();
-        // goalB.color = new Color32(255,255,225,100);
         goalObj.transform.localPosition = new Vector3(-8,12,0);
         goalObj.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
 
@@ -547,8 +538,6 @@ public class MissionPanel : MonoBehaviour {
         prevMesh.anchor = TextAnchor.UpperLeft;
         prevMesh.alignment = TextAlignment.Center;
         RectTransform prevRect = (RectTransform)prevObj.transform.parent.transform;
-        // Image prevB = prevObj.AddComponent<Image>();
-        // prevB.color = new Color32(255,100,225,255);
         prevObj.transform.localPosition = new Vector3(-8, 10, 0);
         prevObj.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
 
@@ -562,8 +551,6 @@ public class MissionPanel : MonoBehaviour {
         curMesh.anchor = TextAnchor.UpperLeft;
         curMesh.alignment = TextAlignment.Center;
         RectTransform curRect = (RectTransform)curObj.transform.parent.transform;
-        // Image curB = curObj.AddComponent<Image>();
-        // curB.color = new Color32(100,255,225,255);
         curObj.transform.localPosition = new Vector3(-8, 8, 0);
         curObj.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
         
