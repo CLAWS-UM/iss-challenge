@@ -14,14 +14,15 @@ public class MissionPanel : MonoBehaviour {
     // public TextMesh curTaskText;
     // public TextMesh nextTaskText;
     public TextAsset missionFile;
+
     public Text goalMesh;
-    public Text prevMesh;
-    public Text curMesh;
+    public Text phaseMesh;
+    public Text taskMesh;
     public Text nextMesh;
 
     public GameObject goalObj;
-    public GameObject prevObj;
-    public GameObject curObj;
+    public GameObject phaseObj;
+    public GameObject taskObj;
     public GameObject nextObj;
     
 
@@ -458,6 +459,9 @@ public class MissionPanel : MonoBehaviour {
         public int get_subtasks_complete(){
             return num_subtasks_complete;
         }
+        public Mission_Phase get_cur_phase(){
+            return phases[num_phases_complete];
+        }
 
     }
 
@@ -506,6 +510,11 @@ public class MissionPanel : MonoBehaviour {
     }
 
     void Start(){
+<<<<<<< HEAD
+        int TaskFontSize = 15;
+        check = '\u2713';
+=======
+>>>>>>> 32f68c4996d1c3d4cda1c4e79cb2a86f3cf10959
         // Voice 
         //Create keywords for keyword recognizer
         keywords.Add("mark complete", () =>
@@ -521,50 +530,21 @@ public class MissionPanel : MonoBehaviour {
         keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
         keywordRecognizer.Start();
 
-        
-        goalMesh = goalObj.GetComponent<Text>();
-        prevMesh = prevObj.GetComponent<Text>();
-        curMesh = curObj.GetComponent<Text>();
-        nextMesh = nextObj.GetComponent<Text>();
 
-        //Text objText = GetComponent<Text>(); //
-        /*GameObject goalObj = new GameObject();
-        goalObj.transform.SetParent(panel.transform);
-        goalObj.name = "Goal Text";
-        goalMesh = goalObj.AddComponent<TextMesh>();
-        goalMesh.text = "Blah Blah Blah";
-        goalMesh.fontSize = TaskFontSize;
-        goalMesh.anchor = TextAnchor.UpperLeft;
-        goalMesh.alignment = TextAlignment.Center;
-        RectTransform goalRect = (RectTransform)goalObj.transform.parent.transform;
-        goalObj.transform.localPosition = new Vector3(-8,12,0);
-        goalObj.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+        // goalMesh = goalObj.GetComponent<TextMesh>();
+        // prevMesh = prevObj.GetComponent<TextMesh>();
+        // curMesh = curObj.GetComponent<TextMesh>();
+        // nextMesh = nextObj.GetComponent<TextMesh>();
 
-        GameObject prevObj = new GameObject();
-        prevObj.transform.SetParent(panel.transform);
-        prevObj.name = "Prev Task Text";
-        prevMesh = prevObj.AddComponent<TextMesh>();
-        prevMesh.text = "THIS IS PREVIOUS";
-        prevMesh.fontSize = TaskFontSize;
-        prevMesh.anchor = TextAnchor.UpperLeft;
-        prevMesh.alignment = TextAlignment.Center;
-        RectTransform prevRect = (RectTransform)prevObj.transform.parent.transform;
-        prevObj.transform.localPosition = new Vector3(-8, 10, 0);
-        prevObj.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
+        goalMesh = goalObj.GetComponent<TextMesh>();
+        phaseMesh = phaseObj.GetComponent<TextMesh>();
+        taskMesh = taskObj.GetComponent<TextMesh>();
+        nextMesh = nextObj.GetComponent<TextMesh>();
 
+        RectTransform taskRect = (RectTransform)taskObj.transform;
+        nextObj.transform.localPosition = (nextObj.transform.localPosition.x, taskObj.transform.localPosition.y + taskRect.height, 0);
 
-        GameObject curObj = new GameObject();
-        curObj.transform.parent = panel.transform;
-        curObj.name = "Cur Task Text";
-        curMesh = curObj.AddComponent<TextMesh>();
-        curMesh.text = "Blah Blah Blah";
-        curMesh.fontSize = TaskFontSize;
-        curMesh.anchor = TextAnchor.UpperLeft;
-        curMesh.alignment = TextAlignment.Center;
-        RectTransform curRect = (RectTransform)curObj.transform.parent.transform;
-        curObj.transform.localPosition = new Vector3(-8, 8, 0);
-        curObj.transform.localScale = new Vector3(0.8f, 0.8f, 0.8f);
-        
+/*
         GameObject nextObj = new GameObject();
         nextObj.transform.SetParent(panel.transform);
         nextObj.name = "Next Task Text";
@@ -586,11 +566,22 @@ public class MissionPanel : MonoBehaviour {
         Update_Tasks_List();
     }
     void Update_Tasks_List(){
-        if(m.get_subtasks_complete() > 0)
-            prevMesh.text = "   " + m.get_prev_subtask().get_text();
-        curMesh.text = "   " + m.get_cur_subtask().get_text();
+        Mission_Phase curPhase = m.get_cur_phase();
+        phaseMesh.text = curPhase.get_text();
+        string taskString = curPhase.get_cur_task().get_text() + "\n";
+        Mission_Subtask[] curSubtasks = curPhase.get_cur_task().get_subtasks();
+        for(int i = 0; i < curSubtasks.Length; i++){
+            if(curSubtasks[i].complete){
+                taskString = taskString + "\t" + check + " " + curSubtasks[i].get_text() + "\n";
+            } else {
+                taskString = taskString + "\t" + "-" + " " + curSubtasks[i].get_text() + "\n";
+            }
+        }
+        taskMesh.text = taskString;
         if(m.get_subtasks_complete() < m.get_total_subtasks())
-            nextMesh.text = "   " + m.get_next_subtask().get_text();
+            nextMesh.text = m.get_next_subtask().get_text();
+        else 
+            nextMesh.text = "";
     }
     void Mark_Complete_Voice(){
         m.mark_subtask_complete();
