@@ -458,7 +458,7 @@ public class MissionPanel : MonoBehaviour {
     // "https://forum.unity.com/threads/3d-text-wrap.32227"
     public string FormatText (string text) {
         //int currentLine = 1;
-        int maxLineChars = 20;
+        int maxLineChars = 50;
         int charCount = 0;
         string[] words = text.Split(" "[0]); //Split the string into seperate words
         string result = "";
