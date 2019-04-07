@@ -110,6 +110,8 @@ namespace HoloToolkit.Unity
 
         private void Update()
         {
+            Text textTest = test.GetComponent<Text>();
+
             CheckForErrorOnCall(MicStream.MicSetGain(InputGain));
 
             /*if (Input.GetKeyDown(KeyCode.Q))
@@ -123,13 +125,13 @@ namespace HoloToolkit.Unity
             */
             if (Input.GetKeyDown(KeyCode.A))
             {
+                textTest.text = "started recording";
                 CheckForErrorOnCall(MicStream.MicStartRecording(SaveFileName, false));
             }
             else if (Input.GetKeyDown(KeyCode.S))
             {
                 outputPath = MicStream.MicStopRecording();
                 Debug.Log("Saved microphone audio to " + outputPath);
-                Text textTest = test.GetComponent<Text>();
                 textTest.text = outputPath;
                 CheckForErrorOnCall(MicStream.MicStopStream());
             }
