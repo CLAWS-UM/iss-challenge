@@ -517,7 +517,7 @@ public class MissionPanel : MonoBehaviour {
         keywordRecognizer.Start();
 
         //Text objText = GetComponent<Text>(); //
-        GameObject goalObj = new GameObject();
+        /*GameObject goalObj = new GameObject();
         goalObj.transform.SetParent(panel.transform);
         goalObj.name = "Goal Text";
         goalMesh = goalObj.AddComponent<TextMesh>();
@@ -568,17 +568,18 @@ public class MissionPanel : MonoBehaviour {
         Debug.Log("Height: " + nextRect.rect.height + " :: " + "Width: " + nextRect.rect.width);
         nextObj.transform.localPosition = new Vector3(-8, 6, 0);
         nextObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
-        
+        */
+
         m = new Mission(missionFile);
         goalMesh.text = m.get_title();
         Update_Tasks_List();
     }
     void Update_Tasks_List(){
         if(m.get_subtasks_complete() > 0)
-            prevMesh.text = FormatText("   " + m.get_prev_subtask().get_text());
-        curMesh.text = FormatText("   " + m.get_cur_subtask().get_text());
+            prevMesh.text = "   " + m.get_prev_subtask().get_text();
+        curMesh.text = "   " + m.get_cur_subtask().get_text();
         if(m.get_subtasks_complete() < m.get_total_subtasks())
-            nextMesh.text = FormatText( "   " + m.get_next_subtask().get_text());
+            nextMesh.text = "   " + m.get_next_subtask().get_text();
     }
     void Mark_Complete_Voice(){
         m.mark_subtask_complete();
