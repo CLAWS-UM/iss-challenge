@@ -19,6 +19,12 @@ public class MissionPanel : MonoBehaviour {
     public TextMesh curMesh;
     public TextMesh nextMesh;
 
+    public GameObject goalObj;
+    public GameObject prevObj;
+    public GameObject curObj;
+    public GameObject nextObj;
+    
+
     // Voice Recognition
     public KeywordRecognizer keywordRecognizer;
     public Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
@@ -515,6 +521,12 @@ public class MissionPanel : MonoBehaviour {
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
         keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
         keywordRecognizer.Start();
+
+        
+        goalMesh = goalObj.AddComponent<TextMesh>();
+        prevMesh = prevObj.AddComponent<TextMesh>();
+        curMesh = curObj.AddComponent<TextMesh>();
+        nextMesh = nextObj.AddComponent<TextMesh>();
 
         //Text objText = GetComponent<Text>(); //
         /*GameObject goalObj = new GameObject();
