@@ -13,8 +13,8 @@ public class TaskScreen : MonoBehaviour
     {
         RectTransform parentTransform = (RectTransform)transform.parent.transform;
         RectTransform currentTransform = (RectTransform)transform;
-        float xLoc = -parentTransform.rect.width / 3.5f + currentTransform.rect.width / 2;
-        float yLoc = parentTransform.rect.height / 9 - currentTransform.rect.height / 2;
+        float xLoc = -parentTransform.rect.width / 2.5f + currentTransform.rect.width / 2;
+        float yLoc = parentTransform.rect.height / 6f - currentTransform.rect.height / 2;
         transform.localPosition = new Vector3(xLoc, yLoc, 0);
     }
 }
