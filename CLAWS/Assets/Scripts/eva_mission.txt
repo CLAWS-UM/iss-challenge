@@ -1,4 +1,4 @@
-Provided NASA EVA
+Replace BMRRM
 Remove and replace the failed Bearing Motor Roll Ring Module (BMRRM).
 Repair
 6
@@ -6,18 +6,18 @@ Prepare UIA
 3
 Ensure that: 
 4
-POWER EV-1 and 2 are set to OFF
-POWER EV-1 and 2 EMU LEDs are OFF
-WATER SUPPLY EV-1 and 2 is set to CLOSE
-OXYGEN EV-1 and 2 are set to CLOSE
+Power EV-1 and 2 are set to Off
+Power EV-1 and 2 EMU LEDs are Off
+Water SUPPLY EV-1 and 2 is set to Close
+Oxygen EV-1 and 2 are set to Close
 Depressurize the UIA O2 supply lines
 2
-Switch O2 Vent to OPEN
-When UIA Supply Press &lt; 23 psi, proceed.
+Switch O2 Vent to Open
+When UIA Supply Press < 23 psi, proceed.
 Close O2
 1
-O2 Vent – CLOSE
-FILL AND DUMP UIA AND SCU O2 LINES
+O2 Vent – Close
+Fill and dump UIA and SCU O2 Lines
 4
 Pressurize EVA 1
 3
