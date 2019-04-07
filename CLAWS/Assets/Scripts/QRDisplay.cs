@@ -18,8 +18,10 @@ public class QRDisplay : MonoBehaviour {
     IEnumerator waiter()
     {
         webCam.Pause();
+        scanning = false;
         yield return new WaitForSeconds(2);
         webCam.Play();
+        scanning = true;
     }
 
     private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
