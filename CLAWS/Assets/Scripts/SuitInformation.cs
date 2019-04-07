@@ -27,6 +27,10 @@ namespace suitInfo
         public GameObject wat_circle;
         public GameObject subp_circle;
         public GameObject subt_circle;
+
+        public GameObject warningPicture;
+        public GameObject warningsentence;
+
         // class objects
         public BarData heartbpm;
         public BarData sub_press;
@@ -41,6 +45,7 @@ namespace suitInfo
         public TextMesh watText;
         public TextMesh subpText;
         public TextMesh subtText;
+        public TextMesh warningText;
 
         public int TaskFontSize = 35;
         public string suitURL = "http://35.3.37.130:3000/api/suit/recent";
@@ -214,6 +219,7 @@ namespace suitInfo
             watText = wat.AddComponent<TextMesh>();
             subpText = subp.AddComponent<TextMesh>();
             subtText = subt.AddComponent<TextMesh>();
+            warningText = warningsentence.AddComponent<TextMesh>();
 
             bpmText.fontSize = TaskFontSize;
             oxyText.fontSize = TaskFontSize;
@@ -299,6 +305,46 @@ namespace suitInfo
             water.DisplayCircle(wat_circle);
             sub_press.DisplayCircle(subp_circle);
             sub_temp.DisplayCircle(subt_circle);
+
+            if (warnings.sop_on)
+            {
+                warningPicture.SetActive(true);
+                warningText.text = "Secondary Oxygen Pack is active";
+            } else if(warnings.sspe)
+            {
+                warningPicture.SetActive(true);
+                warningText.text = "Spacesuit pressure";
+            }
+            else if (warnings.fan_error)
+            {
+                warningPicture.SetActive(true);
+                warningText.text = "Cooling fan of the spacesuit has a failure";
+            }
+            else if (warnings.vent_error)
+            {
+                warningPicture.SetActive(true);
+                warningText.text = "No ventilation flow is detected";
+            }
+            else if (warnings.vehicle_power)
+            {
+                warningPicture.SetActive(true);
+                warningText.text = "Spacesuit is receiving power through spacecraft";
+            }
+            else if (warnings.h2o_off)
+            {
+                warningPicture.SetActive(true);
+                warningText.text = "H2O system is offline";
+            }
+            else if (warnings.o2_off)
+            {
+                warningPicture.SetActive(true);
+                warningText.text = "O2 system is offline";
+            }
+            else {
+                warningPicture.SetActive(false);
+                warningText.text = "";
+            }
+
         }
         
         
