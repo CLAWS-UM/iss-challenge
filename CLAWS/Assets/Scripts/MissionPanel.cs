@@ -14,10 +14,10 @@ public class MissionPanel : MonoBehaviour {
     // public TextMesh curTaskText;
     // public TextMesh nextTaskText;
     public TextAsset missionFile;
-    public TextMesh goalMesh;
-    public TextMesh prevMesh;
-    public TextMesh curMesh;
-    public TextMesh nextMesh;
+    public Text goalMesh;
+    public Text prevMesh;
+    public Text curMesh;
+    public Text nextMesh;
 
     public GameObject goalObj;
     public GameObject prevObj;
@@ -506,7 +506,6 @@ public class MissionPanel : MonoBehaviour {
     }
 
     void Start(){
-        int TaskFontSize = 15;
         // Voice 
         //Create keywords for keyword recognizer
         keywords.Add("mark complete", () =>
@@ -523,10 +522,10 @@ public class MissionPanel : MonoBehaviour {
         keywordRecognizer.Start();
 
         
-        goalMesh = goalObj.AddComponent<TextMesh>();
-        prevMesh = prevObj.AddComponent<TextMesh>();
-        curMesh = curObj.AddComponent<TextMesh>();
-        nextMesh = nextObj.AddComponent<TextMesh>();
+        goalMesh = goalObj.GetComponent<Text>();
+        prevMesh = prevObj.GetComponent<Text>();
+        curMesh = curObj.GetComponent<Text>();
+        nextMesh = nextObj.GetComponent<Text>();
 
         //Text objText = GetComponent<Text>(); //
         /*GameObject goalObj = new GameObject();
