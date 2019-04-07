@@ -14,10 +14,11 @@ public class MissionPanel : MonoBehaviour {
     // public TextMesh curTaskText;
     // public TextMesh nextTaskText;
     public TextAsset missionFile;
-    public TextMesh goalMesh;
-    public TextMesh phaseMesh;
-    public TextMesh taskMesh;
-    public TextMesh nextMesh;
+
+    public Text goalMesh;
+    public Text phaseMesh;
+    public Text taskMesh;
+    public Text nextMesh;
 
     public GameObject goalObj;
     public GameObject phaseObj;
@@ -509,8 +510,11 @@ public class MissionPanel : MonoBehaviour {
     }
 
     void Start(){
+<<<<<<< HEAD
         int TaskFontSize = 15;
         check = '\u2713';
+=======
+>>>>>>> 32f68c4996d1c3d4cda1c4e79cb2a86f3cf10959
         // Voice 
         //Create keywords for keyword recognizer
         keywords.Add("mark complete", () =>
