@@ -706,6 +706,8 @@ public class MissionPanel : MonoBehaviour {
                 rectTransform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
                 rectTransform.sizeDelta = new Vector2(120, 15);
                 rectTransform.pivot = new Vector2(0.5f, 0.5f);
+                subTexts[i].transform.localEulerAngles = new Vector3(0,0,0);
+                rectTransform.localEulerAngles = new Vector3(0,0,0);
 
                 if (curSubtasks[i].get_status())
                 {
