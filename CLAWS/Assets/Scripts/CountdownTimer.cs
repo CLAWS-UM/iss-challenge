@@ -1,29 +1,55 @@
 ﻿using System.Collections;
+using System;
+using System.Diagnostics;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
 
 public class CountdownTimer : MonoBehaviour
 {
+    public Text timerText;
     float currentTime;
     float startTime = 0f;
+    public Stopwatch timer;
+    public TimeSpan ts;
 
     //[SerializeField] Text timer;
 
     void Start()
     {
-        currentTime = startTime;
+        timer = new Stopwatch();
+        timer.Start();
+
+        // Get the elapsed time as a TimeSpan value.
+        ts = new TimeSpan();
+        ts = timer.Elapsed;
+
+        // Format and display the TimeSpan value.
+        timerText.text = String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
+
+
+        //currentTime = startTime;
+
+        //timerText.text = currentTime.ToString("00:00:00");
         //timer.text = currentTime.ToString("0.00");
-    
+
     }
 
     void Update()
     {
-        currentTime += Time.deltaTime;
+        // Get the elapsed time as a TimeSpan value.
+        ts = timer.Elapsed;
+
+        // Format and display the TimeSpan value.
+        timerText.text = ts.ToString(); // ONLY IN .NET 4 :( string.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
+
+        //currentTime += Time.deltaTime;
+        //timer.text = currentTime.ToString("00:00:00");
+
         //timer.text = currentTime.ToString("0.00");
     }
 
-    void OnGUI()
+    /*void OnGUI()
     {
         float hours = Mathf.Floor(currentTime / 3600);
         float minutes = Mathf.Floor((currentTime % 3600) / 60);
@@ -33,5 +59,5 @@ public class CountdownTimer : MonoBehaviour
         clockStyle.fontSize = 20;
         clockStyle.normal.textColor = Color.white;
         GUI.Label(new Rect(865, 25, 250, 100), hours + ":" + minutes + ":" + Mathf.RoundToInt(seconds), clockStyle);
-    }
+    }*/
 }
