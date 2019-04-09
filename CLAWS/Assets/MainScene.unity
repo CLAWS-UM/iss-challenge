@@ -828,6 +828,8 @@ MonoBehaviour:
   check: 0
   checkmark: {fileID: 21300000, guid: dbb34dcdb93787240a2dafab40485986, type: 3}
   checkcircle: {fileID: 21300000, guid: 599c442e4d87b894b8c86b627fc688c3, type: 3}
+  subTexts: []
+  sprites: []
 --- !u!212 &326426634
 SpriteRenderer:
   m_ObjectHideFlags: 0
@@ -1568,7 +1570,7 @@ MonoBehaviour:
     m_AlignByGeometry: 0
     m_RichText: 1
     m_HorizontalOverflow: 0
-    m_VerticalOverflow: 0
+    m_VerticalOverflow: 1
     m_LineSpacing: 1
   m_Text: Cur Text
 --- !u!222 &655171337
@@ -1902,9 +1904,9 @@ MonoBehaviour:
   subpText: {fileID: 0}
   subtText: {fileID: 0}
   warningText: {fileID: 340577447}
-  TaskFontSize: 35
-  suitURL: http://35.2.81.52:3000/api/suit/recent
-  warningURL: http://35.2.81.52:3000/api/suitswitch/recent
+  TaskFontSize: 25
+  suitURL: http://35.2.120.234:3000/api/suit/recent
+  warningURL: http://35.2.120.234:3000/api/suitswitch/recent
 --- !u!212 &803071296
 SpriteRenderer:
   m_ObjectHideFlags: 0

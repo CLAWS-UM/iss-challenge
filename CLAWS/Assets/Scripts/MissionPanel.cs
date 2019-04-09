@@ -28,6 +28,9 @@ public class MissionPanel : MonoBehaviour {
     public char check;
     public Sprite checkmark;
     public Sprite checkcircle;
+
+    public GameObject[] subTexts;
+    public GameObject[] sprites;
     
 
     // Voice Recognition
@@ -596,10 +599,10 @@ public class MissionPanel : MonoBehaviour {
         {
             Mark_Complete_Voice();
         });
-        keywords.Add("mark incomplete", () =>
+        /*keywords.Add("mark incomplete", () =>
         {
             Mark_Incomplete_Voice();
-        });
+        });*/
         
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
         keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
@@ -619,7 +622,7 @@ public class MissionPanel : MonoBehaviour {
         RectTransform taskRect = (RectTransform)taskObj.transform;
         nextObj.transform.localPosition = new Vector3(nextObj.transform.localPosition.x, (taskObj.transform.localPosition.y + taskRect.rect.height), 0);
 
-/*
+        /*
         GameObject nextObj = new GameObject();
         nextObj.transform.SetParent(panel.transform);
         nextObj.name = "Next Task Text";
@@ -647,84 +650,111 @@ public class MissionPanel : MonoBehaviour {
         Mission_Task curTask = curPhase.get_cur_task();
         taskMesh.text = curTask.get_text();
 
-        Mission_Subtask[] curSubtasks = curPhase.get_cur_task().get_subtasks();
-        GameObject[] subTexts = new GameObject[curSubtasks.Length];
-        GameObject[] sprites = new GameObject[curSubtasks.Length];
-
-        float startingY = taskObj.GetComponent<RectTransform>().localPosition.y - (taskObj.GetComponent<RectTransform>().sizeDelta.y*2/10);
-        float startingX = taskObj.GetComponent<RectTransform>().localPosition.x;
-        Debug.Log("TaskObj.localPosition.y" + taskObj.GetComponent<RectTransform>().localPosition.y);
-        Debug.Log("OffsetMin" + taskObj.GetComponent<RectTransform>().offsetMin.y);
-        Debug.Log("Starting Y: " + startingY + "| Starting X: " + startingX);
-        Debug.Log("# of Subtasks: " + subTexts.Length);
-
-        for (int i = 0; i < subTexts.Length; i++)
+       
+        if(m.get_cur_phase().get_cur_task().get_subtasks_complete() == 0)
         {
-            sprites[i] = new GameObject();
-            subTexts[i] = new GameObject();
-            subTexts[i].name = "Subtext #" + i.ToString();
-            subTexts[i].transform.SetParent(panel.transform);
 
-            Text sTtext = subTexts[i].AddComponent<Text>();
-            
-            sprites[i].transform.SetParent(panel.transform);
-            SpriteRenderer srend = sprites[i].AddComponent<SpriteRenderer>();
-
-            ContentSizeFitter csf = subTexts[i].AddComponent<ContentSizeFitter>();
-               
-            //subTexts[i].transform.localPosition = new Vector3(0,0,0);
-            sTtext.fontSize = 0;
-            sTtext.horizontalOverflow = HorizontalWrapMode.Wrap;
-            sTtext.verticalOverflow = VerticalWrapMode.Overflow;
-            sTtext.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
-            //sTtext.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-            sTtext.alignment = TextAnchor.MiddleLeft;
-
-            // Provide Text position and size using RectTransform.
-            RectTransform rectTransform;
-            rectTransform = subTexts[i].GetComponent<RectTransform>();
-            rectTransform.localPosition = new Vector3(1, startingY, 0);
-            rectTransform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
-
-            //rectTransform.offsetMin = new Vector2(130f, 15f);
-            rectTransform.sizeDelta = new Vector2(120, 15);
-
-            rectTransform.pivot = new Vector2(0.5f, 0.5f);
-
-            if (curSubtasks[i].get_status())
+            // Clear the array of tasks if all subtasks have been completed
+            for (int i = 0; i < subTexts.Length; i++)
             {
-                srend.sprite = checkmark;
+                subTexts[i].GetComponent<Text>().text = "";
+                sprites[i].GetComponent<SpriteRenderer>().sprite = null;
+                Destroy(subTexts[i]);
+                Destroy(sprites[i]);
+            }
+            if (subTexts != null)
+            {
+                System.Array.Clear(subTexts, 0, subTexts.Length);
+                System.Array.Clear(sprites, 0, sprites.Length);
+            }
+            // Create the array of tasks if number of subtasks complete is equal to zero 
+            Mission_Subtask[] curSubtasks = curPhase.get_cur_task().get_subtasks();
+            subTexts = new GameObject[curSubtasks.Length];
+            sprites = new GameObject[curSubtasks.Length];
+
+            float startingY = taskObj.GetComponent<RectTransform>().localPosition.y - (taskObj.GetComponent<RectTransform>().sizeDelta.y * 2 / 10);
+            float startingX = taskObj.GetComponent<RectTransform>().localPosition.x;
+            Debug.Log("TaskObj.localPosition.y" + taskObj.GetComponent<RectTransform>().localPosition.y);
+            Debug.Log("OffsetMin" + taskObj.GetComponent<RectTransform>().offsetMin.y);
+            Debug.Log("Starting Y: " + startingY + "| Starting X: " + startingX);
+            Debug.Log("# of Subtasks: " + subTexts.Length);
+
+            for (int i = 0; i < subTexts.Length; i++)
+            {
+                sprites[i] = new GameObject();
+                subTexts[i] = new GameObject();
+                subTexts[i].name = "Subtext #" + i.ToString();
+                subTexts[i].transform.SetParent(panel.transform);
+
+                Text sTtext = subTexts[i].AddComponent<Text>();
+
+                sprites[i].transform.SetParent(panel.transform);
+                SpriteRenderer srend = sprites[i].AddComponent<SpriteRenderer>();
+
+                ContentSizeFitter csf = subTexts[i].AddComponent<ContentSizeFitter>();
+
+                sTtext.fontSize = 0;
+                sTtext.horizontalOverflow = HorizontalWrapMode.Wrap;
+                sTtext.verticalOverflow = VerticalWrapMode.Overflow;
+                sTtext.font = Resources.GetBuiltinResource(typeof(Font), "Arial.ttf") as Font;
+                sTtext.alignment = TextAnchor.MiddleLeft;
+
+                // Provide Text position and size using RectTransform.
+                RectTransform rectTransform;
+                rectTransform = subTexts[i].GetComponent<RectTransform>();
+                rectTransform.localPosition = new Vector3(1, startingY, 0);
+                rectTransform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                rectTransform.sizeDelta = new Vector2(120, 15);
+                rectTransform.pivot = new Vector2(0.5f, 0.5f);
+
+                if (curSubtasks[i].get_status())
+                {
+                    srend.sprite = checkmark;
+                }
+                else
+                {
+                    srend.sprite = checkcircle;
+                }
+                srend.size = new Vector2(2f, 2f);
+
+                sprites[i].AddComponent<RectTransform>();
+                sTtext.text = curSubtasks[i].get_text();
+                Debug.Log(sTtext.text);
+                sprites[i].GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
+
+                sprites[i].GetComponent<RectTransform>().localPosition = new Vector3(-6.5f, startingY, 0);
+                sprites[i].transform.localScale = new Vector3(3f, 3f, 3f);
+
+                csf.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
+                csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
+                startingY = startingY - (subTexts[i].GetComponent<RectTransform>().sizeDelta.y * 2 / 10) - 0.5f;
+                Debug.Log("New Starting Y: " + startingY);
+            }
+            nextMesh.transform.localPosition = new Vector3(0, startingY, 0);
+
+        }
+        else
+        {
+            // Update the checkmark
+            int index = m.get_cur_phase().get_cur_task().get_subtasks_complete();
+            if (m.get_cur_phase().get_cur_task().get_subtasks()[index].get_status())
+            {
+                sprites[index].GetComponent<SpriteRenderer>().sprite = checkmark;
             }
             else
             {
-                srend.sprite = checkcircle;
+                sprites[index].GetComponent<SpriteRenderer>().sprite = checkcircle;
             }
-            srend.size = new Vector2(2f, 2f);
+            sprites[index].GetComponent<SpriteRenderer>().size = new Vector2(2f, 2f);
 
-            sprites[i].AddComponent<RectTransform>();
-            sTtext.text = curSubtasks[i].get_text();
-            Debug.Log(sTtext.text);
-            sprites[i].GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
-
-            sprites[i].GetComponent<RectTransform>().localPosition = new Vector3(-6.5f, startingY, 0);
-            //sprites[i].transform.localPosition = new Vector3(startingX, startingY, 0);
-            sprites[i].transform.localScale = new Vector3(3f, 3f, 3f);
-
-            //sprites[i].GetComponent<RectTransform>().offsetMin = new Vector2(1, 1);
-           // sprites[i].GetComponent<RectTransform>().sizeDelta = new Vector2(10, 10);
-
-            csf.horizontalFit = ContentSizeFitter.FitMode.Unconstrained;
-            csf.verticalFit = ContentSizeFitter.FitMode.PreferredSize;
-            startingY = startingY - (subTexts[i].GetComponent<RectTransform>().sizeDelta.y*2/10) - 0.5f;
-            Debug.Log("New Starting Y: " + startingY);
-            // GENERAL FORMATTING
         }
+
+
 
         if (m.get_subtasks_complete() < m.get_total_subtasks())
             nextMesh.text = m.get_cur_phase().get_next_task().get_text();
         else
             nextMesh.text = "";
-        nextMesh.transform.localPosition = new Vector3(0, startingY, 0);
 
     }
     void Mark_Complete_Voice(){
