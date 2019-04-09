@@ -7,9 +7,10 @@ using UnityEngine.UI;
 
 public class CountdownTimer : MonoBehaviour
 {
+    public GameObject timerObj;
     public Text timerText;
-    float currentTime;
-    float startTime = 0f;
+    //float currentTime;
+    //float startTime = 0f;
     public Stopwatch timer;
     public TimeSpan ts;
 
@@ -25,7 +26,7 @@ public class CountdownTimer : MonoBehaviour
         ts = timer.Elapsed;
 
         // Format and display the TimeSpan value.
-        timerText.text = String.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
+        timerObj.GetComponent<Text>().text = ts.ToString(); // string.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
 
 
         //currentTime = startTime;
@@ -41,7 +42,7 @@ public class CountdownTimer : MonoBehaviour
         ts = timer.Elapsed;
 
         // Format and display the TimeSpan value.
-        timerText.text = ts.ToString(); // ONLY IN .NET 4 :( string.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
+        timerObj.GetComponent<Text>().text = ts.ToString(); // ONLY IN .NET 4 :( string.Format("{0:00}:{1:00}:{2:00}", ts.Hours, ts.Minutes, ts.Seconds);
 
         //currentTime += Time.deltaTime;
         //timer.text = currentTime.ToString("00:00:00");
