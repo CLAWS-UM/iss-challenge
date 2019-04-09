@@ -14,14 +14,18 @@ public class QRDisplay : MonoBehaviour {
     private KeywordRecognizer keywordRecognizer = null;
     private Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
     private bool scanning = false;
+    private bool scanEnabled = false;
 
     IEnumerator waiter()
     {
         webCam.Pause();
         scanning = false;
         yield return new WaitForSeconds(2);
-        webCam.Play();
-        scanning = true;
+        if(scanEnabled)
+        {
+            webCam.Play();
+            scanning = true;
+        }
     }
 
     private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
@@ -47,11 +51,13 @@ public class QRDisplay : MonoBehaviour {
         {
             webCam.Play();
             scanning = true;
+            scanEnabled = true;
         });
         keywords.Add("stop", () =>
         {
             webCam.Stop();
             scanning = false;
+            scanEnabled = false;
         });
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
         keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
@@ -61,7 +67,7 @@ public class QRDisplay : MonoBehaviour {
     // Update is called once per frame
     void Update()
     {
-        if (scanning)
+        if (scanning && scanEnabled)
         {
             var bytes = new byte[webCam.width * webCam.height * 4];
             var dataColor = webCam.GetPixels32();
