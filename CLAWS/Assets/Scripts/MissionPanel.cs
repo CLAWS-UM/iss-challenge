@@ -31,6 +31,9 @@ public class MissionPanel : MonoBehaviour {
 
     public GameObject[] subTexts;
     public GameObject[] sprites;
+    public Mission_Phase curPhase;
+    public Mission_Task curTask;
+    public Mission_Subtask[] curSubtasks;
     
 
     // Voice Recognition
@@ -318,7 +321,7 @@ public class MissionPanel : MonoBehaviour {
             }
             if (tasks_complete < tasks.Length)
             {
-                mark_incomplete();
+                this.mark_incomplete();
             }
             else if (tasks_complete == tasks.Length)
             {
@@ -580,6 +583,7 @@ public class MissionPanel : MonoBehaviour {
         }  
         return text; 
     }
+
     private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
     {
         System.Action keywordAction;
@@ -643,11 +647,13 @@ public class MissionPanel : MonoBehaviour {
         goalMesh.text = m.get_title();
         Update_Tasks_List();
     }
+
+
     void Update_Tasks_List(){
-        Mission_Phase curPhase = m.get_cur_phase();
+        curPhase = m.get_cur_phase();
         phaseMesh.text = curPhase.get_text();
 
-        Mission_Task curTask = curPhase.get_cur_task();
+        curTask = curPhase.get_cur_task();
         taskMesh.text = curTask.get_text();
 
        
@@ -668,7 +674,7 @@ public class MissionPanel : MonoBehaviour {
                 System.Array.Clear(sprites, 0, sprites.Length);
             }
             // Create the array of tasks if number of subtasks complete is equal to zero 
-            Mission_Subtask[] curSubtasks = curPhase.get_cur_task().get_subtasks();
+            curSubtasks = curPhase.get_cur_task().get_subtasks();
             subTexts = new GameObject[curSubtasks.Length];
             sprites = new GameObject[curSubtasks.Length];
 
@@ -738,8 +744,9 @@ public class MissionPanel : MonoBehaviour {
         else
         {
             // Update the checkmark
-            int index = m.get_cur_phase().get_cur_task().get_subtasks_complete();
-            if (m.get_cur_phase().get_cur_task().get_subtasks()[index].get_status())
+            int index = m.get_cur_phase().get_cur_task().get_subtasks_complete() - 1;   
+
+            if (curSubtasks[index].get_status())
             {
                 sprites[index].GetComponent<SpriteRenderer>().sprite = checkmark;
             }
@@ -750,8 +757,6 @@ public class MissionPanel : MonoBehaviour {
             sprites[index].GetComponent<SpriteRenderer>().size = new Vector2(2f, 2f);
 
         }
-
-
 
         if (m.get_subtasks_complete() < m.get_total_subtasks())
             nextMesh.text = m.get_cur_phase().get_next_task().get_text();
