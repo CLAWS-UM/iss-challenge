@@ -16,6 +16,7 @@ namespace suitInfo
         // textt
         public GameObject bpm;
         public GameObject oxy;
+        public GameObject rate_oxy;
         public GameObject bat_life;
         public GameObject wat;
         public GameObject subp;
@@ -28,6 +29,7 @@ namespace suitInfo
         // circle icons which change color
         public GameObject bpm_circle;
         public GameObject oxy_circle;
+        public GameObject rate_oxy_circle;
         public GameObject bat_life_circle;
         public GameObject wat_circle;
         public GameObject subp_circle;
@@ -41,11 +43,13 @@ namespace suitInfo
         public BarData sub_press;
         public BarData sub_temp;
         public BarData oxygen;
+        public BarData rate_oxygen;
         public BarData battery_life;
         public BarData water;
 
         public TextMesh bpmText;
         public TextMesh oxyText;
+        public TextMesh rate_oxyText;
         public TextMesh bat_lifeText;
         public TextMesh watText;
         public TextMesh subpText;
@@ -234,9 +238,11 @@ namespace suitInfo
             time_batText = time_bat.AddComponent<TextMesh>();
             time_watText = time_wat.AddComponent<TextMesh>();
             time_oxyText = time_oxy.AddComponent<TextMesh>();
+            rate_oxyText = rate_oxy.AddComponent<TextMesh>();
 
             bpmText.fontSize = TaskFontSize;
             oxyText.fontSize = TaskFontSize;
+            rate_oxyText.fontSize = TaskFontSize;
             bat_lifeText.fontSize = TaskFontSize;
             watText.fontSize = TaskFontSize;
             subpText.fontSize = TaskFontSize;
@@ -255,10 +261,12 @@ namespace suitInfo
             water = wat.AddComponent<BarData>();//new BarData(0, 100, "water");
             sub_press = subp.AddComponent<BarData>();
             sub_temp = subt.AddComponent<BarData>();
+            rate_oxygen = rate_oxy.AddComponent<BarData>();
 
 
             heartbpm.initialize(0, "heartbpm");
             oxygen.initialize(0, "oxygen");
+            rate_oxygen.initialize(0, "rate oxygen");
             battery_life.initialize(0, "battery life");
             water.initialize(0, "water");
             sub_press.initialize(0, "sub pressure");
@@ -268,6 +276,7 @@ namespace suitInfo
            
             bpmText.text = telemetry_data.heart_bpm.ToString();
             oxyText.text = telemetry_data.p_o2.ToString();
+            rate_oxyText.text = telemetry_data.rate_o2.ToString();
             bat_lifeText.text = telemetry_data.cap_battery.ToString();
             watText.text = telemetry_data.p_h2o_g.ToString();
             subpText.text = telemetry_data.p_sub.ToString();
@@ -278,6 +287,7 @@ namespace suitInfo
 
             heartbpm.DisplayCircle(bpm_circle);
             oxygen.DisplayCircle(oxy_circle);
+            rate_oxygen.DisplayCircle(rate_oxy_circle);
             battery_life.DisplayCircle(bat_life_circle);
             water.DisplayCircle(wat_circle);
             sub_press.DisplayCircle(subp_circle);
@@ -299,6 +309,7 @@ namespace suitInfo
 
             heartbpm.change_val(Convert.ToDouble(telemetry_data.heart_bpm));
             oxygen.change_val(Convert.ToDouble(telemetry_data.p_o2)); // value is pressure in tank
+            rate_oxygen.change_val(Convert.ToDouble(telemetry_data.rate_o2));
             battery_life.change_val(Convert.ToDouble(telemetry_data.cap_battery));
             water.change_val(Convert.ToDouble(telemetry_data.p_h2o_g));
             sub_press.change_val(Convert.ToDouble(telemetry_data.p_sub));
@@ -306,6 +317,7 @@ namespace suitInfo
 
             bpmText = bpm.GetComponent<TextMesh>();
             oxyText = oxy.GetComponent<TextMesh>();
+            rate_oxyText = rate_oxy.GetComponent<TextMesh>();
             bat_lifeText = bat_life.GetComponent<TextMesh>();
             watText = wat.GetComponent<TextMesh>();
             subpText = subp.GetComponent<TextMesh>();
@@ -316,6 +328,7 @@ namespace suitInfo
             // call functions to display data always
             bpmText.text = heartbpm.value.ToString();
             oxyText.text = oxygen.value.ToString();
+            rate_oxyText = rate_oxy.GetComponent<TextMesh>();
             bat_lifeText.text = battery_life.value.ToString();
             watText.text = water.value.ToString();
             subpText.text = sub_press.value.ToString();
@@ -327,6 +340,7 @@ namespace suitInfo
             // update warning colors
             heartbpm.DisplayCircle(bpm_circle);
             oxygen.DisplayCircle(oxy_circle);
+            rate_oxygen.DisplayCircle(rate_oxy_circle);
             battery_life.DisplayCircle(bat_life_circle);
             water.DisplayCircle(wat_circle);
             sub_press.DisplayCircle(subp_circle);
