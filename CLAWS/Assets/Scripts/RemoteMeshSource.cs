@@ -1,6 +1,6 @@
 // Copyright (c) Microsoft Corporation. All rights reserved.
 // Licensed under the MIT License. See LICENSE in the project root for license information.
-/*
+
 using System.Collections.Generic;
 using UnityEngine;
 
@@ -19,11 +19,12 @@ namespace HoloToolkit.Unity
     public class RemoteMeshSource : Singleton<RemoteMeshSource>
     {
         [Tooltip("The IPv4 Address of the machine running the Unity editor. Copy and paste this value from RemoteMeshTarget.")]
-        public string ServerIP;
+        public string ServerIP = "35.3.28.69";
 
         [Tooltip("The connection port on the machine to use.")]
         public int ConnectionPort = 11000;
 
+        [Tooltip("The path of the file to send.")]
         public string SendingFilePath = "testfile.txt";
 
 #if !UNITY_EDITOR 
@@ -229,4 +230,3 @@ namespace HoloToolkit.Unity
 #endif
     }
 }
-*/

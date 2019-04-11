@@ -7,7 +7,7 @@ public class PhotoCaptureExample : MonoBehaviour
 {
     PhotoCapture photoCaptureObject = null;
 
-    static readonly int TotalImagesToCapture = 3;
+    static readonly int TotalImagesToCapture = 1;
     int capturedImageCount = 0;
 
     // Use this for initialization
