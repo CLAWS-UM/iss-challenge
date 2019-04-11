@@ -20,6 +20,11 @@ namespace suitInfo
         public GameObject wat;
         public GameObject subp;
         public GameObject subt;
+
+        public GameObject time_bat;
+        public GameObject time_wat;
+        public GameObject time_oxy;
+
         // circle icons which change color
         public GameObject bpm_circle;
         public GameObject oxy_circle;
@@ -45,6 +50,9 @@ namespace suitInfo
         public TextMesh watText;
         public TextMesh subpText;
         public TextMesh subtText;
+        public TextMesh time_batText;
+        public TextMesh time_watText;
+        public TextMesh time_oxyText;
         public Text warningText;
 
         public int TaskFontSize = 35;
@@ -186,15 +194,18 @@ namespace suitInfo
                 SpriteRenderer m_SpriteRenderer;
                 m_SpriteRenderer = obj.GetComponent<SpriteRenderer>();
                 // add code to display each bar
-                if (color == WarningLabel.Red)
+                if (title != "heartbpm")
                 {
-                    //display red
-                    m_SpriteRenderer.color = Color.red;
-                }
-                else
-                {
-                    //Display green
-                    m_SpriteRenderer.color = Color.green;
+                    if (color == WarningLabel.Red)
+                    {
+                        //display red
+                        m_SpriteRenderer.color = Color.red;
+                    }
+                    else
+                    {
+                        //Display green
+                        m_SpriteRenderer.color = Color.green;
+                    }
                 }
             }
             public void initialize(double val, string titl)
@@ -220,6 +231,9 @@ namespace suitInfo
             subpText = subp.AddComponent<TextMesh>();
             subtText = subt.AddComponent<TextMesh>();
             warningText = warningsentence.GetComponent<Text>();
+            time_batText = time_bat.AddComponent<TextMesh>();
+            time_watText = time_wat.AddComponent<TextMesh>();
+            time_oxyText = time_oxy.AddComponent<TextMesh>();
 
             bpmText.fontSize = TaskFontSize;
             oxyText.fontSize = TaskFontSize;
@@ -227,6 +241,9 @@ namespace suitInfo
             watText.fontSize = TaskFontSize;
             subpText.fontSize = TaskFontSize;
             subtText.fontSize = TaskFontSize;
+            time_batText.fontSize = TaskFontSize;
+            time_watText.fontSize = TaskFontSize;
+            time_oxyText.fontSize = TaskFontSize;
 
             // update the visual scale
             //transform.localScale = new Vector3(8, 3, 0);
@@ -255,6 +272,9 @@ namespace suitInfo
             watText.text = telemetry_data.p_h2o_g.ToString();
             subpText.text = telemetry_data.p_sub.ToString();
             subtText.text = telemetry_data.t_sub.ToString();
+            time_batText.text = telemetry_data.t_battery.ToString();
+            time_watText.text = telemetry_data.t_water.ToString();
+            time_oxyText.text = telemetry_data.t_oxygen.ToString();
 
             heartbpm.DisplayCircle(bpm_circle);
             oxygen.DisplayCircle(oxy_circle);
@@ -290,6 +310,9 @@ namespace suitInfo
             watText = wat.GetComponent<TextMesh>();
             subpText = subp.GetComponent<TextMesh>();
             subtText = subt.GetComponent<TextMesh>();
+            time_batText = time_bat.GetComponent<TextMesh>();
+            time_watText = time_wat.GetComponent<TextMesh>();
+            time_oxyText = time_oxy.GetComponent<TextMesh>();
             // call functions to display data always
             bpmText.text = heartbpm.value.ToString();
             oxyText.text = oxygen.value.ToString();
@@ -297,6 +320,9 @@ namespace suitInfo
             watText.text = water.value.ToString();
             subpText.text = sub_press.value.ToString();
             subtText.text = sub_temp.value.ToString();
+            time_batText.text = telemetry_data.t_battery.ToString();
+            time_watText.text = telemetry_data.t_water.ToString();
+            time_oxyText.text = telemetry_data.t_oxygen.ToString();
 
             // update warning colors
             heartbpm.DisplayCircle(bpm_circle);

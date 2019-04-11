@@ -72,16 +72,20 @@ namespace suitInfo
             SpriteRenderer m_SpriteRenderer;
             m_SpriteRenderer = GetComponent<SpriteRenderer>();
             // add code to display each bar
-            if (color == WarningLabel.Red)
+            if (title != "heartbpm")
             {
-                //display red
-                m_SpriteRenderer.color = Color.red;
+                if (color == WarningLabel.Red)
+                {
+                    //display red
+                    m_SpriteRenderer.color = Color.red;
+                }
+                else
+                {
+                    //Display green
+                    m_SpriteRenderer.color = Color.green;
+                }
             }
-            else
-            {
-                //Display green
-                m_SpriteRenderer.color = Color.green;
-            }
+     
         }
         public void initialize(double val, string titl)
         {
