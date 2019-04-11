@@ -728,7 +728,7 @@ public class MissionPanel : MonoBehaviour {
                 }
                 srend.size = new Vector2(2f, 2f);
                 srend.GetComponent<RectTransform>().localEulerAngles = new Vector3(0,0,0);
-                sprites[index].transform.localEulerAngles = new Vector3(0,0,0);
+                srend.transform.localEulerAngles = new Vector3(0,0,0);
 
                 sprites[i].AddComponent<RectTransform>();
                 sTtext.text = curSubtasks[i].get_text();
