@@ -315,13 +315,13 @@ public class MissionPanel : MonoBehaviour {
         public void mark_subtask_complete()
         {
             tasks[tasks_complete].mark_subtask_complete();
-            if (tasks[tasks_complete].get_subtasks_complete() == tasks[tasks_complete].get_subtasks_length())
+            if (tasks[tasks_complete].get_status())
             {
                 tasks_complete++;
             }
             if (tasks_complete < tasks.Length)
             {
-                this.mark_incomplete();
+                mark_incomplete();
             }
             else if (tasks_complete == tasks.Length)
             {
@@ -594,7 +594,10 @@ public class MissionPanel : MonoBehaviour {
         }
     }
 
+
+
     void Start(){
+
         int TaskFontSize = 15;
         check = '\u2713';
         // Voice 
@@ -709,7 +712,7 @@ public class MissionPanel : MonoBehaviour {
                 RectTransform rectTransform;
                 rectTransform = subTexts[i].GetComponent<RectTransform>();
                 rectTransform.localPosition = new Vector3(1, startingY, 0);
-                rectTransform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
+                rectTransform.localScale = new Vector3(0.08f, 0.08f, 0.08f);
                 rectTransform.sizeDelta = new Vector2(120, 15);
                 rectTransform.pivot = new Vector2(0.5f, 0.5f);
                 subTexts[i].transform.localEulerAngles = new Vector3(0,0,0);
@@ -724,6 +727,8 @@ public class MissionPanel : MonoBehaviour {
                     srend.sprite = checkcircle;
                 }
                 srend.size = new Vector2(2f, 2f);
+                srend.GetComponent<RectTransform>().localEulerAngles = new Vector3(0,0,0);
+                sprites[index].transform.localEulerAngles = new Vector3(0,0,0);
 
                 sprites[i].AddComponent<RectTransform>();
                 sTtext.text = curSubtasks[i].get_text();
@@ -755,6 +760,8 @@ public class MissionPanel : MonoBehaviour {
                 sprites[index].GetComponent<SpriteRenderer>().sprite = checkcircle;
             }
             sprites[index].GetComponent<SpriteRenderer>().size = new Vector2(2f, 2f);
+            sprites[index].transform.localEulerAngles = new Vector3(0,0,0);
+            sprites[index].GetComponent<RectTransform>().localEulerAngles = new Vector3(0,0,0);
 
         }
 
