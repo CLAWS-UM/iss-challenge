@@ -170,7 +170,7 @@ public class MissionPanel : MonoBehaviour {
             }
             else
             {
-                subtasks[subtasks_complete].mark_incomplete()
+                subtasks[subtasks_complete - 1].mark_incomplete();
                 subtasks_complete--;
             }
             if (subtasks_complete < subtasks.Length)
@@ -281,11 +281,11 @@ public class MissionPanel : MonoBehaviour {
         }
         public int mark_subtask_incomplete()
         {
-            int ret1 = tasks[tasks_complete].mark_subtask_complete();
+            int ret1 = tasks[tasks_complete].mark_subtask_incomplete();
             if(ret1 == -1){ // Meaning that task doesn't have the subtask marked incomplete
                 // Try to mark the previous task's subtask incomplete
-                if(tasks_complete - 0 >= 0){
-                    int ret2 = tasks[tasks_complete - 1].mark_subtask_complete();
+                if(tasks_complete - 1 >= 0){
+                    int ret2 = tasks[tasks_complete - 1].mark_subtask_incomplete();
                     if(ret2 < 0){ // This shouldn't be triggered...safety
                         return -2;
                     }
@@ -296,13 +296,10 @@ public class MissionPanel : MonoBehaviour {
                     // Meaning we need to mark in previous phase
                     return -1;
                 }
-            } else {
-
-            }
-            if (!tasks[tasks_complete].get_status())
-            {
+            } else if(!tasks[tasks_complete].get_status()){
                 tasks_complete--;
             }
+            
             if (tasks_complete < tasks.Length)
             {
                 mark_incomplete();
@@ -477,11 +474,12 @@ public class MissionPanel : MonoBehaviour {
 
             if(phases[phases_complete].get_tasks_complete() == phases[phases_complete].get_tasks_length() - 1){
                 if(phases_complete == phases.Length - 1){
-                    return Mission_Task("");
+                    return new Mission_Task("");
                 } else {
                     return phases[phases_complete + 1].get_next_task();
                 }
             }
+            return phases[phases_complete].get_next_task();
         }
         // public Mission_Task get_task(int task_num){
         //     // Note: Stored in array zero-based, but task_num is one based
@@ -500,7 +498,7 @@ public class MissionPanel : MonoBehaviour {
             return progress;
         }
         public void mark_subtask_complete(){
-            if(num_subtasks_complete < numSubtasks){
+            if(num_subtasks_complete < total_subtasks){
                 phases[phases_complete].mark_subtask_complete();
                 num_subtasks_complete++;
 
@@ -645,22 +643,13 @@ public class MissionPanel : MonoBehaviour {
         nextObj.transform.localScale = new Vector3(0.3f, 0.3f, 0.3f);
         */
 
-        GameObject nextObj = new GameObject();
         progObj.transform.SetParent(panel.transform);
-        progObj.name = "Progress Text";
         progText = progObj.GetComponent<Text>();
         progText.text = "0%";
-        progText.fontSize = 1;
-        progText.color = Color.white;
-        progText.anchor = TextAnchor.UpperLeft;
-        progText.alignment = TextAlignment.Center;
+        
         RectTransform progRect = progObj.GetComponent<RectTransform>();
         progRect.localEulerAngles = new Vector3(0,0,0);
-        progObj.transform.localPosition = new Vector3(1, 6, 0);
-        progObj.transform.localScale = new Vector3(0.1f, 0.1f, 0.1f);
         progObj.transform.localEulerAngles = new Vector3(0,0,0);
-
-        
 
         m = new Mission(missionFile);
         goalMesh.text = m.get_title();
@@ -681,11 +670,11 @@ public class MissionPanel : MonoBehaviour {
         curSubtasks = curPhase.get_cur_task().get_subtasks();
         
         // Update progress
-        progText.text = m.get_progress().ToString() + "%";
+        progText.text = ((int)m.get_progress()).ToString() + "%";
 
         // If cur task has zero subtasks complete, render those subtasks
-        if(m.get_cur_phase().get_cur_task().get_subtasks_complete() == 0)
-        {
+       // if(m.get_cur_phase().get_cur_task().get_subtasks_complete() == 0)
+       // {
 
             // Clear the existing array of tasks if all subtasks have been completed
             for (int i = 0; i < subTexts.Length; i++)
@@ -714,7 +703,7 @@ public class MissionPanel : MonoBehaviour {
             Debug.Log("# of Subtasks: " + subTexts.Length);
 
             // Loop through the subtasks and create ui element
-            for (int i = 0; i < subTexts.Length; i++)
+            for (int i = 0; i < curSubtasks.Length; i++)
             {
                 // Checkmark sprite
                 sprites[i] = new GameObject();
@@ -762,14 +751,13 @@ public class MissionPanel : MonoBehaviour {
                 }
                 // Set size and attributes of check sprite
                 srend.size = new Vector2(2f, 2f);
-                srend.GetComponent<RectTransform>().localEulerAngles = new Vector3(0,0,0);
                 srend.transform.localEulerAngles = new Vector3(0,0,0);
 
                 sprites[i].AddComponent<RectTransform>();
                 sTtext.text = curSubtasks[i].get_text();
                 Debug.Log(sTtext.text); // Debug
                 sprites[i].GetComponent<RectTransform>().pivot = new Vector2(0.5f, 0.5f);
-
+                srend.GetComponent<RectTransform>().localEulerAngles = new Vector3(0, 0, 0);
                 sprites[i].GetComponent<RectTransform>().localPosition = new Vector3(-6.5f, startingY, 0);
                 sprites[i].transform.localScale = new Vector3(3f, 3f, 3f);
 
@@ -787,11 +775,11 @@ public class MissionPanel : MonoBehaviour {
             else
                 nextMesh.text = "";
 
-        }
-        else
-        {
+       // }
+       // else
+       // {
             // Update the checkmark
-            int index = m.get_cur_phase().get_cur_task().get_subtasks_complete() - 1;   
+       /*     int index = m.get_cur_phase().get_cur_task().get_subtasks_complete() - 1;   
 
             if (curSubtasks[index].get_status())
             {
@@ -806,7 +794,7 @@ public class MissionPanel : MonoBehaviour {
             sprites[index].transform.localEulerAngles = new Vector3(0,0,0);
             sprites[index].GetComponent<RectTransform>().localEulerAngles = new Vector3(0,0,0);
 
-        }
+        }*/
 
 
     }
