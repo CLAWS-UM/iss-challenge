@@ -588,7 +588,7 @@ PlayerSettings:
     WindowsStoreApps:
       AllJoyn: False
       BlockedChatMessages: False
-      Bluetooth: True
+      Bluetooth: False
       Chat: False
       CodeGeneration: False
       EnterpriseAuthentication: False
@@ -598,21 +598,17 @@ PlayerSettings:
       InternetClientServer: True
       Location: False
       Microphone: True
-      MusicLibrary: True
+      MusicLibrary: False
       Objects3D: False
       PhoneCall: False
-<<<<<<< HEAD
-      PicturesLibrary: True
-=======
       PicturesLibrary: False
->>>>>>> 4ff0b2570cd449c8a7e770c1a0288a1287e95267
       PrivateNetworkClientServer: True
       Proximity: False
       RemovableStorage: False
       SharedUserCertificates: False
       SpatialPerception: True
       UserAccountInformation: False
-      VideosLibrary: True
+      VideosLibrary: False
       VoipCall: False
       WebCam: True
   metroFTAName: 
