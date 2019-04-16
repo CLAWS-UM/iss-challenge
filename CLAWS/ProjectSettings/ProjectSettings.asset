@@ -601,7 +601,11 @@ PlayerSettings:
       MusicLibrary: True
       Objects3D: False
       PhoneCall: False
+<<<<<<< HEAD
       PicturesLibrary: True
+=======
+      PicturesLibrary: False
+>>>>>>> 4ff0b2570cd449c8a7e770c1a0288a1287e95267
       PrivateNetworkClientServer: True
       Proximity: False
       RemovableStorage: False

@@ -13,8 +13,8 @@ public class MissionClock : MonoBehaviour
     {
         RectTransform parentTransform = (RectTransform)transform.parent.transform;
         RectTransform currentTransform = (RectTransform)transform;
-        float xLoc = parentTransform.rect.width / 3f - currentTransform.rect.width;
-        float yLoc = parentTransform.rect.height / 3 - currentTransform.rect.height / 2;
+        float xLoc = parentTransform.rect.width / 4f - 0.9f*currentTransform.rect.width;
+        float yLoc = parentTransform.rect.height / 2.5f - currentTransform.rect.height / 2;
         transform.localPosition = new Vector3(xLoc, yLoc, 0);
     }
 }
