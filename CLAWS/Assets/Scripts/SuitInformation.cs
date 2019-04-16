@@ -59,9 +59,9 @@ namespace suitInfo
         public TextMesh time_oxyText;
         public Text warningText;
 
-        public int TaskFontSize = 35;
-        public string suitURL = "http://174.240.0.16:3000/api/suit/recent";
-        public string warningURL = "http://174.240.0.16:3000/api/suitswitch/recent";
+        public int TaskFontSize = 15;
+        public string suitURL = "http://50.249.67.137:3000/api/suit/recent";
+        public string warningURL = "http://50.249.67.137:3000/api/suitswitch/recent";
 
         // public GameObject textObject;
 

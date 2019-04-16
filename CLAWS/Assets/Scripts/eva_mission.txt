@@ -6,27 +6,27 @@ Prepare UIA
 3
 Ensure that: 
 4
-Power EV-1 and 2 are set to Off
-Power EV-1 and 2 EMU LEDs are Off
-Water Supply EV-1 and 2 is set to Close
-Oxygen EV-1 and 2 are set to Close
+POWER EV-1 and 2 are set to OFF
+POWER EV-1 and 2 EMU LEDs are OFF
+WATER SUPPLY EV-1 and 2 is set to CLOSE
+OXYGEN EV-1 and 2 are set to CLOSE
 Depressurize the UIA O2 supply lines
 2
-Switch O2 Vent to Open
+Switch O2 Vent to OPEN
 When UIA Supply Press < 23 psi, proceed.
 Close O2
 1
-O2 Vent – Close
+O2 Vent – CLOSE
 Fill and dump UIA and SCU O2 Lines
 4
 Pressurize EVA 1
 3
-Check that O2 VENT is set to Closed
-Switch OXYGEN EV-1 to Open
+Check that O2 VENT is set to CLOSED
+Switch OXYGEN EV-1 to OPEN
 When UIA Supply Press is greater than 3000 psi and stable, proceed.
 Depressurize EVA 1
 3
-Switch Oxygen EV-1 to Close
+Switch Oxygen EV-1 to CLOSE
 Switch O2 Vent to OPEN
 When UIA Supply Pressure is less than 23 and stable psi, proceed.
 Pressurize EVA 1
@@ -39,7 +39,7 @@ Depressurize EVA 1
 Switch OXYGEN EV-1 to CLOSE
 Switch O2 Vent to OPEN
 When UIA Supply Pressure is less than 23 and stable psi, proceed.
-FINAL PRESSURIZATION
+Final Pressurization
 3
 Pressurize EVA 1
 3
@@ -52,7 +52,7 @@ Switch O2 VENT to CLOSED
 Close OXYGEN
 1
 Switch OXYGEN EV-1 to CLOSE
-PREPARATION FOR DONNING
+Preparation for Donning
 3
 EV-1 Powering up EMU
 6
@@ -73,12 +73,12 @@ Switch DCU RCA to CO2
 Switch Secondary O2 to OFF
 Switch PUMP to PRI
 Switch AUX LTC to ON
-TRANSLATION PROCEDURES
+Translation Precedures
 1
 Exit the airlock and begin translation toward the EVA worksite
 1 
 Exit the airlock and begin translation toward the EVA worksite
-REMOVE FAILED BMRRM
+Remove Failed BMRRM
 6
 Uninstall thermal cover
 7

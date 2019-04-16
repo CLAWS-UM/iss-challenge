@@ -609,10 +609,10 @@ public class MissionPanel : MonoBehaviour {
         {
             Mark_Complete_Voice();
         });
-        keywords.Add("mark incomplete", () =>
+        /*keywords.Add("mark incomplete", () =>
         {
             Mark_Incomplete_Voice();
-        });
+        });*/
         
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
         keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
