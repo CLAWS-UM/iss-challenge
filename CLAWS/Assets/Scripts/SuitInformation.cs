@@ -251,6 +251,28 @@ namespace suitInfo
             time_watText.fontSize = TaskFontSize;
             time_oxyText.fontSize = TaskFontSize;
 
+            bpmText.alignment = TextAlignment.Right;
+            oxyText.alignment = TextAlignment.Right;
+            rate_oxyText.alignment = TextAlignment.Right;
+            bat_lifeText.alignment = TextAlignment.Right;
+            watText.alignment = TextAlignment.Right;
+            subpText.alignment = TextAlignment.Right;
+            subtText.alignment = TextAlignment.Right;
+            time_batText.alignment = TextAlignment.Right;
+            time_watText.alignment = TextAlignment.Right;
+            time_oxyText.alignment = TextAlignment.Right;
+
+            bpmText.anchor = TextAnchor.MiddleRight;
+            oxyText.anchor = TextAnchor.MiddleRight;
+            rate_oxyText.anchor = TextAnchor.MiddleRight;
+            bat_lifeText.anchor = TextAnchor.MiddleRight;
+            watText.anchor = TextAnchor.MiddleRight;
+            subpText.anchor = TextAnchor.MiddleRight;
+            subtText.anchor = TextAnchor.MiddleRight;
+            time_batText.anchor = TextAnchor.MiddleRight;
+            time_watText.anchor = TextAnchor.MiddleRight;
+            time_oxyText.anchor = TextAnchor.MiddleRight;
+
             // update the visual scale
             //transform.localScale = new Vector3(8, 3, 0);
 
