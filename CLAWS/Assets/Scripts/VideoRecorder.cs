@@ -3,7 +3,7 @@ using System.Collections;
 using System.Linq;
 using UnityEngine.XR.WSA.WebCam;
 
-public class VideoCaptureExample : MonoBehaviour
+public class VideoRecorder : MonoBehaviour
 {
     static readonly float MaxRecordingTime = 5.0f;
 
@@ -69,7 +69,7 @@ public class VideoCaptureExample : MonoBehaviour
         string filename = string.Format("TestVideo_{0}.mp4", timeStamp);
         string filepath = System.IO.Path.Combine(Application.persistentDataPath, filename);
         filepath = filepath.Replace("/", @"\");
-        Debug.Log(filepath);
+        Debug.Log("filepath is: " + filepath);
         m_VideoCapture.StartRecordingAsync(filepath, OnStartedRecordingVideo);
     }
 

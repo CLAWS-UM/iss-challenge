@@ -13,18 +13,25 @@ using UnityEngine.UI;
 using UnityEngine.Assertions;
 using System.Text;
 using HoloToolkit.Unity.InputModule;
+using UnityEngine.Windows.Speech;
+using System.Linq;
 //using SendRecord;
 
 
 namespace HoloToolkit.Unity
 {
     [RequireComponent(typeof(AudioSource))]
-    public class MicStreamDemo : MonoBehaviour
+    public class VoiceRecorder : MonoBehaviour
     {
         private string outputPath; // do not modify this; used by MicStream
         private string IPA = "127.0.0.1"; // destination IP address
         private Int32 PortN = 13000; // destination port number
-        public GameObject test;
+
+        // needed for keywords voice recognition
+        private KeywordRecognizer keywordRecognizer = null;
+        private Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
+
+        // public GameObject test; // TODO delete this, and all other code related to displaying the filepath text
 
         /// <summary>
         /// Which type of microphone/quality to access
@@ -96,11 +103,13 @@ namespace HoloToolkit.Unity
                 CheckForErrorOnCall(MicStream.MicStartStream(KeepAllData, false));
             }
 
+            /*
             print("MicStream selector demo");
             print("press Q to start stream to audio source, W will stop that stream");
             print("It will start a recording and save it to a wav file. S will stop that recording.");
             print("Since this all goes through the AudioSource, you can mute the mic while using it there, or do anything else you would do with an AudioSource");
             print("In this demo, we start the stream automatically, and then change the size of the gameobject based on microphone signal amplitude");
+            */
         }
 
         private void OnDestroy()
@@ -108,11 +117,43 @@ namespace HoloToolkit.Unity
             CheckForErrorOnCall(MicStream.MicDestroy());
         }
 
+        // for keywords
+        private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
+        {
+            System.Action keywordAction;
+            // if the keyword recognized is in our dictionary, call that Action.
+            if (keywords.TryGetValue(args.text, out keywordAction))
+            {
+                keywordAction.Invoke();
+            }
+        }
+
+        void Start()
+        {
+            CheckForErrorOnCall(MicStream.MicSetGain(InputGain));
+
+            keywords.Add("start mic", () =>
+            {
+                Debug.Log("microphone started recording");
+                CheckForErrorOnCall(MicStream.MicStartRecording(SaveFileName, false));
+            });
+            keywords.Add("end mic", () =>
+            {
+                outputPath = MicStream.MicStopRecording();
+                Debug.Log("Saved microphone audio to " + outputPath);
+                CheckForErrorOnCall(MicStream.MicStopStream());
+            });
+            keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
+            keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
+            keywordRecognizer.Start();
+        }
+
+
         private void Update()
         {
-            Text textTest = test.GetComponent<Text>();
+            // Text textTest = test.GetComponent<Text>();
 
-            CheckForErrorOnCall(MicStream.MicSetGain(InputGain));
+            // CheckForErrorOnCall(MicStream.MicSetGain(InputGain));
 
             /*if (Input.GetKeyDown(KeyCode.Q))
             {
@@ -123,6 +164,7 @@ namespace HoloToolkit.Unity
                 CheckForErrorOnCall(MicStream.MicStopStream());
             }
             */
+            /*
             if (Input.GetKeyDown(KeyCode.A))
             {
                 textTest.text = "started recording";
@@ -135,6 +177,7 @@ namespace HoloToolkit.Unity
                 textTest.text = outputPath;
                 CheckForErrorOnCall(MicStream.MicStopStream());
             }
+            */
             /*
             else if (Input.GetKeyDown(KeyCode.T))
             {
@@ -149,11 +192,10 @@ namespace HoloToolkit.Unity
                 }
             }
             */
-            
-            
 
-            this.gameObject.transform.localScale = new Vector3(minSize + averageAmplitude, minSize + averageAmplitude, minSize + averageAmplitude);
+            // this.gameObject.transform.localScale = new Vector3(minSize + averageAmplitude, minSize + averageAmplitude, minSize + averageAmplitude);
         }
+        
 
         private void CheckForErrorOnCall(int returnCode)
         {
