@@ -281,34 +281,33 @@ public class MissionPanel : MonoBehaviour {
         }
         public int mark_subtask_incomplete()
         {
-            int ret1 = tasks[tasks_complete].mark_subtask_incomplete();
-            if(ret1 == -1){ // Meaning that task doesn't have the subtask marked incomplete
-                // Try to mark the previous task's subtask incomplete
-                if(tasks_complete - 1 >= 0){
-                    int ret2 = tasks[tasks_complete - 1].mark_subtask_incomplete();
-                    if(ret2 < 0){ // This shouldn't be triggered...safety
-                        return -2;
+                int ret1 = tasks[tasks_complete].mark_subtask_incomplete();
+                if(ret1 == -1){ // Meaning that task doesn't have the subtask marked incomplete
+                    // Try to mark the previous task's subtask incomplete
+                    if(tasks_complete > 0){
+                        int ret2 = tasks[tasks_complete - 1].mark_subtask_incomplete();
+                        if(ret2 == -1){ // This shouldn't be triggered...safety
+                            return -2;
+                        }
+                        else {
+                            tasks_complete--;
+                            // subtask to be marked complete belonged to previous
+                        }
+                    } else {
+                        // Meaning we need to mark in previous phase
+                        return -1;
                     }
-                    else {
-                        tasks_complete--;
-                    }
-                } else {
-                    // Meaning we need to mark in previous phase
-                    return -1;
                 }
-            } else if(!tasks[tasks_complete].get_status()){
-                tasks_complete--;
-            }
-            
-            if (tasks_complete < tasks.Length)
-            {
-                mark_incomplete();
-            }
-            else if (tasks_complete == tasks.Length)
-            {
-                mark_complete();
-            }
-            return 0;
+
+                if (tasks_complete < tasks.Length)
+                {
+                    mark_incomplete();
+                }
+                else if (tasks_complete == tasks.Length)
+                {
+                    mark_complete();
+                }
+                return 0;
         }
     }
     public enum Mission_Type : int
@@ -605,14 +604,14 @@ public class MissionPanel : MonoBehaviour {
 
         // Voice 
         //Create keywords for keyword recognizer
-        keywords.Add("mark complete", () =>
+        keywords.Add("mark done", () =>
         {
             Mark_Complete_Voice();
         });
-        /*keywords.Add("mark incomplete", () =>
+        keywords.Add("mark not done", () =>
         {
             Mark_Incomplete_Voice();
-        });*/
+        });
         
         keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
         keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
