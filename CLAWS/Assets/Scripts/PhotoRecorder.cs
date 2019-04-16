@@ -80,7 +80,7 @@ public class PhotoRecorder : MonoBehaviour
         Debug.Log(string.Format("Taking Picture ({0}/{1})...", capturedImageCount, TotalImagesToCapture));
         string filename = string.Format(@"CapturedImage{0}.jpg", capturedImageCount);
         string filePath = System.IO.Path.Combine(Application.persistentDataPath, filename);
-
+        Debug.Log(filePath);
         photoCaptureObject.TakePhotoAsync(filePath, PhotoCaptureFileOutputFormat.JPG, OnCapturedPhotoToDisk);
     }
 

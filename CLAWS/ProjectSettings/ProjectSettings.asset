@@ -598,17 +598,17 @@ PlayerSettings:
       InternetClientServer: True
       Location: False
       Microphone: True
-      MusicLibrary: False
+      MusicLibrary: True
       Objects3D: False
       PhoneCall: False
-      PicturesLibrary: False
+      PicturesLibrary: True
       PrivateNetworkClientServer: True
       Proximity: False
       RemovableStorage: False
       SharedUserCertificates: False
       SpatialPerception: True
       UserAccountInformation: False
-      VideosLibrary: False
+      VideosLibrary: True
       VoipCall: False
       WebCam: True
   metroFTAName: 
