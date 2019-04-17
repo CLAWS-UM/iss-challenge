@@ -24,8 +24,8 @@ namespace HoloToolkit.Unity
     public class VoiceRecorder : MonoBehaviour
     {
         private string outputPath; // do not modify this; used by MicStream
-        private string IPA = "127.0.0.1"; // destination IP address
-        private Int32 PortN = 13000; // destination port number
+        // private string IPA = "127.0.0.1"; // destination IP address
+        // private Int32 PortN = 13000; // destination port number
 
         // needed for keywords voice recognition
         private KeywordRecognizer keywordRecognizer = null;
