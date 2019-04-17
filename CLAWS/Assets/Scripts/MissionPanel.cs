@@ -470,15 +470,14 @@ public class MissionPanel : MonoBehaviour {
         }
 
         public Mission_Task get_next_task(){
-
-            if(phases[phases_complete].get_tasks_complete() == phases[phases_complete].get_tasks_length() - 1){
-                if(phases_complete == phases.Length - 1){
-                    return new Mission_Task("");
-                } else {
-                    return phases[phases_complete + 1].get_next_task();
-                }
+            if(phases[phases_complete].get_tasks_complete() < 
+                    phases[phases_complete].get_tasks_length() - 1){
+                return phases[phases_complete].get_next_task();
+            } else if(phases_complete < phases.Length - 1){
+                return phases[phases_complete + 1].get_first_task();
+            } else {
+                return new Mission_Task("");
             }
-            return phases[phases_complete].get_next_task();
         }
         // public Mission_Task get_task(int task_num){
         //     // Note: Stored in array zero-based, but task_num is one based
@@ -794,7 +793,6 @@ public class MissionPanel : MonoBehaviour {
             sprites[index].GetComponent<RectTransform>().localEulerAngles = new Vector3(0,0,0);
 
         }*/
-
 
     }
     void Mark_Complete_Voice(){
