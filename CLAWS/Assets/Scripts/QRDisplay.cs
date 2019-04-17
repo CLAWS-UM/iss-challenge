@@ -59,10 +59,15 @@ public class QRDisplay : MonoBehaviour {
 
             if (res != null)
             {
-                if (res.Text == "Mark Complete")
+                if (res.Text == "Mark Done")
                 {
                     GetComponent<Text>().text = res.Text;
                     ((MissionPanel)(GameObject.Find("UI/Task Screen")).GetComponent<MissionPanel>()).Mark_Complete_Voice();
+                }
+                else if (res.Text == "Mark Not Done")
+                {
+                    GetComponent<Text>().text = res.Text;
+                    ((MissionPanel)(GameObject.Find("UI/Task Screen")).GetComponent<MissionPanel>()).Mark_Incomplete_Voice();
                 }
                 else
                 {

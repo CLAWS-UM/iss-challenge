@@ -60,8 +60,8 @@ namespace suitInfo
         public Text warningText;
 
         public int TaskFontSize = 15;
-        public string suitURL = "http://192.70.120.211:3000/api/suit/recent";
-        public string warningURL = "http://192.70.120.211:3000/api/suitswitch/recent";
+        public string suitURL = "http://192.168.43.148:3000/api/suit/recent";
+        public string warningURL = "http://192.168.43.148:3000/api/suitswitch/recent";
 
         // public GameObject textObject;
 

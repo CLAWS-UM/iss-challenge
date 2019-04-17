@@ -795,11 +795,11 @@ public class MissionPanel : MonoBehaviour {
         }*/
 
     }
-    void Mark_Complete_Voice(){
+    public void Mark_Complete_Voice(){
         m.mark_subtask_complete();
         Update_Tasks_List();
     }
-    void Mark_Incomplete_Voice(){
+    public void Mark_Incomplete_Voice(){
         m.mark_subtask_incomplete();
         Update_Tasks_List();
     }
