@@ -139,7 +139,7 @@ namespace HoloToolkit.Unity
                 Debug.Log("microphone started recording");
                 CheckForErrorOnCall(MicStream.MicStartRecording(SaveFileName, false));
             });
-            keywords.Add("end mic", () =>
+            keywords.Add("stop mic", () =>
             {
                 GameObject.Find("Voice").transform.localScale = new Vector3(0, 0, 0); // hide the icon
                 outputPath = MicStream.MicStopRecording();
