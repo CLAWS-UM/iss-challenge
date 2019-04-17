@@ -1,4 +1,4 @@
-﻿using System;
+using System;
 using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
@@ -14,28 +14,14 @@ public class QRDisplay : MonoBehaviour {
     private KeywordRecognizer keywordRecognizer = null;
     private Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
     private bool scanning = false;
-    private bool scanEnabled = false;
 
     IEnumerator waiter()
     {
         webCam.Pause();
         scanning = false;
         yield return new WaitForSeconds(2);
-        if(scanEnabled)
-        {
-            webCam.Play();
-            scanning = true;
-        }
-    }
-
-    private void KeywordRecognizer_OnPhraseRecognized(PhraseRecognizedEventArgs args)
-    {
-        System.Action keywordAction;
-        // if the keyword recognized is in our dictionary, call that Action.
-        if (keywords.TryGetValue(args.text, out keywordAction))
-        {
-            keywordAction.Invoke();
-        }
+        webCam.Play();
+        scanning = true;
     }
 
     // Use this for initialization
@@ -46,28 +32,14 @@ public class QRDisplay : MonoBehaviour {
         webCam = new WebCamTexture(WebCamTexture.devices[0].name);
 #endif
         reader = new BarcodeReader();
-
-        keywords.Add("scan", () =>
-        {
-            webCam.Play();
-            scanning = true;
-            scanEnabled = true;
-        });
-        keywords.Add("stop", () =>
-        {
-            webCam.Stop();
-            scanning = false;
-            scanEnabled = false;
-        });
-        keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
-        keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
-        keywordRecognizer.Start();
+        scanning = true;
+        webCam.Play();
     }
 
     // Update is called once per frame
     void Update()
     {
-        if (scanning && scanEnabled)
+        if (scanning)
         {
             var bytes = new byte[webCam.width * webCam.height * 4];
             var dataColor = webCam.GetPixels32();
@@ -87,11 +59,17 @@ public class QRDisplay : MonoBehaviour {
 
             if (res != null)
             {
-                GetComponent<Text>().text = res.Text;
+                if (res.Text == "Mark Complete")
+                {
+                    GetComponent<Text>().text = res.Text;
+                    ((MissionPanel)(GameObject.Find("UI/Task Screen")).GetComponent<MissionPanel>()).Mark_Complete_Voice();
+                }
+                else
+                {
+                    GetComponent<Text>().text = res.Text;
+                }
             }
             StartCoroutine(waiter());
         }
     }
 }
-
-
