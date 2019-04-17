@@ -130,24 +130,36 @@ namespace HoloToolkit.Unity
 
         void Start()
         {
+            GameObject.Find("Voice").transform.localScale = new Vector3(0, 0, 0); // hide the icon
             CheckForErrorOnCall(MicStream.MicSetGain(InputGain));
 
             keywords.Add("start mic", () =>
             {
+                GameObject.Find("Voice").transform.localScale = new Vector3(0.14f, 0.14f, 0.14f); // show the icon
                 Debug.Log("microphone started recording");
                 CheckForErrorOnCall(MicStream.MicStartRecording(SaveFileName, false));
             });
             keywords.Add("end mic", () =>
             {
+                GameObject.Find("Voice").transform.localScale = new Vector3(0, 0, 0); // hide the icon
                 outputPath = MicStream.MicStopRecording();
                 Debug.Log("Saved microphone audio to " + outputPath);
                 CheckForErrorOnCall(MicStream.MicStopStream());
+            });
+            keywords.Add("drop the mic", () =>
+            {
+                GameObject.Find("Voice").transform.localScale = new Vector3(0.14f, 0.14f, 0.14f); // easter egg the icon
+                GameObject.Find("Voice").transform.Rotate(0, 0, -90, Space.World); // easter egg the icon
+            });
+            keywords.Add("sorry mic", () =>
+            {
+                GameObject.Find("Voice").transform.localScale = new Vector3(0.14f, 0.14f, 0.14f); // easter egg the icon
+                GameObject.Find("Voice").transform.Rotate(0, 0, 90, Space.World); // easter egg the icon
             });
             keywordRecognizer = new KeywordRecognizer(keywords.Keys.ToArray());
             keywordRecognizer.OnPhraseRecognized += KeywordRecognizer_OnPhraseRecognized;
             keywordRecognizer.Start();
         }
-
 
         private void Update()
         {

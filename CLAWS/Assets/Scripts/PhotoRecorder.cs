@@ -5,7 +5,7 @@ using UnityEngine.XR.WSA.WebCam;
 using UnityEngine.Windows.Speech;
 using HoloToolkit.Unity.InputModule;
 using System.Collections.Generic;
-
+using System.Threading;
 
 public class PhotoRecorder : MonoBehaviour
 {
@@ -32,11 +32,13 @@ public class PhotoRecorder : MonoBehaviour
     // Use this for initialization
     void Start()
     {
+        GameObject.Find("Photo").transform.localScale = new Vector3(0, 0, 0); // hide the icon
         Resolution cameraResolution = PhotoCapture.SupportedResolutions.OrderByDescending((res) => res.width * res.height).First();
         Texture2D targetTexture = new Texture2D(cameraResolution.width, cameraResolution.height);
 
         keywords.Add("take photo", () =>
         {
+            GameObject.Find("Photo").transform.localScale = new Vector3(0.2f, 0.2f, 0.2f); // show the icon
             Debug.Log("started photo capture");
 
             PhotoCapture.CreateAsync(false, delegate (PhotoCapture captureObject) {
@@ -52,6 +54,8 @@ public class PhotoRecorder : MonoBehaviour
                 captureObject.StartPhotoModeAsync(c, delegate (PhotoCapture.PhotoCaptureResult result) {
                     Debug.Log("Started Photo Capture Mode");
                     TakePicture();
+                    Thread.Sleep(1000);
+                    GameObject.Find("Photo").transform.localScale = new Vector3(0, 0, 0); // hide the icon
                 });
             });
         });
