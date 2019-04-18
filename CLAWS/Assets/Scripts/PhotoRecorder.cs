@@ -5,7 +5,8 @@ using UnityEngine.XR.WSA.WebCam;
 using UnityEngine.Windows.Speech;
 using HoloToolkit.Unity.InputModule;
 using System.Collections.Generic;
-using System.Threading;
+using UnityEngine.UI;
+// using System.Threading;
 
 public class PhotoRecorder : MonoBehaviour
 {
@@ -54,8 +55,8 @@ public class PhotoRecorder : MonoBehaviour
                 captureObject.StartPhotoModeAsync(c, delegate (PhotoCapture.PhotoCaptureResult result) {
                     Debug.Log("Started Photo Capture Mode");
                     TakePicture();
-                    Thread.Sleep(1000);
-                    GameObject.Find("Photo").transform.localScale = new Vector3(0, 0, 0); // hide the icon
+                    // Thread.Sleep(1000);
+                    // TODO uncomment this GameObject.Find("Photo").transform.localScale = new Vector3(0, 0, 0); // hide the icon
                 });
             });
         });
@@ -78,6 +79,8 @@ public class PhotoRecorder : MonoBehaviour
         }
     }
 
+    public GameObject test;
+
     void TakePicture()
     {
         capturedImageCount++;
@@ -86,6 +89,9 @@ public class PhotoRecorder : MonoBehaviour
         string filePath = System.IO.Path.Combine(Application.persistentDataPath, filename);
         Debug.Log(filePath);
         photoCaptureObject.TakePhotoAsync(filePath, PhotoCaptureFileOutputFormat.JPG, OnCapturedPhotoToDisk);
+
+        Text file = test.GetComponent<Text>();
+        file.text = filePath;
     }
 
     void OnStoppedPhotoMode(PhotoCapture.PhotoCaptureResult result)
