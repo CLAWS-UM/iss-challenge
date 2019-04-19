@@ -73,6 +73,7 @@ namespace suitInfo
             public string create_date { get; set; }
             public string heart_bpm { get; set; }
             public string p_sub { get; set; }
+            public string p_suit { get; set; }
             public string t_sub { get; set; }
             public string v_fan { get; set; }
             public string p_o2 { get; set; }
@@ -91,6 +92,7 @@ namespace suitInfo
                 this.create_date = "0";
                 this.heart_bpm = "0";
                 this.p_sub = "0";
+                this.p_suit = "0";
                 this.t_sub = "0";
                 this.v_fan = "0";
                 this.p_o2 = "0";
@@ -459,18 +461,19 @@ namespace suitInfo
             telemetry_data.create_date = comps[0];
             telemetry_data.heart_bpm = comps[1];
             telemetry_data.p_sub = comps[2];
-            telemetry_data.t_sub = comps[3];
-            telemetry_data.v_fan = comps[4];
-            telemetry_data.p_o2 = comps[5];
-            telemetry_data.rate_o2 = comps[6];
-            telemetry_data.cap_battery = comps[7];
-            telemetry_data.p_h2o_g = comps[8];
-            telemetry_data.p_h2o_l = comps[9];
-            telemetry_data.p_sop = comps[10];
-            telemetry_data.rate_sop = comps[11];
-            telemetry_data.t_battery = comps[12];
-            telemetry_data.t_oxygen = comps[13];
-            telemetry_data.t_water = comps[14];
+            telemetry_data.p_suit = comps[3];
+            telemetry_data.t_sub = comps[4];
+            telemetry_data.v_fan = comps[5];
+            telemetry_data.p_o2 = comps[6];
+            telemetry_data.rate_o2 = comps[7];
+            telemetry_data.cap_battery = comps[8];
+            telemetry_data.p_h2o_g = comps[9];
+            telemetry_data.p_h2o_l = comps[10];
+            telemetry_data.p_sop = comps[11];
+            telemetry_data.rate_sop = comps[12];
+            telemetry_data.t_battery = comps[13];
+            telemetry_data.t_oxygen = comps[14];
+            telemetry_data.t_water = comps[15];
 
         }
         //[{"create_date":"2019-04-05T02:52:31.307Z","sop_on":false,"sspe":false,"fan_error":false,"vent_error":false,"vehicle_power":false,"h2o_off":false,"o2_off":false}]
