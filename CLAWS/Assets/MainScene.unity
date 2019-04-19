@@ -2048,8 +2048,8 @@ MonoBehaviour:
   time_oxyText: {fileID: 0}
   warningText: {fileID: 340577447}
   TaskFontSize: 15
-  suitURL: http://172.20.10.4:3000/api/suit/recent
-  warningURL: http://172.20.10.4:3000/api/suitswitch/recent
+  suitURL: https://iss-program.herokuapp.com/api/suit/recent
+  warningURL: https://iss-program.herokuapp.com/api/suitswitch/recent
 --- !u!212 &803071296
 SpriteRenderer:
   m_ObjectHideFlags: 0

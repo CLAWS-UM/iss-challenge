@@ -60,8 +60,8 @@ namespace suitInfo
         public Text warningText;
 
         public int TaskFontSize = 15;
-        public string suitURL = "http://192.168.43.148:3000/api/suit/recent";
-        public string warningURL = "http://192.168.43.148:3000/api/suitswitch/recent";
+        public string suitURL = "https://iss-program.herokuapp.com/api/suit/recent";
+        public string warningURL = "https://iss-program.herokuapp.com/api/suitswitch/recent";
 
         // public GameObject textObject;
 
@@ -416,7 +416,7 @@ namespace suitInfo
             UnityWebRequest www = UnityWebRequest.Get(url);
             yield return www.SendWebRequest();
 
-            if (www.isNetworkError || www.isHttpError)
+            if (www.responseCode == -1) //www.isNetworkError || www.isHttpError)
             {
                 Debug.Log("Error:");
                 Debug.Log(www.error);
