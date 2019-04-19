@@ -668,7 +668,7 @@ public class MissionPanel : MonoBehaviour {
         curSubtasks = curPhase.get_cur_task().get_subtasks();
         
         // Update progress
-        progText.text = ((int)m.get_progress()).ToString() + "%";
+        progText.text = ((int)(m.get_progress() * 100)).ToString() + "%";
 
         // If cur task has zero subtasks complete, render those subtasks
        // if(m.get_cur_phase().get_cur_task().get_subtasks_complete() == 0)
