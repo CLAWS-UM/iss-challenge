@@ -1,0 +1,149 @@
+Replace BMRRM
+Remove and replace the failed Bearing Motor Roll Ring Module (BMRRM).
+Repair
+6
+Prepare UIA
+3
+Ensure that: 
+4
+POWER EV-1 and 2 are set to OFF
+POWER EV-1 and 2 EMU LEDs are OFF
+WATER SUPPLY EV-1 and 2 is set to CLOSE
+OXYGEN EV-1 and 2 are set to CLOSE
+Depressurize the UIA O2 supply lines
+2
+Switch O2 Vent to OPEN
+When UIA Supply Press < 23 psi, proceed.
+Close O2
+1
+O2 Vent – CLOSE
+Fill and dump UIA and SCU O2 Lines
+4
+Pressurize EVA 1
+3
+Check that O2 VENT is set to CLOSED
+Switch OXYGEN EV-1 to OPEN
+When UIA Supply Press is greater than 3000 psi and stable, proceed.
+Depressurize EVA 1
+3
+Switch Oxygen EV-1 to CLOSE
+Switch O2 Vent to OPEN
+When UIA Supply Pressure is less than 23 and stable psi, proceed.
+Pressurize EVA 1
+3
+Check that O2 VENT is set to CLOSED
+Switch OXYGEN EV-1 to OPEN
+When UIA Supply Press is greater than 3000 psi and stable, proceed.
+Depressurize EVA 1
+3
+Switch OXYGEN EV-1 to CLOSE
+Switch O2 Vent to OPEN
+When UIA Supply Pressure is less than 23 and stable psi, proceed.
+Final Pressurization
+3
+Pressurize EVA 1
+3
+Check that O2 VENT is set to CLOSED
+Switch OXYGEN EV-1 to OPEN
+When UIA Supply Press is greater than 3000 psi and stable, proceed.
+CLOSE O2
+1
+Switch O2 VENT to CLOSED
+Close OXYGEN
+1
+Switch OXYGEN EV-1 to CLOSE
+Preparation for Donning
+3
+EV-1 Powering up EMU
+6
+Check that UIA POWER EV-1 is set to OFF
+Check that UIA POWER EV-1 EMU LED is OFF
+Check that O2 supply press gauge is greater than 3000
+Switch DCU POWER to BATT
+Switch UIA POWER EV-1 to ON
+Check that EV-1 EMU LED is ON
+Don the EMU
+1
+Affix DCU to body
+Prepare DCU
+6
+Switch DCU POWER to SCU
+Switch DCU FAN to PRI
+Switch DCU RCA to CO2
+Switch Secondary O2 to OFF
+Switch PUMP to PRI
+Switch AUX LTC to ON
+Translation Precedures
+1
+Exit the airlock and begin translation toward the EVA worksite
+1 
+Exit the airlock and begin translation toward the EVA worksite
+Remove Failed BMRRM
+6
+Uninstall thermal cover
+7
+Detach flap 9
+Detach flap 7
+Detach flap 2
+Detach flap 10
+Detach flap 4
+Detach flap 8
+Detach flap 6
+Demate Connectors:
+4
+J1 (PRIMARY POWER)
+J2 (Secondary POWER)
+J3 (1553 Ch. A)
+J4 (1553 Ch. B)
+Drive Dual Latch fasteners to “SAW LATCH” position (21-25 turns):
+3
+H2
+H3
+H4
+Unfasten housing fasteners (10-12 turns each):
+4
+H6
+H7
+H8
+H9
+Unfasten vise clamp bolt H5 (18-20 turns)
+1
+Unfasten vise clamp bolt H5 (18-20 turns)
+Unfasten Center Fastener H1 (zip nut)
+1
+Unfasten Center Fastener H1 (zip nut)
+INSTALL REPLACEMENT BMRRM
+6
+Fasten Center Fastener H1 (zip nut)
+1
+Fasten Center Fastener H1 (zip nut)
+Fasten Vise Clamp bolt H5 (18-20 turns)
+1
+Fasten Vise Clamp bolt H5 (18-20 turns)
+Fasten housing fasteners (10-12 turns each):
+4
+H6
+H7
+H8
+H9
+Fasten Dual Latch fasteners to “BMRRM LATCH” position (21-25 turns):
+3
+H2
+H3
+H4
+3Mate Connectors:
+4
+J4 (1553 Ch. B)
+J3 (1553 Ch. A)
+J2 (Secondary POWER)
+J1 (PRIMARY POWER)
+Install thermal cover
+7
+Reattach flap 6
+Reattach flap 8
+Reattach flap 4
+Reattach flap 10
+Reattach flap 2
+Reattach flap 7
+Reattach flap 9
+
