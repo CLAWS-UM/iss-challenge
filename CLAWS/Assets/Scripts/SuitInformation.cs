@@ -4,7 +4,6 @@ using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
-using Newtonsoft.Json;
 using System.Collections;
 using UnityEngine.Networking; // web request
 
@@ -13,7 +12,7 @@ namespace suitInfo
 
     class SuitInformation : MonoBehaviour
     {
-        // textt
+        // creates text Unity GameObjects
         public GameObject bpm;
         public GameObject oxy;
         public GameObject rate_oxy;
@@ -21,12 +20,11 @@ namespace suitInfo
         public GameObject wat;
         public GameObject subp;
         public GameObject subt;
-
         public GameObject time_bat;
         public GameObject time_wat;
         public GameObject time_oxy;
 
-        // circle icons which change color
+        // creates circle icons which change color
         public GameObject bpm_circle;
         public GameObject oxy_circle;
         public GameObject rate_oxy_circle;
@@ -35,6 +33,7 @@ namespace suitInfo
         public GameObject subp_circle;
         public GameObject subt_circle;
 
+        // creates warning Unity GameObjects
         public GameObject warningPicture;
         public GameObject warningsentence;
 
@@ -46,7 +45,10 @@ namespace suitInfo
         public BarData rate_oxygen;
         public BarData battery_life;
         public BarData water;
+        public SuitInfo telemetry_data;
+        public WarningInfo warnings;
 
+        // creates Unity TextMeshes
         public TextMesh bpmText;
         public TextMesh oxyText;
         public TextMesh rate_oxyText;
@@ -57,18 +59,19 @@ namespace suitInfo
         public TextMesh time_batText;
         public TextMesh time_watText;
         public TextMesh time_oxyText;
-        public Text warningText;
 
+        public Text warningText;
         public int TaskFontSize = 15;
         public string suitURL = "https://iss-program.herokuapp.com/api/suit/recent";
         public string warningURL = "https://iss-program.herokuapp.com/api/suitswitch/recent";
 
+        // variables for 2 minute telemetry time delay
         int delay = 120;
         float nextTime = 0;
+        string json = "";
 
-        public SuitInfo telemetry_data;
-        public WarningInfo warnings;
-               
+        // ------ Class Definitions ------
+
         public class SuitInfo
         {
             public string create_date { get; set; }
@@ -109,7 +112,6 @@ namespace suitInfo
             }
         };
 
-        //,"fan_error":false,"vent_error":false,"vehicle_power":false,"h2o_off":false,"o2_off":false}
         public class WarningInfo
         {
             public string create_date { get; set; }
@@ -183,14 +185,11 @@ namespace suitInfo
             }
             public void startDisplay(GameObject obj)
             {
-
-                //Debug.Log(value);
                 obj.GetComponent<TextMesh>().text = value.ToString();
             }
 
             public void Display(TextMesh mesh)
             {
-                // add code to display each bar
 
                 mesh.text = value.ToString();
                 mesh.fontSize = 25;
@@ -224,6 +223,9 @@ namespace suitInfo
             }
         };
 
+
+        // ------ Start Function ------
+            // initializes UI/UX and variable values
 
         void Start()
         {
@@ -317,9 +319,11 @@ namespace suitInfo
             sub_temp.DisplayCircle(subt_circle);
         }
 
+        // ------ Update Functions ------
+
         void Update()
         {
-            // Update telemetry data every minute to better reflect resources during EVAs
+            // Update telemetry data every two minutes to better reflect resources during EVAs
             if (Time.time >= nextTime)
             {
                 UpdateSuitInformation();
@@ -329,20 +333,20 @@ namespace suitInfo
 
         void UpdateSuitInformation()
         {
+            // request telemetry data from website
             StartCoroutine(GetText(suitURL));
             StartCoroutine(GetText(warningURL));
 
-            // update the display data
-            // textObject.GetComponent<TextMesh>().text = telemetry_data.p_o2.ToString();
-
+            // update the values of display data
             heartbpm.change_val(Convert.ToDouble(telemetry_data.heart_bpm));
-            oxygen.change_val(Convert.ToDouble(telemetry_data.p_o2)); // value is pressure in tank
+            oxygen.change_val(Convert.ToDouble(telemetry_data.p_o2));
             rate_oxygen.change_val(Convert.ToDouble(telemetry_data.rate_o2));
             battery_life.change_val(Convert.ToDouble(telemetry_data.cap_battery));
             water.change_val(Convert.ToDouble(telemetry_data.p_h2o_g));
             sub_press.change_val(Convert.ToDouble(telemetry_data.p_sub));
             sub_temp.change_val(Convert.ToDouble(telemetry_data.t_sub));
 
+            // get Unity TextMeshes and update their numeric values.
             bpmText = bpm.GetComponent<TextMesh>();
             oxyText = oxy.GetComponent<TextMesh>();
             rate_oxyText = rate_oxy.GetComponent<TextMesh>();
@@ -353,10 +357,10 @@ namespace suitInfo
             time_batText = time_bat.GetComponent<TextMesh>();
             time_watText = time_wat.GetComponent<TextMesh>();
             time_oxyText = time_oxy.GetComponent<TextMesh>();
-            // call functions to display data always
+
             bpmText.text = heartbpm.value.ToString();
             oxyText.text = oxygen.value.ToString();
-            rate_oxyText = rate_oxy.GetComponent<TextMesh>();
+            rate_oxyText.text = rate_oxygen.value.ToString();
             bat_lifeText.text = battery_life.value.ToString();
             watText.text = water.value.ToString();
             subpText.text = sub_press.value.ToString();
@@ -365,7 +369,7 @@ namespace suitInfo
             time_watText.text = telemetry_data.t_water.ToString();
             time_oxyText.text = telemetry_data.t_oxygen.ToString();
 
-            // update warning colors
+            // update warning circle colors
             heartbpm.DisplayCircle(bpm_circle);
             oxygen.DisplayCircle(oxy_circle);
             rate_oxygen.DisplayCircle(rate_oxy_circle);
@@ -374,6 +378,7 @@ namespace suitInfo
             sub_press.DisplayCircle(subp_circle);
             sub_temp.DisplayCircle(subt_circle);
 
+            // if any warning switches are triggered, display image and warning text
             if (warnings.sop_on)
             {
                 warningPicture.SetActive(true);
@@ -417,26 +422,27 @@ namespace suitInfo
         }
         
         
-        // telemetry
+        // access stream values
         IEnumerator GetText(string url)
         {
             UnityWebRequest www = UnityWebRequest.Get(url);
             yield return www.SendWebRequest();
 
-            if (www.responseCode == -1) //www.isNetworkError || www.isHttpError)
+            // checks for request errors
+            if (www.responseCode == -1)
             {
                 Debug.Log("Error:");
                 Debug.Log(www.error);
             }
             else
             {
-                // Show results as text
-                Debug.Log("Downloaded:");
-                Debug.Log(www.downloadHandler.text);
-
-                string json = "";
+                // save results as text
+                //Debug.Log("Downloaded:");
+                //Debug.Log(www.downloadHandler.text);
+                json = "";
                 json = www.downloadHandler.text;
-                Debug.Log(json);
+
+                // parse the JSON string into classes
                 if (json != "")
                 {
                     if (url == suitURL)
