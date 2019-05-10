@@ -63,7 +63,8 @@ namespace suitInfo
         public string suitURL = "https://iss-program.herokuapp.com/api/suit/recent";
         public string warningURL = "https://iss-program.herokuapp.com/api/suitswitch/recent";
 
-        // public GameObject textObject;
+        int delay = 120;
+        float nextTime = 0;
 
         public SuitInfo telemetry_data;
         public WarningInfo warnings;
@@ -280,9 +281,9 @@ namespace suitInfo
 
             // five circles of data
             heartbpm = bpm.AddComponent<BarData>();
-            oxygen = oxy.AddComponent<BarData>(); //(0, 100, "oxygen");
+            oxygen = oxy.AddComponent<BarData>();
             battery_life = bat_life.AddComponent<BarData>();
-            water = wat.AddComponent<BarData>();//new BarData(0, 100, "water");
+            water = wat.AddComponent<BarData>();
             sub_press = subp.AddComponent<BarData>();
             sub_temp = subt.AddComponent<BarData>();
             rate_oxygen = rate_oxy.AddComponent<BarData>();
@@ -295,8 +296,6 @@ namespace suitInfo
             water.initialize(0, "water");
             sub_press.initialize(0, "sub pressure");
             sub_temp.initialize(0, "sub temperature");
-
-            //Debug.Log(telemetry_data.p_o2);
            
             bpmText.text = telemetry_data.heart_bpm.ToString();
             oxyText.text = telemetry_data.p_o2.ToString();
@@ -320,11 +319,16 @@ namespace suitInfo
 
         void Update()
         {
+            // Update telemetry data every minute to better reflect resources during EVAs
+            if (Time.time >= nextTime)
+            {
+                UpdateSuitInformation();
+                nextTime += delay;
+            }
+        }
 
-            //Vector3 pos = new Vector3(-(GetComponent<Renderer>().bounds.size.x / 2), (GetComponent<Renderer>().bounds.size.y / 2), 0);
-            //transform.position = pos;
-
-  
+        void UpdateSuitInformation()
+        {
             StartCoroutine(GetText(suitURL));
             StartCoroutine(GetText(warningURL));
 
@@ -374,7 +378,8 @@ namespace suitInfo
             {
                 warningPicture.SetActive(true);
                 warningText.text = "Secondary Oxygen Pack is active";
-            } else if(warnings.sspe)
+            }
+            else if (warnings.sspe)
             {
                 warningPicture.SetActive(true);
                 warningText.text = "Spacesuit pressure";
@@ -404,11 +409,11 @@ namespace suitInfo
                 warningPicture.SetActive(true);
                 warningText.text = "O2 system is offline";
             }
-            else {
+            else
+            {
                 warningPicture.SetActive(false);
                 warningText.text = "";
             }
-
         }
         
         
@@ -445,19 +450,31 @@ namespace suitInfo
                 }
             }
         }
+
+
+
+
+        // ------ JSON File Parsers ------
+            // must be updated if JSON were to change order
+
         //[{"create_date":"2019-04-05T02:27:13.091Z","heart_bpm":"85","p_sub":"7.95","t_sub":"6","v_fan":"39989","p_o2":"15","rate_o2":"1.0","cap_battery":"30","p_h2o_g":"15","p_h2o_l":"16","p_sop":"887","rate_sop":"0.9","t_battery":"-5:-9:-28","t_oxygen":"8:35:9","t_water":"8:35:9"}]
         void Update_Suit_Info(string json)
         {
+            // creates string array from input json string
             json = json.Trim(new Char[] { '[', ']', '}', '{' });
             json = json.Replace('"', ' ').Trim();
             string[] comps = json.Split(',');
+
             for (int i = 0; i < comps.Length; i++)
             {
+                // removes input titles and keeps numeric values
                 comps[i] = comps[i].Substring(comps[i].IndexOf(':') + 1);
                 comps[i] = comps[i].Replace('.', ',').Trim();
                 comps[i] = comps[i].Trim(' ');
                 Debug.Log(comps[i]);
             }
+
+            // adds values to telemetry data class
             telemetry_data.create_date = comps[0];
             telemetry_data.heart_bpm = comps[1];
             telemetry_data.p_sub = comps[2];
@@ -476,29 +493,34 @@ namespace suitInfo
             telemetry_data.t_water = comps[15];
 
         }
+
         //[{"create_date":"2019-04-05T02:52:31.307Z","sop_on":false,"sspe":false,"fan_error":false,"vent_error":false,"vehicle_power":false,"h2o_off":false,"o2_off":false}]
         void Update_Warnings(string json)
         {
+            // creates string array from input json string
             json = json.Trim(new Char[] { '[', ']', '}', '{' });
             json = json.Replace('"', ' ').Trim();
             string[] comps = json.Split(',');
+
             for (int i = 0; i < comps.Length; i++)
             {
+                // removes input titles and keeps values
                 comps[i] = comps[i].Substring(comps[i].IndexOf(':') + 1);
             }
-            //Debug.Log(comps);
             bool[] warn = new bool[comps.Length];
 
+            // changes from string to boolean
             for (int i = 1; i < comps.Length; i++)
             {
-                Debug.Log("Comps " + i + ": " + comps[i]);
+                //Debug.Log("Comps " + i + ": " + comps[i]);
                 if (comps[i] == "true")
                 {
                     warn[i] = true;
                 }
                 else warn[i] = false;
             }
-            //warnings.create_date = comps[0];
+
+            // adds values to warning data class
             warnings.sop_on = warn[1];
             warnings.sspe = warn[2];
             warnings.fan_error = warn[3];
@@ -506,7 +528,6 @@ namespace suitInfo
             warnings.vehicle_power = warn[5];
             warnings.h2o_off = warn[6];
             warnings.o2_off = warn[7];
-
         }
     }
 
