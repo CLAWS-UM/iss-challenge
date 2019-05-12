@@ -100,3 +100,6 @@ def generate_variance(row):
         #     delta_time = curr_time - prev_time
         #     print delta_time
     return row
+
+# TODO clean up code and add comments
+# TODO move that one function from generate_data_suit.py into here
