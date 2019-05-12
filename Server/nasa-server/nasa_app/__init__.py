@@ -103,3 +103,4 @@ def generate_variance(row):
 
 # TODO clean up code and add comments
 # TODO move that one function from generate_data_suit.py into here
+# TODO make the variance more realistic?
