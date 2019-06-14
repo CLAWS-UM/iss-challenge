@@ -62,12 +62,12 @@ namespace suitInfo
 
         public Text warningText;
         public int TaskFontSize = 15;
-        public string suitURL = "https://iss-program.herokuapp.com/api/suit/recent";
+        public string suitURL = "https://suits-nasa-server.herokuapp.com/api/suit/recent";
         public string warningURL = "https://iss-program.herokuapp.com/api/suitswitch/recent";
 
         // variables for 2 minute telemetry time delay
-        int delay = 120;
-        float nextTime = 0;
+        float delay;
+        float nextTime = 0.0f;
         string json = "";
 
         // ------ Class Definitions ------
@@ -140,7 +140,7 @@ namespace suitInfo
         {
             public enum WarningLabel
             {
-                Red, Green
+                Red, Green, Purple
             }
 
             public double value;
@@ -182,6 +182,7 @@ namespace suitInfo
                 if (percent >= 30) color = WarningLabel.Green;
                 //else if (percent < 50 && percent >= 30) color = WarningLabel.Yellow;
                 else color = WarningLabel.Red;
+
             }
             public void startDisplay(GameObject obj)
             {
@@ -195,11 +196,13 @@ namespace suitInfo
                 mesh.fontSize = 25;
 
             }
-            public void DisplayCircle(GameObject obj)
+            public void DisplayCircle(GameObject obj, int result)
             {
                 SpriteRenderer m_SpriteRenderer;
                 m_SpriteRenderer = obj.GetComponent<SpriteRenderer>();
                 // add code to display each bar
+
+                if (result == 0) color = WarningLabel.Purple;
                 if (title != "heartbpm")
                 {
                     if (color == WarningLabel.Red)
@@ -207,10 +210,14 @@ namespace suitInfo
                         //display red
                         m_SpriteRenderer.color = Color.red;
                     }
-                    else
+                    else if (color == WarningLabel.Green)
                     {
                         //Display green
                         m_SpriteRenderer.color = Color.green;
+                    }
+                    else
+                    {
+                        m_SpriteRenderer.color = new Color(143, 0, 254, 1);// 161, 12, 232, 91);
                     }
                 }
             }
@@ -310,13 +317,13 @@ namespace suitInfo
             time_watText.text = telemetry_data.t_water.ToString();
             time_oxyText.text = telemetry_data.t_oxygen.ToString();
 
-            heartbpm.DisplayCircle(bpm_circle);
-            oxygen.DisplayCircle(oxy_circle);
-            rate_oxygen.DisplayCircle(rate_oxy_circle);
-            battery_life.DisplayCircle(bat_life_circle);
-            water.DisplayCircle(wat_circle);
-            sub_press.DisplayCircle(subp_circle);
-            sub_temp.DisplayCircle(subt_circle);
+            heartbpm.DisplayCircle(bpm_circle,1);
+            oxygen.DisplayCircle(oxy_circle, 1);
+            rate_oxygen.DisplayCircle(rate_oxy_circle, 1);
+            battery_life.DisplayCircle(bat_life_circle, 1);
+            water.DisplayCircle(wat_circle, 1);
+            sub_press.DisplayCircle(subp_circle, 1);
+            sub_temp.DisplayCircle(subt_circle, 1);
         }
 
         // ------ Update Functions ------
@@ -327,6 +334,7 @@ namespace suitInfo
             if (Time.time >= nextTime)
             {
                 UpdateSuitInformation();
+                delay = 120;
                 nextTime += delay;
             }
         }
@@ -369,14 +377,30 @@ namespace suitInfo
             time_watText.text = telemetry_data.t_water.ToString();
             time_oxyText.text = telemetry_data.t_oxygen.ToString();
 
-            // update warning circle colors
-            heartbpm.DisplayCircle(bpm_circle);
-            oxygen.DisplayCircle(oxy_circle);
-            rate_oxygen.DisplayCircle(rate_oxy_circle);
-            battery_life.DisplayCircle(bat_life_circle);
-            water.DisplayCircle(wat_circle);
-            sub_press.DisplayCircle(subp_circle);
-            sub_temp.DisplayCircle(subt_circle);
+            UnityWebRequest www = UnityWebRequest.Get(suitURL);
+            // checks for request errors
+            if (www.responseCode == -1)
+            {
+                // update warning circle colors
+                heartbpm.DisplayCircle(bpm_circle,0);
+                oxygen.DisplayCircle(oxy_circle,0);
+                rate_oxygen.DisplayCircle(rate_oxy_circle,0);
+                battery_life.DisplayCircle(bat_life_circle,0);
+                water.DisplayCircle(wat_circle,0);
+                sub_press.DisplayCircle(subp_circle,0);
+                sub_temp.DisplayCircle(subt_circle,0);
+            }
+            else
+            {
+                // update warning circle colors
+                heartbpm.DisplayCircle(bpm_circle,1);
+                oxygen.DisplayCircle(oxy_circle,1);
+                rate_oxygen.DisplayCircle(rate_oxy_circle,1);
+                battery_life.DisplayCircle(bat_life_circle,1);
+                water.DisplayCircle(wat_circle,1);
+                sub_press.DisplayCircle(subp_circle,1);
+                sub_temp.DisplayCircle(subt_circle,1);
+            }
 
             // if any warning switches are triggered, display image and warning text
             if (warnings.sop_on)
@@ -441,6 +465,7 @@ namespace suitInfo
                 //Debug.Log(www.downloadHandler.text);
                 json = "";
                 json = www.downloadHandler.text;
+                Debug.Log(json);
 
                 // parse the JSON string into classes
                 if (json != "")
@@ -454,6 +479,7 @@ namespace suitInfo
                         Update_Warnings(json);
                     }
                 }
+
             }
         }
 
