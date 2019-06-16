@@ -1,18 +1,30 @@
-﻿using System;
+﻿/*  SuitInformation.cs
+
+    Contains all class definitions and functions related 
+    to initializing and updating the suit/health information
+    panel displayed on the lower right hand corner of the 
+    Hololens display.
+
+    POC: Emily Rassel
+*/
+
+using System;
 using System.Collections.Generic;
 using System.Linq;
 using System.Text;
 using UnityEngine;
 using UnityEngine.UI;
 using System.Collections;
-using UnityEngine.Networking; // web request
+using UnityEngine.Networking; // Required for web request
 
 namespace suitInfo
 {
-
     class SuitInformation : MonoBehaviour
     {
-        // creates text Unity GameObjects
+        /* --- Object Declarations --- */
+
+        // Declare GameObjects for suit/health info 
+        //   panel metrics
         public GameObject bpm;
         public GameObject oxy;
         public GameObject rate_oxy;
@@ -24,7 +36,7 @@ namespace suitInfo
         public GameObject time_wat;
         public GameObject time_oxy;
 
-        // creates circle icons which change color
+        // Declare circle icons for indicator color
         public GameObject bpm_circle;
         public GameObject oxy_circle;
         public GameObject rate_oxy_circle;
@@ -33,11 +45,11 @@ namespace suitInfo
         public GameObject subp_circle;
         public GameObject subt_circle;
 
-        // creates warning Unity GameObjects
+        // Declare warning GameObjects
         public GameObject warningPicture;
         public GameObject warningsentence;
 
-        // class objects
+        // Declare BarData objects for each metric
         public BarData heartbpm;
         public BarData sub_press;
         public BarData sub_temp;
@@ -45,10 +57,16 @@ namespace suitInfo
         public BarData rate_oxygen;
         public BarData battery_life;
         public BarData water;
+
+        // Declare SuitInfo object for telemetry data
         public SuitInfo telemetry_data;
+
+        // Delcare WarningInfo object that 
+        //   handles warning logic
         public WarningInfo warnings;
 
-        // creates Unity TextMeshes
+        // Declare TextMeshes for text component 
+        //   of suit/health info GameObjects
         public TextMesh bpmText;
         public TextMesh oxyText;
         public TextMesh rate_oxyText;
@@ -60,20 +78,31 @@ namespace suitInfo
         public TextMesh time_watText;
         public TextMesh time_oxyText;
 
+        // Declare Text object for warning text
         public Text warningText;
-        public int TaskFontSize = 15;
+        
+        // Universal font size  
+        public int TextFontSize = 15;
+
+        // URLs used for telemetry reading
         public string suitURL = "https://suits-nasa-server.herokuapp.com/api/suit/recent";
         public string warningURL = "https://iss-program.herokuapp.com/api/suitswitch/recent";
 
-        // variables for 2 minute telemetry time delay
+        // Used for 2 minute telemetry time delay
         float delay;
         float nextTime = 0.0f;
         string json = "";
 
-        // ------ Class Definitions ------
 
+        // --- Class Definitions ---
+
+        /*  --- SuitInfo ---
+            The class definition of the SuitInfo object.
+            This contains the string representations for the various metrics.
+        */
         public class SuitInfo
         {
+            // Declare strings for suit/health info
             public string create_date { get; set; }
             public string heart_bpm { get; set; }
             public string p_sub { get; set; }
@@ -91,6 +120,8 @@ namespace suitInfo
             public string t_oxygen { get; set; }
             public string t_water { get; set; }
 
+            // Constructor
+            //   Initialize everything to zero
             public SuitInfo()
             {
                 this.create_date = "0";
@@ -110,10 +141,15 @@ namespace suitInfo
                 this.t_oxygen = "0";
                 this.t_water = "0";
             }
-        };
+        }
 
+        /*  --- WarningInfo ---
+            The class definition of the WarningInfo object.
+            This powers the logic for displaying the WarningImage.
+        */
         public class WarningInfo
         {
+            // Declare bools for warning triggers
             public string create_date { get; set; }
             public bool sop_on { get; set; }
             public bool sspe { get; set; }
@@ -123,6 +159,8 @@ namespace suitInfo
             public bool h2o_off { get; set; }
             public bool o2_off { get; set; }
 
+            // Constructor
+            //   Initialize all triggers to false
             public WarningInfo()
             {
                 this.create_date = "0";
@@ -134,15 +172,26 @@ namespace suitInfo
                 this.h2o_off = false;
                 this.o2_off = false;
             }
-        };
+        }
 
+        /*  --- BarData ---
+            The class definition of the BarData object.
+            Displayed within the Heath Information panel for 
+            information readouts.
+        */
         public class BarData : MonoBehaviour
         {
+            // Contains the various indicator color 
+            //   options for the circular icon
             public enum WarningLabel
             {
+                // Red = bad
+                // Green = good
+                // Purple = stale info
                 Red, Green, Purple
             }
 
+            // Member variables
             public double value;
             double start;
             float percentage;
@@ -153,19 +202,27 @@ namespace suitInfo
             GameObject titleObject;
             GameObject valueObject;
 
+            // Constructors
             public BarData()
             {
-                value = 0.0; start = 0.0;
+                value = 0.0; 
+                start = 0.0;
                 title = "display data";
                 percentage = (float)0.0;
             }
-            public BarData(double val, double per, string titl)
+
+            // Initializes/Resets existing BarData object using input params
+            public void initialize(double value_in, string title_in)
             {
-                start = val; value = val;
-                percentage = (float)value / (float)start; // for water, express percentage as portion until ambient
-                title = titl;
+                value = value_in;
+                start = value_in; 
+                percentage = (float)value / (float)start;
+                title = title_in;
                 Update_color(percentage);
             }
+
+            // Changes the value of the data and updates 
+            //    percentage and indicator color
             public void change_val(double val)
             {
                 value = val;
@@ -177,25 +234,30 @@ namespace suitInfo
                 }
                 else Update_color(percentage);
             }
+
+            // Updates the indicator color based on the percentage
             public void Update_color(float percent)
             {
                 if (percent >= 30) color = WarningLabel.Green;
                 //else if (percent < 50 && percent >= 30) color = WarningLabel.Yellow;
                 else color = WarningLabel.Red;
-
             }
+
+            // Initializes the value to a text component on-screen
             public void startDisplay(GameObject obj)
             {
                 obj.GetComponent<TextMesh>().text = value.ToString();
             }
 
+            // 
             public void Display(TextMesh mesh)
             {
-
                 mesh.text = value.ToString();
                 mesh.fontSize = 25;
-
             }
+
+            // Renders the circle with the proper indicator color
+            //  If result = 0, stale data, so purple circle.
             public void DisplayCircle(GameObject obj, int result)
             {
                 SpriteRenderer m_SpriteRenderer;
@@ -203,6 +265,7 @@ namespace suitInfo
                 // add code to display each bar
 
                 if (result == 0) color = WarningLabel.Purple;
+
                 if (title != "heartbpm")
                 {
                     if (color == WarningLabel.Red)
@@ -217,29 +280,23 @@ namespace suitInfo
                     }
                     else
                     {
-                        m_SpriteRenderer.color = new Color(143, 0, 254, 1);// 161, 12, 232, 91);
+                        m_SpriteRenderer.color = new Color(143, 0, 254, 1);
+                        // Alt: Color(161, 12, 232, 91);
                     }
                 }
             }
-            public void initialize(double val, string titl)
-            {
-                start = val; value = val;
-                percentage = (float)value / (float)start;
-                title = titl;
-                Update_color(percentage);
-            }
-        };
+        }
 
-
-        // ------ Start Function ------
-            // initializes UI/UX and variable values
-
+        /*  --- Start Function ---
+            Initializes UI/UX and variable values
+        */
         void Start()
         {
+            // Suit and Warning Info
             telemetry_data = new SuitInfo();
             warnings = new WarningInfo();
 
-
+            // Add TextMeshes to suit/health info sections
             bpmText = bpm.AddComponent<TextMesh>();
             oxyText = oxy.AddComponent<TextMesh>();
             bat_lifeText = bat_life.AddComponent<TextMesh>();
@@ -252,17 +309,20 @@ namespace suitInfo
             time_oxyText = time_oxy.AddComponent<TextMesh>();
             rate_oxyText = rate_oxy.AddComponent<TextMesh>();
 
-            bpmText.fontSize = TaskFontSize;
-            oxyText.fontSize = TaskFontSize;
-            rate_oxyText.fontSize = TaskFontSize;
-            bat_lifeText.fontSize = TaskFontSize;
-            watText.fontSize = TaskFontSize;
-            subpText.fontSize = TaskFontSize;
-            subtText.fontSize = TaskFontSize;
-            time_batText.fontSize = TaskFontSize;
-            time_watText.fontSize = TaskFontSize;
-            time_oxyText.fontSize = TaskFontSize;
+            // --- Styling ---
+            // Font size
+            bpmText.fontSize = TextFontSize;
+            oxyText.fontSize = TextFontSize;
+            rate_oxyText.fontSize = TextFontSize;
+            bat_lifeText.fontSize = TextFontSize;
+            watText.fontSize = TextFontSize;
+            subpText.fontSize = TextFontSize;
+            subtText.fontSize = TextFontSize;
+            time_batText.fontSize = TextFontSize;
+            time_watText.fontSize = TextFontSize;
+            time_oxyText.fontSize = TextFontSize;
 
+            // Alignment
             bpmText.alignment = TextAlignment.Right;
             oxyText.alignment = TextAlignment.Right;
             rate_oxyText.alignment = TextAlignment.Right;
@@ -274,6 +334,7 @@ namespace suitInfo
             time_watText.alignment = TextAlignment.Right;
             time_oxyText.alignment = TextAlignment.Right;
 
+            // Anchor/Alignment
             bpmText.anchor = TextAnchor.MiddleRight;
             oxyText.anchor = TextAnchor.MiddleRight;
             rate_oxyText.anchor = TextAnchor.MiddleRight;
@@ -286,9 +347,9 @@ namespace suitInfo
             time_oxyText.anchor = TextAnchor.MiddleRight;
 
             // update the visual scale
-            //transform.localScale = new Vector3(8, 3, 0);
+            // transform.localScale = new Vector3(8, 3, 0);
 
-            // five circles of data
+            // Add the BarData component (which includes the circles)
             heartbpm = bpm.AddComponent<BarData>();
             oxygen = oxy.AddComponent<BarData>();
             battery_life = bat_life.AddComponent<BarData>();
@@ -297,7 +358,8 @@ namespace suitInfo
             sub_temp = subt.AddComponent<BarData>();
             rate_oxygen = rate_oxy.AddComponent<BarData>();
 
-
+            // Initialize the health/suit info to reflect
+            //   the data it holds
             heartbpm.initialize(0, "heartbpm");
             oxygen.initialize(0, "oxygen");
             rate_oxygen.initialize(0, "rate oxygen");
@@ -306,6 +368,7 @@ namespace suitInfo
             sub_press.initialize(0, "sub pressure");
             sub_temp.initialize(0, "sub temperature");
            
+            // Set suit/health info text to hold initial data
             bpmText.text = telemetry_data.heart_bpm.ToString();
             oxyText.text = telemetry_data.p_o2.ToString();
             rate_oxyText.text = telemetry_data.rate_o2.ToString();
@@ -317,7 +380,8 @@ namespace suitInfo
             time_watText.text = telemetry_data.t_water.ToString();
             time_oxyText.text = telemetry_data.t_oxygen.ToString();
 
-            heartbpm.DisplayCircle(bpm_circle,1);
+            // Render the indicator color for the circle/icon
+            heartbpm.DisplayCircle(bpm_circle, 1);
             oxygen.DisplayCircle(oxy_circle, 1);
             rate_oxygen.DisplayCircle(rate_oxy_circle, 1);
             battery_life.DisplayCircle(bat_life_circle, 1);
@@ -326,11 +390,14 @@ namespace suitInfo
             sub_temp.DisplayCircle(subt_circle, 1);
         }
 
-        // ------ Update Functions ------
+        /* --- Update Functions --- */
 
+        // General Unity Update Function
+        // Updates based on time interval.
         void Update()
         {
-            // Update telemetry data every two minutes to better reflect resources during EVAs
+            // Update telemetry data every two minutes 
+            //   to better reflect resources during EVAs
             if (Time.time >= nextTime)
             {
                 UpdateSuitInformation();
@@ -339,13 +406,15 @@ namespace suitInfo
             }
         }
 
+        // Updates the values/colors in the suit/health 
+        //    info panel accordingly
         void UpdateSuitInformation()
         {
-            // request telemetry data from website
+            // Request telemetry data from server
             StartCoroutine(GetText(suitURL));
             StartCoroutine(GetText(warningURL));
 
-            // update the values of display data
+            // Update the values of displayed data
             heartbpm.change_val(Convert.ToDouble(telemetry_data.heart_bpm));
             oxygen.change_val(Convert.ToDouble(telemetry_data.p_o2));
             rate_oxygen.change_val(Convert.ToDouble(telemetry_data.rate_o2));
@@ -354,7 +423,7 @@ namespace suitInfo
             sub_press.change_val(Convert.ToDouble(telemetry_data.p_sub));
             sub_temp.change_val(Convert.ToDouble(telemetry_data.t_sub));
 
-            // get Unity TextMeshes and update their numeric values.
+            // Get Unity TextMeshes and update numeric values.
             bpmText = bpm.GetComponent<TextMesh>();
             oxyText = oxy.GetComponent<TextMesh>();
             rate_oxyText = rate_oxy.GetComponent<TextMesh>();
@@ -377,66 +446,75 @@ namespace suitInfo
             time_watText.text = telemetry_data.t_water.ToString();
             time_oxyText.text = telemetry_data.t_oxygen.ToString();
 
+            // Request for telemetry info
             UnityWebRequest www = UnityWebRequest.Get(suitURL);
-            // checks for request errors
+            // Checks for request errors.
             if (www.responseCode == -1)
             {
-                // update warning circle colors
-                heartbpm.DisplayCircle(bpm_circle,0);
-                oxygen.DisplayCircle(oxy_circle,0);
-                rate_oxygen.DisplayCircle(rate_oxy_circle,0);
-                battery_life.DisplayCircle(bat_life_circle,0);
-                water.DisplayCircle(wat_circle,0);
-                sub_press.DisplayCircle(subp_circle,0);
-                sub_temp.DisplayCircle(subt_circle,0);
+                // Stale data - make circles purple
+                heartbpm.DisplayCircle(bpm_circle, 0);
+                oxygen.DisplayCircle(oxy_circle, 0);
+                rate_oxygen.DisplayCircle(rate_oxy_circle, 0);
+                battery_life.DisplayCircle(bat_life_circle, 0);
+                water.DisplayCircle(wat_circle, 0);
+                sub_press.DisplayCircle(subp_circle, 0);
+                sub_temp.DisplayCircle(subt_circle, 0);
             }
             else
             {
-                // update warning circle colors
-                heartbpm.DisplayCircle(bpm_circle,1);
-                oxygen.DisplayCircle(oxy_circle,1);
-                rate_oxygen.DisplayCircle(rate_oxy_circle,1);
-                battery_life.DisplayCircle(bat_life_circle,1);
-                water.DisplayCircle(wat_circle,1);
-                sub_press.DisplayCircle(subp_circle,1);
-                sub_temp.DisplayCircle(subt_circle,1);
+                // Fresh data! - update circle colors
+                heartbpm.DisplayCircle(bpm_circle, 1);
+                oxygen.DisplayCircle(oxy_circle, 1);
+                rate_oxygen.DisplayCircle(rate_oxy_circle, 1);
+                battery_life.DisplayCircle(bat_life_circle, 1);
+                water.DisplayCircle(wat_circle, 1);
+                sub_press.DisplayCircle(subp_circle, 1);
+                sub_temp.DisplayCircle(subt_circle, 1);
             }
 
-            // if any warning switches are triggered, display image and warning text
+            // Display image and warning text if 
+            //   any warning switch is triggered
             if (warnings.sop_on)
             {
                 warningPicture.SetActive(true);
-                warningText.text = "Secondary Oxygen Pack is active";
+                warningText.text = 
+                    "Secondary Oxygen Pack is active";
             }
             else if (warnings.sspe)
             {
                 warningPicture.SetActive(true);
-                warningText.text = "Spacesuit pressure";
+                warningText.text = 
+                    "Spacesuit pressure";
             }
             else if (warnings.fan_error)
             {
                 warningPicture.SetActive(true);
-                warningText.text = "Cooling fan of the spacesuit has a failure";
+                warningText.text = 
+                    "Cooling fan of the spacesuit has a failure";
             }
             else if (warnings.vent_error)
             {
                 warningPicture.SetActive(true);
-                warningText.text = "No ventilation flow is detected";
+                warningText.text = 
+                    "No ventilation flow is detected";
             }
             else if (warnings.vehicle_power)
             {
                 warningPicture.SetActive(true);
-                warningText.text = "Spacesuit is receiving power through spacecraft";
+                warningText.text = 
+                    "Spacesuit is receiving power through spacecraft";
             }
             else if (warnings.h2o_off)
             {
                 warningPicture.SetActive(true);
-                warningText.text = "H2O system is offline";
+                warningText.text = 
+                    "H2O system is offline";
             }
             else if (warnings.o2_off)
             {
                 warningPicture.SetActive(true);
-                warningText.text = "O2 system is offline";
+                warningText.text = 
+                    "O2 system is offline";
             }
             else
             {
@@ -445,14 +523,16 @@ namespace suitInfo
             }
         }
         
-        
-        // access stream values
+        /* --- Telemetry Functions --- */
+
+        // Requests telemetry stream info and 
+        //   updates SuitInfo and WarningInfo objects
         IEnumerator GetText(string url)
         {
             UnityWebRequest www = UnityWebRequest.Get(url);
             yield return www.SendWebRequest();
 
-            // checks for request errors
+            // Checks for request errors
             if (www.responseCode == -1)
             {
                 Debug.Log("Error:");
@@ -460,14 +540,16 @@ namespace suitInfo
             }
             else
             {
-                // save results as text
-                //Debug.Log("Downloaded:");
-                //Debug.Log(www.downloadHandler.text);
+                // Save results as text
+                // Debugging helpers:
+                // Debug.Log("Downloaded:");
+                // Debug.Log(www.downloadHandler.text);
                 json = "";
                 json = www.downloadHandler.text;
                 Debug.Log(json);
 
-                // parse the JSON string into classes
+                // Parse the JSON string and update
+                //   SuitInfo and WarningInfo objects
                 if (json != "")
                 {
                     if (url == suitURL)
@@ -479,34 +561,37 @@ namespace suitInfo
                         Update_Warnings(json);
                     }
                 }
-
             }
         }
 
-
-
-
-        // ------ JSON File Parsers ------
-            // must be updated if JSON were to change order
-
-        //[{"create_date":"2019-04-05T02:27:13.091Z","heart_bpm":"85","p_sub":"7.95","t_sub":"6","v_fan":"39989","p_o2":"15","rate_o2":"1.0","cap_battery":"30","p_h2o_g":"15","p_h2o_l":"16","p_sop":"887","rate_sop":"0.9","t_battery":"-5:-9:-28","t_oxygen":"8:35:9","t_water":"8:35:9"}]
+        /*  --- JSON File Parsers ---
+            Note: This is custom to the telemetry data format. 
+            It must be updated if JSON were to change order
+            
+            ---- Current Format for Suit Information: ---- 
+            [{"create_date":"2019-04-05T02:27:13.091Z","heart_bpm":"85",
+            "p_sub":"7.95","t_sub":"6","v_fan":"39989","p_o2":"15",
+            "rate_o2":"1.0","cap_battery":"30","p_h2o_g":"15",
+            "p_h2o_l":"16","p_sop":"887","rate_sop":"0.9",
+            "t_battery":"-5:-9:-28","t_oxygen":"8:35:9","t_water":"8:35:9"}]
+        */
         void Update_Suit_Info(string json)
         {
-            // creates string array from input json string
+            // Creates string array from input json string and removes symbols
             json = json.Trim(new Char[] { '[', ']', '}', '{' });
             json = json.Replace('"', ' ').Trim();
             string[] comps = json.Split(',');
 
             for (int i = 0; i < comps.Length; i++)
             {
-                // removes input titles and keeps numeric values
+                // Removes input titles and keeps numeric values
                 comps[i] = comps[i].Substring(comps[i].IndexOf(':') + 1);
                 comps[i] = comps[i].Replace('.', ',').Trim();
                 comps[i] = comps[i].Trim(' ');
                 Debug.Log(comps[i]);
             }
 
-            // adds values to telemetry data class
+            // Updates values in SuitInfo object
             telemetry_data.create_date = comps[0];
             telemetry_data.heart_bpm = comps[1];
             telemetry_data.p_sub = comps[2];
@@ -523,25 +608,29 @@ namespace suitInfo
             telemetry_data.t_battery = comps[13];
             telemetry_data.t_oxygen = comps[14];
             telemetry_data.t_water = comps[15];
-
         }
 
-        //[{"create_date":"2019-04-05T02:52:31.307Z","sop_on":false,"sspe":false,"fan_error":false,"vent_error":false,"vehicle_power":false,"h2o_off":false,"o2_off":false}]
+        /*  ----Current Format for Warning Information: ----
+
+            [{"create_date":"2019-04-05T02:52:31.307Z","sop_on":false,
+            "sspe":false,"fan_error":false,"vent_error":false,
+            "vehicle_power":false,"h2o_off":false,"o2_off":false}]
+        */
         void Update_Warnings(string json)
         {
-            // creates string array from input json string
+            // Creates string array from input json string and removes symbols
             json = json.Trim(new Char[] { '[', ']', '}', '{' });
             json = json.Replace('"', ' ').Trim();
             string[] comps = json.Split(',');
 
             for (int i = 0; i < comps.Length; i++)
             {
-                // removes input titles and keeps values
+                // Removes input titles and keeps values
                 comps[i] = comps[i].Substring(comps[i].IndexOf(':') + 1);
             }
             bool[] warn = new bool[comps.Length];
 
-            // changes from string to boolean
+            // Converts from string to boolean
             for (int i = 1; i < comps.Length; i++)
             {
                 //Debug.Log("Comps " + i + ": " + comps[i]);
@@ -552,7 +641,7 @@ namespace suitInfo
                 else warn[i] = false;
             }
 
-            // adds values to warning data class
+            // Updates values in WarningInfo object
             warnings.sop_on = warn[1];
             warnings.sspe = warn[2];
             warnings.fan_error = warn[3];
@@ -562,5 +651,4 @@ namespace suitInfo
             warnings.o2_off = warn[7];
         }
     }
-
 }

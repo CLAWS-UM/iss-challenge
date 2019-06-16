@@ -1,3 +1,11 @@
+/*  QRDisplay.cs
+
+    Contains all class definitions and functions related 
+    to handling QR reading capabilities.
+
+    POC: Sahil Farishta
+*/
+
 using System;
 using System.Collections;
 using System.Collections.Generic;
@@ -12,7 +20,8 @@ public class QRDisplay : MonoBehaviour {
     private WebCamTexture webCam = null;
     private BarcodeReader reader = null;
     private KeywordRecognizer keywordRecognizer = null;
-    private Dictionary<string, System.Action> keywords = new Dictionary<string, System.Action>();
+    private Dictionary<string, System.Action> keywords = 
+            new Dictionary<string, System.Action>();
     private bool scanning = false;
 
     IEnumerator waiter()
@@ -62,12 +71,12 @@ public class QRDisplay : MonoBehaviour {
                 if (res.Text == "Mark Done")
                 {
                     GetComponent<Text>().text = res.Text;
-                    ((MissionPanel)(GameObject.Find("UI/Task Screen")).GetComponent<MissionPanel>()).Mark_Complete_Voice();
+                    ((MissionPanel)(GameObject.Find("UI/Task Screen")).GetComponent<MissionPanel>()).Mark_Complete();
                 }
                 else if (res.Text == "Mark Not Done")
                 {
                     GetComponent<Text>().text = res.Text;
-                    ((MissionPanel)(GameObject.Find("UI/Task Screen")).GetComponent<MissionPanel>()).Mark_Incomplete_Voice();
+                    ((MissionPanel)(GameObject.Find("UI/Task Screen")).GetComponent<MissionPanel>()).Mark_Incomplete();
                 }
                 else
                 {
