@@ -400,7 +400,7 @@ namespace suitInfo
             //   to better reflect resources during EVAs
             if (Time.time >= nextTime)
             {
-                UpdateSuitInformation();
+                StartCoroutine(UpdateSuitInformation());
                 delay = 120;
                 nextTime += delay;
             }
@@ -408,11 +408,11 @@ namespace suitInfo
 
         // Updates the values/colors in the suit/health 
         //    info panel accordingly
-        void UpdateSuitInformation()
+        IEnumerator UpdateSuitInformation()
         {
             // Request telemetry data from server
-            StartCoroutine(GetText(suitURL));
-            StartCoroutine(GetText(warningURL));
+            yield return StartCoroutine(GetText(suitURL));
+            yield return StartCoroutine(GetText(warningURL));
 
             // Update the values of displayed data
             heartbpm.change_val(Convert.ToDouble(telemetry_data.heart_bpm));
