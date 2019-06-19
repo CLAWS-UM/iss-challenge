@@ -85,7 +85,7 @@ namespace suitInfo
         public int TextFontSize = 15;
 
         // URLs used for telemetry reading
-        public string suitURL = "https://suits-nasa-server.herokuapp.com/api/suit/recent";
+        public string suitURL = "https://iss-program.herokuapp.com/api/suit/recent";
         public string warningURL = "https://iss-program.herokuapp.com/api/suitswitch/recent";
 
         // Used for 2 minute telemetry time delay
