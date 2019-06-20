@@ -1,4 +1,6 @@
-﻿/*using System.Collections;
+﻿// DEPRECATED - KEPT FOR REFERENCE
+
+/*using System.Collections;
 using System.Collections.Generic;
 using UnityEngine;
 using UnityEngine.UI;
