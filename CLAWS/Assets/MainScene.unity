@@ -896,17 +896,16 @@ MonoBehaviour:
   m_EditorClassIdentifier: 
   panel: {fileID: 326426631}
   missionFile: {fileID: 4900000, guid: dac4f49b907b642e18e5d24b6f39d0c0, type: 3}
-  goalMesh: {fileID: 0}
-  phaseMesh: {fileID: 0}
-  taskMesh: {fileID: 0}
-  nextMesh: {fileID: 0}
-  progText: {fileID: 0}
   goalObj: {fileID: 634559304}
   phaseObj: {fileID: 1898746758}
   taskObj: {fileID: 655171334}
   nextObj: {fileID: 670158854}
   progObj: {fileID: 1424326847}
-  check: 0
+  goalMesh: {fileID: 0}
+  phaseMesh: {fileID: 0}
+  taskMesh: {fileID: 0}
+  nextMesh: {fileID: 0}
+  progText: {fileID: 0}
   checkmark: {fileID: 21300000, guid: dbb34dcdb93787240a2dafab40485986, type: 3}
   checkcircle: {fileID: 21300000, guid: 599c442e4d87b894b8c86b627fc688c3, type: 3}
   subTexts: []
@@ -2047,7 +2046,7 @@ MonoBehaviour:
   time_watText: {fileID: 0}
   time_oxyText: {fileID: 0}
   warningText: {fileID: 340577447}
-  TaskFontSize: 15
+  TextFontSize: 15
   suitURL: https://iss-program.herokuapp.com/api/suit/recent
   warningURL: https://iss-program.herokuapp.com/api/suitswitch/recent
 --- !u!212 &803071296

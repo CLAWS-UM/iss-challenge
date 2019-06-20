@@ -1,1 +1,0 @@
-These are all the scripts for CLAWS
